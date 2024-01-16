@@ -5,8 +5,45 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Branta"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="Branta"
+        Height="480"
+        Width="600"
+        Background="#444"
+        Icon="Assets/favicon.png">
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Image Source="Assets/goldwhitecropped.png" Width="350" />
+        <TextBlock Grid.Row="1" Name="TbWalletsDetected" Text="0 Wallets Detected." Margin="10" Foreground="white" FontSize="16" VerticalAlignment="Center" HorizontalAlignment="Center" />
+        <Grid Grid.Row="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="35"/>
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
 
+            <Border Grid.Row="0" BorderBrush="#666" BorderThickness="0,0,0,1" MaxWidth="550">
+                <Grid >
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" MinWidth="250" />
+                        <ColumnDefinition Width="200" />
+                    </Grid.ColumnDefinitions>
+
+                    <Border  Grid.Column="0" BorderBrush="#666" BorderThickness="0,0,1,0">
+                        <TextBlock  Text="Wallet" Foreground="white"  VerticalAlignment="Center" HorizontalAlignment="Center" />
+                    </Border>
+                    <TextBlock Grid.Column="1" Text="Status (Click for Details)" Foreground="white" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                </Grid>
+            </Border>
+            <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" MaxWidth="550">
+                <StackPanel>
+                    <Grid Name="GWallet"></Grid>
+                </StackPanel>
+            </ScrollViewer>
+        </Grid>
+        <TextBlock Grid.Row="3" Text="Help" Margin="10" Foreground="white" FontSize="16" VerticalAlignment="Center" HorizontalAlignment="Center" />
     </Grid>
 </Window>
