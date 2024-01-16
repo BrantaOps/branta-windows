@@ -5,12 +5,13 @@ using System.Diagnostics;
 using System.IO;
 using System.Security.Cryptography;
 using System.Text;
+using System.Windows.Forms;
 
 namespace Branta.Automation;
 
 public class VerifyWallet
 {
-    public static List<Wallet> Run()
+    public static List<Wallet> Run(Dictionary<string, WalletStatus> previousWallets, NotifyIcon notifyIcon)
     {
         var wallets = new List<Wallet>();
 
@@ -42,6 +43,11 @@ public class VerifyWallet
                 var hash = CreateMd5ForFolder(wallet.GetPath());
                 Trace.WriteLine($"Expected: {expectedHash}; Actual: {hash}");
                 status = hash == expectedHash ? WalletStatus.Verified : WalletStatus.NotVerified;
+            }
+
+            if (status != WalletStatus.Verified && previousWallets.GetValueOrDefault(wallet.Name, WalletStatus.Verified) == WalletStatus.Verified)
+            {
+                notifyIcon.ShowBalloonTip(3000, "Branta", $"{wallet.Name} failed verification.", ToolTipIcon.Warning);
             }
 
             wallets.Add(new Wallet

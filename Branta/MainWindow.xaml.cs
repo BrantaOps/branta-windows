@@ -16,6 +16,7 @@ public partial class MainWindow : Window
 {
     private readonly System.Timers.Timer _timer;
     private readonly NotifyIcon _notifyIcon;
+    private List<Wallet> _wallets = new(); 
     private const int VerifyInterval = 10;
 
     public MainWindow()
@@ -66,10 +67,10 @@ public partial class MainWindow : Window
         Trace.WriteLine("Started: Verify Wallets");
         var sw = Stopwatch.StartNew();
 
-        var wallets = VerifyWallet.Run();
+        _wallets = VerifyWallet.Run(_wallets.ToDictionary(w => w.Name, w => w.Status), _notifyIcon);
 
-        SetWalletsDetected(wallets.Count);
-        BuildWalletGrid(wallets);
+        SetWalletsDetected(_wallets.Count);
+        BuildWalletGrid(_wallets);
 
         sw.Stop();
         Trace.WriteLine($"Stopped: Verify Wallets. Took {sw.Elapsed}");

@@ -5,13 +5,10 @@ Branta software for Windows
 
 Best in class on-device protection for protecting your digital wealth
 
-
-
-
-
-
-
-
+Publish
+```ps
+dotnet publish -c Release --self-contained -r win-x64 -p:PublishSingleFile=true
+```
 
 Font & Colors
 ```
