@@ -2,3 +2,8 @@
 ![thing](https://github.com/BrantaOps/branta-windows/assets/74844722/1501a73b-e87c-4031-9cd8-a63b56855f30)
 
 Branta software for Windows
+
+Publish
+```
+dotnet publish -c Release --self-contained -r win-x64 -p:PublishSingleFile=true
+```
