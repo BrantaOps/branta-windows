@@ -1,5 +1,6 @@
-﻿using Branta.Domain;
-using Branta.Enums;
+﻿using System.Diagnostics;
+using Branta.Automation;
+using Branta.Domain;
 using Branta.Utils;
 using System.Windows;
 using System.Windows.Controls;
@@ -9,23 +10,45 @@ namespace Branta;
 
 public partial class MainWindow : Window
 {
+    private readonly System.Timers.Timer _timer;
+    private const int VerifyInterval = 10;
+
     public MainWindow()
     {
         InitializeComponent();
 
-        var wallets = VerifyWallets();
+        Verify();
+
+        _timer = new System.Timers.Timer(VerifyInterval * 1000);
+        _timer.Elapsed += (_, _) => Dispatcher.Invoke(Verify);
+        _timer.AutoReset = true;
+        _timer.Start();
+    }
+
+    private void Verify()
+    {
+        Trace.WriteLine("Started: Verify Wallets");
+        var sw = Stopwatch.StartNew();
+
+        var wallets = VerifyWallet.Run();
 
         SetWalletsDetected(wallets.Count);
         BuildWalletTable(wallets);
+
+        sw.Stop();
+        Trace.WriteLine($"Stopped: Verify Wallets. Took {sw.Elapsed}");
     }
 
-    public void SetWalletsDetected(int count)
+    private void SetWalletsDetected(int count)
     {
         TbWalletsDetected.Text = $"{count} Wallets Detected.";
     }
 
-    public void BuildWalletTable(List<Wallet> wallets)
+    private void BuildWalletTable(List<Wallet> wallets)
     {
+        GWallet.RowDefinitions.Clear();
+        GWallet.Children.Clear();
+
         for (var i = 0; i < wallets.Count; i++)
         {
             var wallet = wallets[i];
@@ -51,7 +74,11 @@ public partial class MainWindow : Window
                         VerticalAlignment = VerticalAlignment.Center,
                         HorizontalAlignment = HorizontalAlignment.Center,
                         FontWeight = FontWeights.Bold,
-                        FontSize = 20
+                        FontSize = 20,
+                        ToolTip = new ToolTip
+                        {
+                            Content = wallet.Status.Name
+                        }
                     })
                 .Build();
 
@@ -64,32 +91,5 @@ public partial class MainWindow : Window
 
             GWallet.Children.Add(grid);
         }
-    }
-
-    private static List<Wallet> VerifyWallets()
-    {
-        return new List<Wallet>
-        {
-            new()
-            {
-                Name = "Blockstream Green",
-                Status = WalletStatus.Verified
-            },
-            new()
-            {
-                Name = "Trezor Suite",
-                Status = WalletStatus.Verified
-            },
-            new()
-            {
-                Name = "Ledger Live",
-                Status = WalletStatus.NotVerified
-            },
-            new()
-            {
-                Name = "Sparrow",
-                Status = WalletStatus.Verified
-            }
-        };
     }
 }
