@@ -1,21 +1,36 @@
-﻿using System.Diagnostics;
-using Branta.Automation;
+﻿using Branta.Automation;
 using Branta.Domain;
 using Branta.Utils;
+using System.ComponentModel;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Forms;
 using Color = Branta.Enums.Color;
+using HorizontalAlignment = System.Windows.HorizontalAlignment;
+using ToolTip = System.Windows.Controls.ToolTip;
 
 namespace Branta;
 
 public partial class MainWindow : Window
 {
     private readonly System.Timers.Timer _timer;
+    private readonly NotifyIcon _notifyIcon;
     private const int VerifyInterval = 10;
 
     public MainWindow()
     {
         InitializeComponent();
+
+        _notifyIcon = new NotifyIcon
+        {
+            Icon = new System.Drawing.Icon("Assets/black_circle.ico"),
+            Text = "Branta",
+            Visible = true
+        };
+        _notifyIcon.DoubleClick += NotifyIcon_Click;
+        _notifyIcon.ContextMenuStrip = new ContextMenuStrip();
+        _notifyIcon.ContextMenuStrip.Items.Add("Quit", null, OnClick_Quit);
 
         Verify();
 
@@ -23,6 +38,27 @@ public partial class MainWindow : Window
         _timer.Elapsed += (_, _) => Dispatcher.Invoke(Verify);
         _timer.AutoReset = true;
         _timer.Start();
+    }
+
+    protected override void OnClosing(CancelEventArgs e)
+    {
+        if (Debugger.IsAttached) return;
+
+        e.Cancel = true;
+        Hide();
+        base.OnClosing(e);
+    }
+
+    private void OnClick_Quit(object sender, EventArgs e)
+    {
+        System.Windows.Application.Current.Shutdown();
+    }
+
+    private void NotifyIcon_Click(object sender, EventArgs e)
+    {
+        WindowState = WindowState.Normal;
+        Activate();
+        Show();
     }
 
     private void Verify()
@@ -33,7 +69,7 @@ public partial class MainWindow : Window
         var wallets = VerifyWallet.Run();
 
         SetWalletsDetected(wallets.Count);
-        BuildWalletTable(wallets);
+        BuildWalletGrid(wallets);
 
         sw.Stop();
         Trace.WriteLine($"Stopped: Verify Wallets. Took {sw.Elapsed}");
@@ -44,7 +80,7 @@ public partial class MainWindow : Window
         TbWalletsDetected.Text = $"{count} Wallets Detected.";
     }
 
-    private void BuildWalletTable(List<Wallet> wallets)
+    private void BuildWalletGrid(List<Wallet> wallets)
     {
         GWallet.RowDefinitions.Clear();
         GWallet.Children.Clear();
