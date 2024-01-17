@@ -6,6 +6,8 @@ using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Forms;
+using System.Windows.Input;
+using Branta.Views;
 using Color = Branta.Enums.Color;
 using HorizontalAlignment = System.Windows.HorizontalAlignment;
 using ToolTip = System.Windows.Controls.ToolTip;
@@ -128,5 +130,12 @@ public partial class MainWindow : Window
 
             GWallet.Children.Add(grid);
         }
+    }
+
+    private void Help_Click(object sender, MouseButtonEventArgs e)
+    {
+        var helpWindow = new HelpWindow();
+
+        helpWindow.Show();
     }
 }

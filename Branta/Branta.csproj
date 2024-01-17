@@ -13,6 +13,7 @@
     <None Remove="Assets\black_circle.png" />
     <None Remove="Assets\favicon.png" />
     <None Remove="Assets\goldwhitecropped.png" />
+    <None Remove="Assets\help.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -26,6 +27,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Assets\goldwhitecropped.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\help.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
