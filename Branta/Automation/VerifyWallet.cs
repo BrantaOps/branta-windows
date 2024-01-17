@@ -53,6 +53,7 @@ public class VerifyWallet
             wallets.Add(new Wallet
             {
                 Name = wallet.Name,
+                Version = version,
                 Status = status
             });
         }
