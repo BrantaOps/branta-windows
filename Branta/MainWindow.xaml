@@ -44,6 +44,6 @@
                 </StackPanel>
             </ScrollViewer>
         </Grid>
-        <TextBlock Grid.Row="3" Text="Help" Margin="10" Foreground="white" FontSize="16" VerticalAlignment="Center" HorizontalAlignment="Center" />
+        <Image Grid.Row="3" Source="Assets/help.png" Width="24" Margin="10" Cursor="Hand" MouseDown="Help_Click" />
     </Grid>
 </Window>

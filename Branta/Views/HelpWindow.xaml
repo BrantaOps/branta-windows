@@ -1,0 +1,41 @@
+﻿<Window x:Class="Branta.Views.HelpWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Branta.Views"
+        mc:Ignorable="d"
+        Title="Branta"
+        Height="350"
+        Width="600"
+        Background="#444"
+        Icon="../Assets/favicon.png"
+        ResizeMode="NoResize">
+    <Window.Resources>
+        <Style TargetType="TextBlock">
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="HorizontalAlignment" Value="Center" />
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="FontSize" Value="14"></Setter>
+        </Style>
+    </Window.Resources>
+    <Grid Width="500">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <Image Source="../Assets/goldwhitecropped.png" Width="350" />
+        <TextBlock Grid.Row="1" FontWeight="Bold" Margin="0,0,0,15">How does Branta verify my Wallets?</TextBlock>
+        <TextBlock Grid.Row="2" TextWrapping="Wrap" TextAlignment="Center">Branta runs the SHA-256 algorithm on your wallet, then matches against the PGP verified SHA-256. If the hashes match, its very likely you have an authentic wallet. If they do not match, you should consider reinstalling the wallet from the developers website.</TextBlock>
+        <TextBlock Grid.Row="3" FontWeight="Bold" Margin="0,0,0,15">How do I learn more?</TextBlock>
+        <TextBlock Grid.Row="4">You can learn more about Branta at</TextBlock>
+        <TextBlock Grid.Row="5" Name="TbLink" Margin="0,0,0,30" Cursor="Hand"  MouseDown="Link_Click" TextDecorations="Underline">https://www.branta.pro</TextBlock>
+        <TextBlock Grid.Row="6" Name="TbVersion" Foreground="LightGray">v0.0.0</TextBlock>
+    </Grid>
+</Window>
