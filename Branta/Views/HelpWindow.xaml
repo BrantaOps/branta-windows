@@ -9,7 +9,8 @@
         Height="350"
         Width="600"
         Background="#444"
-        Icon="../Assets/favicon.png">
+        Icon="../Assets/favicon.png"
+        ResizeMode="NoResize">
     <Window.Resources>
         <Style TargetType="TextBlock">
             <Setter Property="VerticalAlignment" Value="Center" />
