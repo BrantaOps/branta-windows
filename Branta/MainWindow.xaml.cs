@@ -138,14 +138,20 @@ public partial class MainWindow : Window
 
     private void OpenWalletDetailWindow(Wallet wallet)
     {
-        var walletDetailWindow = new WalletDetailWindow(wallet);
+        var walletDetailWindow = new WalletDetailWindow(wallet)
+        {
+            Topmost = true
+        };
 
         walletDetailWindow.Show();
     }
 
     private void Help_Click(object sender, MouseButtonEventArgs e)
     {
-        var helpWindow = new HelpWindow();
+        var helpWindow = new HelpWindow
+        {
+            Topmost = true
+        };
 
         helpWindow.Show();
     }
