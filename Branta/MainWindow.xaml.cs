@@ -1,13 +1,13 @@
 ﻿using Branta.Automation;
 using Branta.Domain;
 using Branta.Utils;
+using Branta.Views;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Forms;
 using System.Windows.Input;
-using Branta.Views;
 using Color = Branta.Enums.Color;
 using HorizontalAlignment = System.Windows.HorizontalAlignment;
 using ToolTip = System.Windows.Controls.ToolTip;
@@ -92,6 +92,22 @@ public partial class MainWindow : Window
         {
             var wallet = wallets[i];
 
+            var status = new TextBlock
+            {
+                Text = wallet.Status.Icon,
+                Foreground = wallet.Status.Color.Brush(),
+                VerticalAlignment = VerticalAlignment.Center,
+                HorizontalAlignment = HorizontalAlignment.Center,
+                FontWeight = FontWeights.Bold,
+                FontSize = 20,
+                Cursor = System.Windows.Input.Cursors.Hand,
+                ToolTip = new ToolTip
+                {
+                    Content = wallet.Status.Name
+                }
+            };
+            status.MouseDown += (sender, args) => OpenWalletDetailWindow(wallet);
+
             var grid = new GridBuilder(i % 2 == 0 ? Color.Background : Color.BackgroundOffset)
                 .AddColumnDefinition(
                     new ColumnDefinition
@@ -106,19 +122,7 @@ public partial class MainWindow : Window
                         HorizontalAlignment = HorizontalAlignment.Center,
                         FontSize = 16
                     })
-                .AddColumnDefinition(200, new TextBlock
-                    {
-                        Text = wallet.Status.Icon,
-                        Foreground = wallet.Status.Color.Brush(),
-                        VerticalAlignment = VerticalAlignment.Center,
-                        HorizontalAlignment = HorizontalAlignment.Center,
-                        FontWeight = FontWeights.Bold,
-                        FontSize = 20,
-                        ToolTip = new ToolTip
-                        {
-                            Content = wallet.Status.Name
-                        }
-                    })
+                .AddColumnDefinition(200, status)
                 .Build();
 
             GWallet.RowDefinitions.Add(new RowDefinition
@@ -130,6 +134,13 @@ public partial class MainWindow : Window
 
             GWallet.Children.Add(grid);
         }
+    }
+
+    private void OpenWalletDetailWindow(Wallet wallet)
+    {
+        var walletDetailWindow = new WalletDetailWindow(wallet);
+
+        walletDetailWindow.Show();
     }
 
     private void Help_Click(object sender, MouseButtonEventArgs e)
