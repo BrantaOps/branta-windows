@@ -19,7 +19,7 @@ https://branta.pro
  - [ ] Clipboard Guardian: Get notified of bitcoin-related activity on your clipboard
 
 #### Supported Wallets
- - [ ] Sparrow
+ - [X] Sparrow
  - [ ] Ledger
  - [ ] Trezor
  - [ ] Wasabi
