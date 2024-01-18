@@ -12,9 +12,12 @@
         Icon="../Assets/favicon.png">
     <Window.Resources>
         <Style TargetType="TextBlock">
-            <Setter Property="VerticalAlignment" Value="Center" />
-            <Setter Property="HorizontalAlignment" Value="Center" />
-            <Setter Property="Foreground" Value="White" />
+            <Setter Property="VerticalAlignment"
+                    Value="Center" />
+            <Setter Property="HorizontalAlignment"
+                    Value="Center" />
+            <Setter Property="Foreground"
+                    Value="White" />
         </Style>
     </Window.Resources>
     <Grid Width="180">
@@ -24,8 +27,15 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <Image Source="../Assets/black_circle.png" Height="50" Margin="0,15" />
-        <TextBlock Grid.Row="1" Name="TbWallet" FontWeight="Bold">Wallet Name v0.0.0</TextBlock>
-        <TextBlock Grid.Row="2" Name="TbInfo" TextWrapping="Wrap" TextAlignment="Center">Branta verified the validity of Wallet Name.</TextBlock>
+        <Image Source="../Assets/black_circle.png"
+               Height="50"
+               Margin="0,15" />
+        <TextBlock Grid.Row="1"
+                   Name="TbWallet"
+                   FontWeight="Bold">Wallet Name v0.0.0</TextBlock>
+        <TextBlock Grid.Row="2"
+                   Name="TbInfo"
+                   TextWrapping="Wrap"
+                   TextAlignment="Center">Branta verified the validity of Wallet Name.</TextBlock>
     </Grid>
 </Window>

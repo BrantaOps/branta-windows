@@ -17,58 +17,84 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <Image Source="Assets/goldwhitecropped.png" Width="350" />
-        <TextBlock Grid.Row="1" Name="TbWalletsDetected" Text="{Binding VerifyWallets.Wallets.Count, StringFormat='\{0\} Wallets Detected.'}" Margin="10" Foreground="white" FontSize="16" VerticalAlignment="Center" HorizontalAlignment="Center" />
+        <Image Source="Assets/goldwhitecropped.png"
+               Width="350" />
+        <TextBlock Grid.Row="1"
+                   Name="TbWalletsDetected"
+                   Text="{Binding VerifyWallets.Wallets.Count, StringFormat='\{0\} Wallets Detected.'}"
+                   Margin="10"
+                   Foreground="white"
+                   FontSize="16"
+                   VerticalAlignment="Center"
+                   HorizontalAlignment="Center" />
         <Grid Grid.Row="2">
             <Grid.RowDefinitions>
-                <RowDefinition Height="35"/>
+                <RowDefinition Height="35" />
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
 
-            <Border Grid.Row="0" BorderBrush="#666" BorderThickness="0,0,0,1" MaxWidth="550">
-                <Grid >
+            <Border Grid.Row="0"
+                    BorderBrush="#666"
+                    BorderThickness="0,0,0,1"
+                    MaxWidth="550">
+                <Grid>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" MinWidth="250" />
+                        <ColumnDefinition Width="*"
+                                          MinWidth="250" />
                         <ColumnDefinition Width="200" />
                     </Grid.ColumnDefinitions>
 
-                    <Border  Grid.Column="0" BorderBrush="#666" BorderThickness="0,0,1,0">
-                        <TextBlock  Text="Wallet" Foreground="white"  VerticalAlignment="Center" HorizontalAlignment="Center" />
+                    <Border  Grid.Column="0"
+                             BorderBrush="#666"
+                             BorderThickness="0,0,1,0">
+                        <TextBlock  Text="Wallet"
+                                    Foreground="white"
+                                    VerticalAlignment="Center"
+                                    HorizontalAlignment="Center" />
                     </Border>
-                    <TextBlock Grid.Column="1" Text="Status (Click for Details)" Foreground="white" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                    <TextBlock Grid.Column="1"
+                               Text="Status (Click for Details)"
+                               Foreground="white"
+                               VerticalAlignment="Center"
+                               HorizontalAlignment="Center" />
                 </Grid>
             </Border>
-            <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" MaxWidth="550">
+            <ScrollViewer Grid.Row="1"
+                          VerticalScrollBarVisibility="Auto"
+                          MaxWidth="550">
                 <StackPanel>
-                    <ItemsControl ItemsSource="{Binding VerifyWallets.Wallets}" AlternationCount="2">
+                    <ItemsControl ItemsSource="{Binding VerifyWallets.Wallets}"
+                                  AlternationCount="2">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
-                                <Grid Height="35" x:Name="FooBar">
+                                <Grid Height="35"
+                                      x:Name="FooBar">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition MinWidth="250" />
                                         <ColumnDefinition Width="200" />
                                     </Grid.ColumnDefinitions>
 
-                                    <TextBlock
-                                        Text="{Binding Name}"
-                                        Foreground="White"
-                                        FontSize="16"
-                                        VerticalAlignment="Center"
-                                        HorizontalAlignment="Center" />
-                                    <TextBlock
-                                        Grid.Column="1"
-                                        Text="{Binding Status.Icon}"
-                                        FontSize="20"
-                                        Cursor="Hand"
-                                        Foreground="{Binding Status.Color.Name}"
-                                        MouseDown="OnClick_Status"
-                                        Tag="{Binding}"
-                                        VerticalAlignment="Center"
-                                        HorizontalAlignment="Center" />
+                                    <TextBlock Text="{Binding Name}"
+                                               Foreground="White"
+                                               FontSize="16"
+                                               VerticalAlignment="Center"
+                                               HorizontalAlignment="Center" />
+                                    <TextBlock Grid.Column="1"
+                                               Text="{Binding Status.Icon}"
+                                               FontSize="20"
+                                               Cursor="Hand"
+                                               Foreground="{Binding Status.Color.Name}"
+                                               MouseDown="OnClick_Status"
+                                               Tag="{Binding}"
+                                               VerticalAlignment="Center"
+                                               HorizontalAlignment="Center" />
                                 </Grid>
                                 <DataTemplate.Triggers>
-                                    <Trigger Property="ItemsControl.AlternationIndex" Value="1">
-                                        <Setter Property="Background" Value="#4c4c4c" TargetName="FooBar"/>
+                                    <Trigger Property="ItemsControl.AlternationIndex"
+                                             Value="1">
+                                        <Setter Property="Background"
+                                                Value="#4c4c4c"
+                                                TargetName="FooBar" />
                                     </Trigger>
                                 </DataTemplate.Triggers>
                             </DataTemplate>
@@ -77,6 +103,11 @@
                 </StackPanel>
             </ScrollViewer>
         </Grid>
-        <Image Grid.Row="3" Source="Assets/help.png" Width="24" Margin="10" Cursor="Hand" MouseDown="OnClick_Help" />
+        <Image Grid.Row="3"
+               Source="Assets/help.png"
+               Width="24"
+               Margin="10"
+               Cursor="Hand"
+               MouseDown="OnClick_Help" />
     </Grid>
 </Window>
