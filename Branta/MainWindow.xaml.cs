@@ -2,7 +2,6 @@
 using Branta.Domain;
 using Branta.Views;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Forms;
@@ -13,6 +12,7 @@ namespace Branta;
 public partial class MainWindow : Window
 {
     private readonly NotifyIcon _notifyIcon;
+    private readonly System.Timers.Timer _timer;
 
     public VerifyWallets VerifyWallets { get; }
 
@@ -33,17 +33,15 @@ public partial class MainWindow : Window
 
         VerifyWallets = new VerifyWallets(_notifyIcon);
 
-        VerifyWallets.Run();
+        _timer = new System.Timers.Timer(VerifyWallets.RunInterval * 1000);
+        _timer.Elapsed += VerifyWallets.Elapsed;
+        _timer.Start();
 
-        var timer = new System.Timers.Timer(VerifyWallets.RunInterval * 1000);
-        timer.Elapsed += (_, _) => Dispatcher.Invoke(() => VerifyWallets.Run());
-        timer.Start();
+        VerifyWallets.Elapsed(null, null);
     }
 
     protected override void OnClosing(CancelEventArgs e)
     {
-        if (Debugger.IsAttached) return;
-
         e.Cancel = true;
         Hide();
         base.OnClosing(e);
@@ -56,8 +54,9 @@ public partial class MainWindow : Window
         Show();
     }
 
-    private static void OnClick_Quit(object sender, EventArgs e)
+    private void OnClick_Quit(object sender, EventArgs e)
     {
+        _timer.Dispose();
         System.Windows.Application.Current.Shutdown();
     }
 

@@ -15,6 +15,7 @@ public class VerifyWallets : BaseAutomation
     public override int RunInterval => 10;
 
     public ObservableCollection<Wallet> Wallets { get; } = new();
+    private List<Wallet> BufferedWallets { get; set; }
 
     private readonly NotifyIcon _notifyIcon;
     private readonly List<BaseWallet> _walletTypes;
@@ -34,11 +35,12 @@ public class VerifyWallets : BaseAutomation
         Trace.WriteLine("Started: Verify Wallets");
         var sw = Stopwatch.StartNew();
 
+        BufferedWallets = new List<Wallet>();
+
         var previousWalletStatus = Wallets.ToDictionary(w => w.Name, w => w.Status);
 
         foreach (var walletType in _walletTypes)
         {
-            Task.Delay(1000).Wait();
             if (!Directory.Exists(walletType.GetPath()))
             {
                 continue;
@@ -66,7 +68,7 @@ public class VerifyWallets : BaseAutomation
                 _notifyIcon.ShowBalloonTip(3000, "Branta", $"{walletType.Name} failed verification.", ToolTipIcon.Warning);
             }
 
-            AddOrUpdate(new Wallet
+            BufferedWallets.Add(new Wallet
             {
                 Name = walletType.Name,
                 Version = version,
@@ -78,15 +80,11 @@ public class VerifyWallets : BaseAutomation
         Trace.WriteLine($"Stopped: Verify Wallets. Took {sw.Elapsed}");
     }
 
-    public void AddOrUpdate(Wallet wallet)
+    public override void Update()
     {
-        var index = Wallets.IndexOf(Wallets.FirstOrDefault(w => w.Name == wallet.Name));
+        Wallets.Clear();
 
-        if (index != -1)
-        {
-            Wallets[index] = wallet;
-        }
-        else
+        foreach (var wallet in BufferedWallets)
         {
             Wallets.Add(wallet);
         }
