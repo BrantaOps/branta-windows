@@ -1,6 +1,7 @@
 ﻿using Branta.Automation.Wallets;
 using Branta.Domain;
 using Branta.Enums;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using System.Security.Cryptography;
@@ -9,30 +10,45 @@ using System.Windows.Forms;
 
 namespace Branta.Automation;
 
-public class VerifyWallet
+public class VerifyWallets : BaseAutomation
 {
-    public static List<Wallet> Run(Dictionary<string, WalletStatus> previousWallets, NotifyIcon notifyIcon)
-    {
-        var wallets = new List<Wallet>();
+    public override int RunInterval => 10;
 
-        var walletTypes = new List<BaseWallet>
+    public ObservableCollection<Wallet> Wallets { get; } = new();
+
+    private readonly NotifyIcon _notifyIcon;
+    private readonly List<BaseWallet> _walletTypes;
+
+    public VerifyWallets(NotifyIcon notifyIcon)
+    {
+        _notifyIcon = notifyIcon;
+        _walletTypes = new List<BaseWallet>
         {
             new Sparrow(),
             new Wasabi()
-        };
+        }.OrderBy(w => w.Name).ToList();
+    }
 
-        foreach (var wallet in walletTypes)
+    public override void Run()
+    {
+        Trace.WriteLine("Started: Verify Wallets");
+        var sw = Stopwatch.StartNew();
+
+        var previousWalletStatus = Wallets.ToDictionary(w => w.Name, w => w.Status);
+
+        foreach (var walletType in _walletTypes)
         {
-            if (!Directory.Exists(wallet.GetPath()))
+            Task.Delay(1000).Wait();
+            if (!Directory.Exists(walletType.GetPath()))
             {
                 continue;
             }
 
-            var version = wallet.GetVersion();
+            var version = walletType.GetVersion();
 
             WalletStatus status;
 
-            var expectedHash = version != null ? wallet.CheckSums.GetValueOrDefault(version) : null;
+            var expectedHash = version != null ? walletType.CheckSums.GetValueOrDefault(version) : null;
 
             if (expectedHash == null)
             {
@@ -40,27 +56,40 @@ public class VerifyWallet
             }
             else
             {
-                var hash = CreateMd5ForFolder(wallet.GetPath());
+                var hash = CreateMd5ForFolder(walletType.GetPath());
                 Trace.WriteLine($"Expected: {expectedHash}; Actual: {hash}");
                 status = hash == expectedHash ? WalletStatus.Verified : WalletStatus.NotVerified;
             }
 
-            if (status != WalletStatus.Verified && previousWallets.GetValueOrDefault(wallet.Name, WalletStatus.Verified) == WalletStatus.Verified)
+            if (status != WalletStatus.Verified && previousWalletStatus.GetValueOrDefault(walletType.Name, WalletStatus.Verified) == WalletStatus.Verified)
             {
-                notifyIcon.ShowBalloonTip(3000, "Branta", $"{wallet.Name} failed verification.", ToolTipIcon.Warning);
+                _notifyIcon.ShowBalloonTip(3000, "Branta", $"{walletType.Name} failed verification.", ToolTipIcon.Warning);
             }
 
-            wallets.Add(new Wallet
+            AddOrUpdate(new Wallet
             {
-                Name = wallet.Name,
+                Name = walletType.Name,
                 Version = version,
                 Status = status
             });
         }
 
-        return wallets
-            .OrderBy(w => w.Name)
-            .ToList();
+        sw.Stop();
+        Trace.WriteLine($"Stopped: Verify Wallets. Took {sw.Elapsed}");
+    }
+
+    public void AddOrUpdate(Wallet wallet)
+    {
+        var index = Wallets.IndexOf(Wallets.FirstOrDefault(w => w.Name == wallet.Name));
+
+        if (index != -1)
+        {
+            Wallets[index] = wallet;
+        }
+        else
+        {
+            Wallets.Add(wallet);
+        }
     }
 
     public static string CreateMd5ForFolder(string path)
