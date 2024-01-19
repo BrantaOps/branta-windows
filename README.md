@@ -35,6 +35,6 @@ git clone https://github.com/BrantaOps/branta-windows.git
 
 Create a standalone executable
 ```
-dotnet publish -c Release --self-contained -r win-x64 -p:PublishSingleFile=true
+dotnet publish -c Release --self-contained -r win-x64 -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true
 ```
 Executable can be found in `Branta\bin\Release\net8.0-windows\win-x64\publish\`

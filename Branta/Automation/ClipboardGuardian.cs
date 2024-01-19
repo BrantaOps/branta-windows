@@ -1,5 +1,7 @@
-﻿using Branta.Classes;
+﻿using System.Diagnostics;
+using Branta.Classes;
 using System.IO;
+using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
@@ -123,13 +125,13 @@ public class ClipboardGuardian : BaseAutomation
             return false;
         }
 
-        if (!content.Contains(' ') && !content.Contains('\n'))
+        if (!content.Contains(' ') && !content.Contains(Environment.NewLine))
         {
             return false;
         }
 
         var spaced = content.Split(' ');
-        var newLined = content.Split('\n');
+        var newLined = content.Split(Environment.NewLine);
 
         var userSeedWords = new HashSet<string>();
 
@@ -151,12 +153,26 @@ public class ClipboardGuardian : BaseAutomation
 
         if (Bip39Words == null)
         {
-            var sr = new StreamReader("Assets/bip39wordlist.txt");
-            var words = sr.ReadToEnd();
-            Bip39Words = words.Split('\n').ToHashSet();
+            try
+            {
+                var assembly = Assembly.GetExecutingAssembly();
+                const string resourceName = "Branta.Assets.bip39wordlist.txt";
+
+                using var stream = assembly.GetManifestResourceStream(resourceName);
+                using var reader = new StreamReader(stream!);
+
+                var words = reader.ReadToEnd();
+                Bip39Words = words.Split(Environment.NewLine).ToHashSet();
+            }
+            catch (Exception ex)
+            {
+                Trace.Listeners.Add(new TextWriterTraceListener("log.txt"));
+                Trace.WriteLine(ex);
+                Trace.Flush();
+            }
         }
 
-        return !userSeedWords.Select(w => w.ToLower()).Except(Bip39Words).Any();
+        return !userSeedWords.Select(w => w.ToLower()).Except(Bip39Words!).Any();
     }
 
     public static bool CheckForXPub(string value)

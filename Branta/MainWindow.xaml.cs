@@ -3,11 +3,12 @@ using Branta.Domain;
 using Branta.Views;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Drawing;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Forms;
 using System.Windows.Input;
-using Clipboard = System.Windows.Clipboard;
+using Application = System.Windows.Application;
 
 namespace Branta;
 
@@ -18,33 +19,38 @@ public partial class MainWindow : Window
     private readonly System.Timers.Timer _clipboardGuardianTimer;
 
     public VerifyWallets VerifyWallets { get; }
-    private ClipboardGuardian _clipboardGuardian;
 
     public MainWindow()
     {
-        InitializeComponent();
-        DataContext = this;
-
-        _notifyIcon = new NotifyIcon
+        try
         {
-            Icon = new System.Drawing.Icon("Assets/black_circle.ico"),
-            Text = "Branta",
-            Visible = true
-        };
-        _notifyIcon.DoubleClick += OnClick_NotifyIcon;
-        _notifyIcon.ContextMenuStrip = new ContextMenuStrip();
-        _notifyIcon.ContextMenuStrip.Items.Add("Quit", null, OnClick_Quit);
+            InitializeComponent();
+            DataContext = this;
 
-        VerifyWallets = new VerifyWallets(_notifyIcon);
-        _verifyWalletTimer = VerifyWallets.CreateTimer();
-        VerifyWallets.Elapsed(null, null);
+            _notifyIcon = new NotifyIcon
+            {
+                Icon = new Icon(Application.GetResourceStream(new Uri("pack://application:,,,/Assets/black_circle.ico"))!.Stream),
+                Text = "Branta",
+                Visible = true
+            };
+            _notifyIcon.DoubleClick += OnClick_NotifyIcon;
+            _notifyIcon.ContextMenuStrip = new ContextMenuStrip();
+            _notifyIcon.ContextMenuStrip.Items.Add("Quit", null, OnClick_Quit);
 
-        _clipboardGuardian = new ClipboardGuardian(_notifyIcon);
-        _clipboardGuardianTimer = _clipboardGuardian.CreateTimer();
-        _clipboardGuardian.Elapsed(null, null);
+            VerifyWallets = new VerifyWallets(_notifyIcon);
+            _verifyWalletTimer = VerifyWallets.CreateTimer();
+            VerifyWallets.Elapsed(null, null);
 
-        var text = Clipboard.GetText();
-        Trace.WriteLine($"Clipboard: {text}");
+            var clipboardGuardian = new ClipboardGuardian(_notifyIcon);
+            _clipboardGuardianTimer = clipboardGuardian.CreateTimer();
+            clipboardGuardian.Elapsed(null, null);
+        }
+        catch (Exception ex)
+        {
+            Trace.Listeners.Add(new TextWriterTraceListener("log.txt"));
+            Trace.WriteLine(ex);
+            Trace.Flush();
+        }
     }
 
     protected override void OnClosing(CancelEventArgs e)
@@ -64,6 +70,7 @@ public partial class MainWindow : Window
     private void OnClick_Quit(object sender, EventArgs e)
     {
         _verifyWalletTimer.Dispose();
+        _clipboardGuardianTimer.Dispose();
         System.Windows.Application.Current.Shutdown();
     }
 
