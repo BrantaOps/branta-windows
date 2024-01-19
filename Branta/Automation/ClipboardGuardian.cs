@@ -12,7 +12,7 @@ public class ClipboardGuardian : BaseAutomation
     public override int RunInterval => 1;
 
     private const int SeedWordMin = 12;
-    private const int SeedWordMax = 36;
+    private const int SeedWordMax = 24;
 
     private string LastClipboardContent { get; set; }
     private HashSet<string> Bip39Words { get; set; }

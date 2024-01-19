@@ -84,6 +84,7 @@
                                                FontSize="20"
                                                Cursor="Hand"
                                                Foreground="{Binding Status.Color.Name}"
+                                               FontWeight="Bold"
                                                MouseDown="OnClick_Status"
                                                Tag="{Binding}"
                                                VerticalAlignment="Center"
