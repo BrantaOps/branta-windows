@@ -24,8 +24,7 @@ public class VerifyWallets : BaseAutomation
     {
         _walletTypes = new List<BaseWallet>
         {
-            new Sparrow(),
-            new Wasabi()
+            new Sparrow()
         }.OrderBy(w => w.Name).ToList();
     }
 
@@ -73,7 +72,7 @@ public class VerifyWallets : BaseAutomation
 
             if (status != WalletStatus.Verified && previousWalletStatus.GetValueOrDefault(walletType.Name, WalletStatus.Verified) == WalletStatus.Verified)
             {
-                NotifyIcon.ShowBalloonTip(new Notification()
+                NotifyIcon.ShowBalloonTip(new Notification
                 {
                     Message = $"{walletType.Name} failed verification.",
                     Icon = ToolTipIcon.Warning

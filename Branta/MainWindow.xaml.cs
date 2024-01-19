@@ -71,7 +71,7 @@ public partial class MainWindow : Window
     {
         _verifyWalletTimer.Dispose();
         _clipboardGuardianTimer.Dispose();
-        System.Windows.Application.Current.Shutdown();
+        Application.Current.Shutdown();
     }
 
     private void OnClick_Help(object sender, MouseButtonEventArgs e)
