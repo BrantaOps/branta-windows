@@ -16,7 +16,7 @@ https://branta.pro
 
 ## Features
  - [X] Wallet Verification: Automatically verifies supported wallets against PGP verified SHA-256 checksums
- - [ ] Clipboard Guardian: Get notified of bitcoin-related activity on your clipboard
+ - [X] Clipboard Guardian: Get notified of bitcoin-related activity on your clipboard
 
 #### Supported Wallets
  - [X] Sparrow
@@ -35,6 +35,6 @@ git clone https://github.com/BrantaOps/branta-windows.git
 
 Create a standalone executable
 ```
-dotnet publish -c Release --self-contained -r win-x64 -p:PublishSingleFile=true
+dotnet publish -c Release --self-contained -r win-x64 -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true
 ```
 Executable can be found in `Branta\bin\Release\net8.0-windows\win-x64\publish\`

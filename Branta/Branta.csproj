@@ -6,9 +6,11 @@
     <TargetFramework>net8.0-windows</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
+    <ApplicationIcon>Assets\black_circle.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Assets\bip39wordlist.txt" />
     <None Remove="Assets\black_circle.ico" />
     <None Remove="Assets\black_circle.png" />
     <None Remove="Assets\favicon.png" />
@@ -17,21 +19,24 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="Assets\black_circle.png">
+    <EmbeddedResource Include="Assets\bip39wordlist.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Assets\black_circle.ico">
+    </EmbeddedResource>
+    <Resource Include="Assets\black_circle.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Assets\favicon.png">
+    </Resource>
+    <Resource Include="Assets\black_circle.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Assets\goldwhitecropped.png">
+    </Resource>
+    <Resource Include="Assets\favicon.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Assets\help.png">
+    </Resource>
+    <Resource Include="Assets\goldwhitecropped.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    </Resource>
+    <Resource Include="Assets\help.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
 
   <ItemGroup>

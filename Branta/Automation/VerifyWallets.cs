@@ -7,6 +7,7 @@ using System.IO;
 using System.Security.Cryptography;
 using System.Text;
 using System.Windows.Forms;
+using Branta.Classes;
 
 namespace Branta.Automation;
 
@@ -17,12 +18,10 @@ public class VerifyWallets : BaseAutomation
     public ObservableCollection<Wallet> Wallets { get; } = new();
     private List<Wallet> BufferedWallets { get; set; }
 
-    private readonly NotifyIcon _notifyIcon;
     private readonly List<BaseWallet> _walletTypes;
 
-    public VerifyWallets(NotifyIcon notifyIcon)
+    public VerifyWallets(NotifyIcon notifyIcon) : base(notifyIcon)
     {
-        _notifyIcon = notifyIcon;
         _walletTypes = new List<BaseWallet>
         {
             new Sparrow(),
@@ -37,7 +36,9 @@ public class VerifyWallets : BaseAutomation
 
         BufferedWallets = new List<Wallet>();
 
-        var previousWalletStatus = Wallets.ToDictionary(w => w.Name, w => w.Status);
+        var previousWalletStatus = Wallets
+            .DistinctBy(w => w.Name)
+            .ToDictionary(w => w.Name, w => w.Status);
 
         foreach (var walletType in _walletTypes)
         {
@@ -58,14 +59,25 @@ public class VerifyWallets : BaseAutomation
             }
             else
             {
-                var hash = CreateMd5ForFolder(walletType.GetPath());
-                Trace.WriteLine($"Expected: {expectedHash}; Actual: {hash}");
-                status = hash == expectedHash ? WalletStatus.Verified : WalletStatus.NotVerified;
+                try
+                {
+                    var hash = CreateMd5ForFolder(walletType.GetPath());
+                    Trace.WriteLine($"Expected: {expectedHash}; Actual: {hash}");
+                    status = hash == expectedHash ? WalletStatus.Verified : WalletStatus.NotVerified;
+                }
+                catch
+                {
+                    status = WalletStatus.NotVerified;
+                }
             }
 
             if (status != WalletStatus.Verified && previousWalletStatus.GetValueOrDefault(walletType.Name, WalletStatus.Verified) == WalletStatus.Verified)
             {
-                _notifyIcon.ShowBalloonTip(3000, "Branta", $"{walletType.Name} failed verification.", ToolTipIcon.Warning);
+                NotifyIcon.ShowBalloonTip(new Notification()
+                {
+                    Message = $"{walletType.Name} failed verification.",
+                    Icon = ToolTipIcon.Warning
+                });
             }
 
             BufferedWallets.Add(new Wallet

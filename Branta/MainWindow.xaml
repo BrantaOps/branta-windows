@@ -9,7 +9,7 @@
         Height="480"
         Width="600"
         Background="#444"
-        Icon="Assets/favicon.png">
+        Icon="pack://application:,,,/Assets/favicon.png">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -17,7 +17,7 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <Image Source="Assets/goldwhitecropped.png"
+        <Image Source="pack://application:,,,/Assets/goldwhitecropped.png"
                Width="350" />
         <TextBlock Grid.Row="1"
                    Name="TbWalletsDetected"
@@ -104,7 +104,7 @@
             </ScrollViewer>
         </Grid>
         <Image Grid.Row="3"
-               Source="Assets/help.png"
+               Source="pack://application:,,,/Assets/help.png"
                Width="24"
                Margin="10"
                Cursor="Hand"
