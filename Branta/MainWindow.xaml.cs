@@ -2,19 +2,23 @@
 using Branta.Domain;
 using Branta.Views;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Forms;
 using System.Windows.Input;
+using Clipboard = System.Windows.Clipboard;
 
 namespace Branta;
 
 public partial class MainWindow : Window
 {
     private readonly NotifyIcon _notifyIcon;
-    private readonly System.Timers.Timer _timer;
+    private readonly System.Timers.Timer _verifyWalletTimer;
+    private readonly System.Timers.Timer _clipboardGuardianTimer;
 
     public VerifyWallets VerifyWallets { get; }
+    private ClipboardGuardian _clipboardGuardian;
 
     public MainWindow()
     {
@@ -32,12 +36,15 @@ public partial class MainWindow : Window
         _notifyIcon.ContextMenuStrip.Items.Add("Quit", null, OnClick_Quit);
 
         VerifyWallets = new VerifyWallets(_notifyIcon);
-
-        _timer = new System.Timers.Timer(VerifyWallets.RunInterval * 1000);
-        _timer.Elapsed += VerifyWallets.Elapsed;
-        _timer.Start();
-
+        _verifyWalletTimer = VerifyWallets.CreateTimer();
         VerifyWallets.Elapsed(null, null);
+
+        _clipboardGuardian = new ClipboardGuardian(_notifyIcon);
+        _clipboardGuardianTimer = _clipboardGuardian.CreateTimer();
+        _clipboardGuardian.Elapsed(null, null);
+
+        var text = Clipboard.GetText();
+        Trace.WriteLine($"Clipboard: {text}");
     }
 
     protected override void OnClosing(CancelEventArgs e)
@@ -56,7 +63,7 @@ public partial class MainWindow : Window
 
     private void OnClick_Quit(object sender, EventArgs e)
     {
-        _timer.Dispose();
+        _verifyWalletTimer.Dispose();
         System.Windows.Application.Current.Shutdown();
     }
 

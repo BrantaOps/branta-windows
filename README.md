@@ -16,7 +16,7 @@ https://branta.pro
 
 ## Features
  - [X] Wallet Verification: Automatically verifies supported wallets against PGP verified SHA-256 checksums
- - [ ] Clipboard Guardian: Get notified of bitcoin-related activity on your clipboard
+ - [X] Clipboard Guardian: Get notified of bitcoin-related activity on your clipboard
 
 #### Supported Wallets
  - [X] Sparrow
