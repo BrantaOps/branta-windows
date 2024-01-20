@@ -22,7 +22,7 @@ https://branta.pro
  - [X] Sparrow
  - [ ] Ledger
  - [ ] Trezor
- - [ ] Wasabi
+ - [X] Wasabi
  - [ ] Blockstream Green
  - [ ] Whirlpool
 
