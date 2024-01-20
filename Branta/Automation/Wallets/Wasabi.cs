@@ -1,5 +1,4 @@
 ﻿using System.IO;
-using System.Text.RegularExpressions;
 
 namespace Branta.Automation.Wallets;
 
@@ -13,7 +12,7 @@ public class Wasabi : BaseWallet
         { "2.0.3", "c4cc9b9f99b8e5114090c9820695d573" }
     };
 
-    public Wasabi() : base("Wasabi")
+    public Wasabi() : base("WasabiWallet", "wassabee")
     {
     }
 
@@ -21,34 +20,6 @@ public class Wasabi : BaseWallet
     {
         var programFilesPath = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles);
 
-        return Path.Join(programFilesPath, "WasabiWallet");
-    }
-
-    public override string GetVersion()
-    {
-        // Wasabi 2.0.3 uses a different deps.json file name
-        var fileNames = new[] {"WalletWasabi.Daemon.deps.json", "WalletWasabi.Fluent.Desktop.deps.json"};
-        var propertyPrefixes = new[] {"WalletWasabi.Daemon", "WalletWasabi.Fluent.Desktop"};
-
-        for (var i = 0; i < fileNames.Length; i++)
-        {
-            try
-            {
-                var configFileContent = File.ReadAllText(Path.Join(GetPath(), fileNames[i]));
-                var pattern = $@"""{Regex.Escape(propertyPrefixes[i])}/(?<version>\d+(\.\d+)+)""";
-                var match = Regex.Match(configFileContent, pattern);
-
-                if (match.Success)
-                {
-                    return match.Groups["version"].Value;
-                }
-            }
-            catch
-            {
-                // ignored
-            }
-        }
-
-        return null;
+        return Path.Join(programFilesPath, Name);
     }
 }
