@@ -13,14 +13,12 @@ namespace Branta.Automation;
 
 public class VerifyWallets : BaseAutomation
 {
-    public override int RunInterval => 10;
-
     public ObservableCollection<Wallet> Wallets { get; } = new();
     private List<Wallet> BufferedWallets { get; set; }
 
     private readonly List<BaseWallet> _walletTypes;
 
-    public VerifyWallets(NotifyIcon notifyIcon) : base(notifyIcon)
+    public VerifyWallets(NotifyIcon notifyIcon) : base(notifyIcon, 10)
     {
         _walletTypes = new List<BaseWallet>
         {

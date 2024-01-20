@@ -1,5 +1,5 @@
-﻿using System.Diagnostics;
-using Branta.Classes;
+﻿using Branta.Classes;
+using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using System.Text.RegularExpressions;
@@ -7,17 +7,15 @@ using System.Windows.Forms;
 
 namespace Branta.Automation;
 
-public class ClipboardGuardian : BaseAutomation
+public partial class ClipboardGuardian : BaseAutomation
 {
-    public override int RunInterval => 1;
-
     private const int SeedWordMin = 12;
     private const int SeedWordMax = 24;
 
     private string LastClipboardContent { get; set; }
     private HashSet<string> Bip39Words { get; set; }
 
-    public ClipboardGuardian(NotifyIcon notifyIcon) : base(notifyIcon)
+    public ClipboardGuardian(NotifyIcon notifyIcon) : base(notifyIcon, 1)
     {
     }
 
@@ -111,11 +109,7 @@ public class ClipboardGuardian : BaseAutomation
 
     public static bool CheckForBitcoinAddress(string value)
     {
-        var bitcoinAddressRegex = new Regex("^[13][a-km-zA-HJ-NP-Z1-9]{25,34}$");
-
-        var segwitAddressRegex = new Regex("^bc1[0-9a-zA-Z]{25,39}$");
-
-        return bitcoinAddressRegex.IsMatch(value) || segwitAddressRegex.IsMatch(value);
+        return BitcoinAddressRegex().IsMatch(value) || SegwitAddressRegex().IsMatch(value);
     }
 
     private bool CheckForSeedPhrase(string content)
@@ -189,15 +183,23 @@ public class ClipboardGuardian : BaseAutomation
 
     public static bool CheckForNPub(string value)
     {
-        var nPubAddressRegex = new Regex("^npub[0-9a-z]{58,65}$");
-
-        return nPubAddressRegex.IsMatch(value);
+        return NPubAddressRegex().IsMatch(value);
     }
 
     public static bool CheckForNPrv(string value)
     {
-        var nPubAddressRegex = new Regex("^npub[0-9a-z]{58,65}$");
-
-        return nPubAddressRegex.IsMatch(value);
+        return NPrvAddressRegex().IsMatch(value);
     }
+
+    [GeneratedRegex("^[13][a-km-zA-HJ-NP-Z1-9]{25,34}$")]
+    private static partial Regex BitcoinAddressRegex();
+
+    [GeneratedRegex("^bc1[0-9a-zA-Z]{25,39}$")]
+    private static partial Regex SegwitAddressRegex();
+
+    [GeneratedRegex("^npub[0-9a-z]{58,65}$")]
+    private static partial Regex NPubAddressRegex();
+
+    [GeneratedRegex("^npub[0-9a-z]{58,65}$")]
+    private static partial Regex NPrvAddressRegex();
 }

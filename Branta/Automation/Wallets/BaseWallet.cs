@@ -2,9 +2,14 @@
 
 public abstract class BaseWallet
 {
-    public abstract string Name { get; }
+    public string Name { get; }
 
     public abstract Dictionary<string, string> CheckSums { get; }
+
+    protected BaseWallet(string name)
+    {
+        Name = name;
+    }
 
     public abstract string GetPath();
 

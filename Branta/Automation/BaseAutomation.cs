@@ -8,11 +8,12 @@ public abstract class BaseAutomation : DispatcherObject
 {
     protected readonly NotifyIcon NotifyIcon;
 
-    public abstract int RunInterval { get; }
+    public int RunInterval { get; }
 
-    protected BaseAutomation(NotifyIcon notifyIcon)
+    protected BaseAutomation(NotifyIcon notifyIcon, int runInterval)
     {
         NotifyIcon = notifyIcon;
+        RunInterval = runInterval;
     }
 
     public abstract void Run();

@@ -5,12 +5,14 @@ namespace Branta.Automation.Wallets;
 
 public class Wasabi : BaseWallet
 {
-    public override string Name => "Wasabi";
-
     public override Dictionary<string, string> CheckSums => new()
     {
         { "2.0.5", "9b0e8a5d732a862820bfec7e092707a7" } // TODO - Not Verified
     };
+
+    public Wasabi() : base("Wasabi")
+    {
+    }
 
     public override string GetPath()
     {
