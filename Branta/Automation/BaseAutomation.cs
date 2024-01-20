@@ -10,6 +10,8 @@ public abstract class BaseAutomation : DispatcherObject
 
     public int RunInterval { get; }
 
+    private bool _processingComplete = true;
+
     protected BaseAutomation(NotifyIcon notifyIcon, int runInterval)
     {
         NotifyIcon = notifyIcon;
@@ -22,10 +24,21 @@ public abstract class BaseAutomation : DispatcherObject
 
     public void Elapsed(object sender, ElapsedEventArgs e)
     {
+        if (!_processingComplete)
+        {
+            return;
+        }
+
+        _processingComplete = false;
+
         Task.Run(Run)
             .ContinueWith(_ =>
             {
-                Dispatcher.Invoke(Update);
+                Dispatcher.Invoke(() =>
+                {
+                    Update();
+                    _processingComplete = true;
+                });
             });
     }
 
