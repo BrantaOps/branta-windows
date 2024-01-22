@@ -14,7 +14,6 @@ namespace Branta.Automation;
 public class VerifyWallets : BaseAutomation
 {
     public ObservableCollection<Wallet> Wallets { get; } = new();
-    private List<Wallet> BufferedWallets { get; set; }
 
     private readonly List<BaseWallet> _walletTypes;
 
@@ -32,7 +31,7 @@ public class VerifyWallets : BaseAutomation
         Trace.WriteLine("Started: Verify Wallets");
         var sw = Stopwatch.StartNew();
 
-        BufferedWallets = new List<Wallet>();
+        Dispatcher.Invoke(() => Wallets.Clear());
 
         var previousWalletStatus = Wallets
             .DistinctBy(w => w.Name)
@@ -78,26 +77,16 @@ public class VerifyWallets : BaseAutomation
                 });
             }
 
-            BufferedWallets.Add(new Wallet
+            Dispatcher.Invoke(() => Wallets.Add(new Wallet
             {
                 Name = walletType.Name,
                 Version = version,
                 Status = status
-            });
+            }));
         }
 
         sw.Stop();
         Trace.WriteLine($"Stopped: Verify Wallets. Took {sw.Elapsed}");
-    }
-
-    public override void Update()
-    {
-        Wallets.Clear();
-
-        foreach (var wallet in BufferedWallets)
-        {
-            Wallets.Add(wallet);
-        }
     }
 
     public static string CreateMd5ForFolder(string path)

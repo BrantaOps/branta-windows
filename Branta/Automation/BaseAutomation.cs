@@ -1,4 +1,5 @@
-﻿using System.Timers;
+﻿using System.Diagnostics;
+using System.Timers;
 using System.Windows.Forms;
 using System.Windows.Threading;
 
@@ -20,8 +21,6 @@ public abstract class BaseAutomation : DispatcherObject
 
     public abstract void Run();
 
-    public abstract void Update();
-
     public void Elapsed(object sender, ElapsedEventArgs e)
     {
         if (!_processingComplete)
@@ -34,11 +33,7 @@ public abstract class BaseAutomation : DispatcherObject
         Task.Run(Run)
             .ContinueWith(_ =>
             {
-                Dispatcher.Invoke(() =>
-                {
-                    Update();
-                    _processingComplete = true;
-                });
+                _processingComplete = true;
             });
     }
 
