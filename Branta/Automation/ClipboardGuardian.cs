@@ -112,7 +112,7 @@ public partial class ClipboardGuardian : BaseAutomation
         return BitcoinAddressRegex().IsMatch(value) || SegwitAddressRegex().IsMatch(value);
     }
 
-    private bool CheckForSeedPhrase(string content)
+    public bool CheckForSeedPhrase(string content)
     {
         if (string.IsNullOrWhiteSpace(content))
         {
@@ -200,6 +200,6 @@ public partial class ClipboardGuardian : BaseAutomation
     [GeneratedRegex("^npub[0-9a-z]{58,65}$")]
     private static partial Regex NPubAddressRegex();
 
-    [GeneratedRegex("^npub[0-9a-z]{58,65}$")]
+    [GeneratedRegex("^nsec[0-9a-z]{58,65}$")]
     private static partial Regex NPrvAddressRegex();
 }
