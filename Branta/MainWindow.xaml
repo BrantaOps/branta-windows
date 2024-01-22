@@ -8,6 +8,8 @@
         Title="Branta"
         Height="480"
         Width="600"
+        MinHeight="480"
+        MinWidth="600"
         Background="#444"
         Icon="pack://application:,,,/Assets/favicon.png">
     <Grid>
