@@ -22,7 +22,8 @@ public class VerifyWallets : BaseAutomation
         _walletTypes = new List<BaseWallet>
         {
             new Sparrow(),
-            new Wasabi()
+            new Wasabi(),
+            new Trezor()
         }.OrderBy(w => w.Name).ToList();
     }
 
