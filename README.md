@@ -27,9 +27,9 @@ https://branta.pro
 
 #### Supported Wallets
  - [X] Sparrow
- - [ ] Ledger
- - [ ] Trezor
  - [X] Wasabi
+ - [X] Trezor
+ - [ ] Ledger
  - [ ] Blockstream Green
  - [ ] Whirlpool
 
@@ -45,6 +45,13 @@ git clone https://github.com/BrantaOps/branta-windows.git
 
 Create a standalone executable
 ```
-dotnet publish -c Release --self-contained -r win-x64 -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true
+dotnet publish Branta/Branta.csproj -c Release --self-contained -r win-x64 -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true
 ```
 Executable can be found in `Branta\bin\Release\net8.0-windows\win-x64\publish\`
+
+*OR*
+
+Run from Source
+```
+dotnet run
+```
