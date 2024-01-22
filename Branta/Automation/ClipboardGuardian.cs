@@ -31,10 +31,6 @@ public partial class ClipboardGuardian : BaseAutomation
         NotifyIcon.ShowBalloonTip(notification);
     }
 
-    public override void Update()
-    {
-    }
-
     private Notification Process()
     {
         string clipBoardContent = null;
