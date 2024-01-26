@@ -8,21 +8,21 @@ public abstract partial class BaseWallet
 {
     public string Name { get; }
 
-    private readonly string _exeName;
+    public string ExeName { get; }
 
     public abstract IReadOnlyDictionary<string, string> CheckSums { get; }
 
     protected BaseWallet(string name, string exeName = null)
     {
         Name = name;
-        _exeName = exeName ?? name;
+        ExeName = exeName ?? name;
     }
 
     public abstract string GetPath();
 
     public string GetVersion()
     {
-        var fileVersionInfo = FileVersionInfo.GetVersionInfo(Path.Join(GetPath(), $"{_exeName}.exe"));
+        var fileVersionInfo = FileVersionInfo.GetVersionInfo(Path.Join(GetPath(), $"{ExeName}.exe"));
         if (fileVersionInfo.FileVersion == null)
         {
             return null;
