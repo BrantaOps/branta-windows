@@ -17,6 +17,7 @@ public partial class MainWindow : Window
     private readonly NotifyIcon _notifyIcon;
     private readonly System.Timers.Timer _verifyWalletTimer;
     private readonly System.Timers.Timer _clipboardGuardianTimer;
+    private readonly System.Timers.Timer _focusTimer;
 
     public VerifyWallets VerifyWallets { get; }
 
@@ -44,6 +45,10 @@ public partial class MainWindow : Window
             var clipboardGuardian = new ClipboardGuardian(_notifyIcon);
             _clipboardGuardianTimer = clipboardGuardian.CreateTimer();
             clipboardGuardian.Elapsed(null, null);
+
+            var focus = new Focus(_notifyIcon);
+            _focusTimer = focus.CreateTimer();
+            focus.Elapsed(null, null);
         }
         catch (Exception ex)
         {
@@ -71,6 +76,7 @@ public partial class MainWindow : Window
     {
         _verifyWalletTimer.Dispose();
         _clipboardGuardianTimer.Dispose();
+        _focusTimer.Dispose();
         Application.Current.Shutdown();
     }
 
