@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using Branta.Classes;
+using System.Diagnostics;
 using System.IO;
 using System.Text.RegularExpressions;
 
@@ -12,6 +13,8 @@ public abstract partial class BaseWallet
 
     public abstract IReadOnlyDictionary<string, string> CheckSums { get; }
 
+    private const string RegistryUninstallPath = @"SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\";
+
     protected BaseWallet(string name, string exeName = null)
     {
         Name = name;
@@ -23,14 +26,23 @@ public abstract partial class BaseWallet
     public string GetVersion()
     {
         var fileVersionInfo = FileVersionInfo.GetVersionInfo(Path.Join(GetPath(), $"{ExeName}.exe"));
-        if (fileVersionInfo.FileVersion == null)
+
+        if (fileVersionInfo.FileVersion != null)
         {
-            return null;
+            var match = VersionRegex().Match(fileVersionInfo.FileVersion);
+            return match.Success ? match.Groups[1].Value : null;
         }
 
-        var match = VersionRegex().Match(fileVersionInfo.FileVersion);
+        var subKeyName = RegistryHelper.FindDisplayName(RegistryUninstallPath, Name)
+            .Replace("HKEY_LOCAL_MACHINE\\", "");
+        Trace.WriteLine(subKeyName);
 
-        return match.Success ? match.Groups[1].Value : null;
+        if (subKeyName != null)
+        {
+            return RegistryHelper.GetValue(subKeyName, "DisplayVersion");
+        }
+
+        return null;
     }
 
     [GeneratedRegex(@"(\d+\.\d+\.\d+)")]

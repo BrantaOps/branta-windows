@@ -17,6 +17,7 @@ public class VerifyWallets : BaseAutomation
 
     public static readonly List<BaseWallet> WalletTypes = new()
     {
+        new BlockStreamGreen(),
         new Sparrow(),
         new Wasabi(),
         new Trezor()
