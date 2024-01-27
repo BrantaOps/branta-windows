@@ -24,8 +24,8 @@
  - ✅ Wasabi
  - ✅ Trezor
  - ✅ Blockstream Green
- - [ ] Ledger
- - [ ] Whirlpool
+ - - [ ] Ledger
+ - - [ ] Whirlpool
 
 ## Build Steps
 
