@@ -9,7 +9,7 @@
         Height="350"
         Width="600"
         Background="#444"
-        Icon="../Assets/favicon.png"
+        Icon="pack://application:,,,/Assets/black_circle.png"
         ResizeMode="NoResize">
     <Window.Resources>
         <Style TargetType="TextBlock">
@@ -35,7 +35,7 @@
         </Grid.RowDefinitions>
 
         <Image Source="../Assets/goldwhitecropped.png"
-               Width="350" />
+               Width="400" />
         <TextBlock Grid.Row="1"
                    FontWeight="Bold"
                    Margin="0,0,0,15">How does Branta verify my Wallets?</TextBlock>

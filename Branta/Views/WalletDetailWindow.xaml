@@ -10,7 +10,7 @@
         Width="300"
         Background="#444"
         ResizeMode="NoResize"
-        Icon="../Assets/favicon.png">
+        Icon="pack://application:,,,/Assets/black_circle.png">
     <Window.Resources>
         <Style TargetType="TextBlock">
             <Setter Property="VerticalAlignment"

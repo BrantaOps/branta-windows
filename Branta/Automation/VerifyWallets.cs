@@ -23,6 +23,8 @@ public class VerifyWallets : BaseAutomation
         new Trezor()
     };
 
+    private bool _isFirstRun = true;
+
     public VerifyWallets(NotifyIcon notifyIcon) : base(notifyIcon, 10)
     {
     }
@@ -35,8 +37,8 @@ public class VerifyWallets : BaseAutomation
         var previousWalletStatus = Wallets
             .DistinctBy(w => w.Name)
             .ToDictionary(w => w.Name, w => w.Status);
-
-        Dispatcher.Invoke(Wallets.Clear);
+        
+        var bufferedWallets = new List<Wallet>();
 
         foreach (var walletType in WalletTypes)
         {
@@ -52,8 +54,22 @@ public class VerifyWallets : BaseAutomation
                 });
             }
 
-            Dispatcher.Invoke(() => Wallets.Add(wallet));
+            if (_isFirstRun)
+            {
+                Dispatcher.Invoke(() => Wallets.Add(wallet));
+            }
+            else
+            {
+                bufferedWallets.Add(wallet);
+            }
         }
+
+        if (!_isFirstRun)
+        {
+            Dispatcher.Invoke(() => Wallets.Set(bufferedWallets));
+        }
+
+        _isFirstRun = false;
 
         sw.Stop();
         Trace.WriteLine($"Stopped: Verify Wallets. Took {sw.Elapsed}");
