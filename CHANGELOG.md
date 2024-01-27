@@ -1,3 +1,12 @@
+## 1.0.0 - 2024/01/27
+
+Fixes
+ - Verification failed notification should only appear once
+
+ Added
+  - Focus Automation: Verification status notification when you open a supported wallet
+  - Blockstream Green Support
+
 ## 0.2.0 - 2024/01/22
 
 Fixes
