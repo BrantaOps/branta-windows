@@ -11,7 +11,7 @@
         MinHeight="480"
         MinWidth="600"
         Background="#444"
-        Icon="pack://application:,,,/Assets/favicon.png">
+        Icon="pack://application:,,,/Assets/black_circle.png">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -20,7 +20,7 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <Image Source="pack://application:,,,/Assets/goldwhitecropped.png"
-               Width="350" />
+               Width="400" />
         <TextBlock Grid.Row="1"
                    Name="TbWalletsDetected"
                    Text="{Binding VerifyWallets.Wallets.Count, StringFormat='\{0\} Wallets Detected.'}"
