@@ -23,9 +23,9 @@
  - ✅ Sparrow
  - ✅ Wasabi
  - ✅ Trezor
- - - [ ] Ledger
- - - [ ] Blockstream Green
- - - [ ] Whirlpool
+ - ✅ Blockstream Green
+ - 🔳 Ledger
+ - 🔳 Whirlpool
 
 ## Build Steps
 
