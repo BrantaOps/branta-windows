@@ -12,7 +12,7 @@ public partial class HelpWindow : Window
     {
         InitializeComponent();
 
-        TbLink.Foreground = Color.Gold.Brush();
+        TbLink.Foreground = Color.Brush(Color.Gold);
 
         TbVersion.Text = GetBrantaVersionWithoutCommitHash();
     }
