@@ -41,7 +41,7 @@
 
 ## External dependencies
 
-Branta uses no external dependencies; Branta-Mac is purely native Swift. Third Parties are security holes.
+Branta uses no external dependencies; Branta-Windows is purely native C-Sharp (with the exception of Ardalis - see https://github.com/BrantaOps/branta-windows/issues/45)
 
 ## Building
 
