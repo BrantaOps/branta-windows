@@ -1,15 +1,22 @@
-﻿using Ardalis.SmartEnum;
+﻿namespace Branta.Enums;
 
-namespace Branta.Enums;
-
-public sealed class WalletStatus(int value, string name, string icon, Color color = null) : SmartEnum<WalletStatus>(name, value)
+public class WalletStatus
 {
-    public static readonly WalletStatus None = new (0, "None", "");
-    public static readonly WalletStatus NotVerified = new (1, "Not Verified", "⚠", Color.Red);
-    public static readonly WalletStatus Verified = new (2, "Verified", "✓", Color.Gold);
-    public static readonly WalletStatus VersionNotSupported = new (3, "Version Not Supported", "⚠", Color.Red);
+    public string Name { get; set; }
 
-    public string Icon { get; set; } = icon;
+    public string Icon { get; set; }
 
-    public Color Color { get; set; } = color;
+    public string Color { get; set; }
+
+    public WalletStatus(string name, string icon, string color = null)
+    {
+        Name = name;
+        Icon = icon;
+        Color = color;
+    }
+
+    public static WalletStatus None = new ("None", "");
+    public static WalletStatus NotVerified = new ("Not Verified", "⚠", Enums.Color.Red);
+    public static WalletStatus Verified = new ("Verified", "✓", Enums.Color.Gold);
+    public static WalletStatus VersionNotSupported = new ("Version Not Supported", "⚠", Enums.Color.Red);
 }
