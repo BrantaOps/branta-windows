@@ -76,4 +76,4 @@ Branta is Bitcoin-only. Enduring Bitcoin products are difficult to build; adding
 
 ## Licensing
 
-The code in this project is licensed under the [MIT license](LICENSE).
+The code in this project is licensed under the [MIT license](LICENSE.txt).
