@@ -19,6 +19,12 @@
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
+        "Entry"
+        {
+        "MsmKey" = "8:_3A02A8705D5C4A8DBDBABAA7DF6B57C7"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
     }
     "Configurations"
     {
@@ -108,6 +114,26 @@
         }
         "File"
         {
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_3A02A8705D5C4A8DBDBABAA7DF6B57C7"
+            {
+            "SourcePath" = "8:..\\Branta\\Assets\\black_circle.ico"
+            "TargetName" = "8:black_circle.ico"
+            "Tag" = "8:"
+            "Folder" = "8:_DAD6389736FE40DB8C1ED7FA52432AA4"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
         }
         "FileType"
         {
@@ -165,7 +191,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Branta"
         "ProductCode" = "8:{9039E960-4864-4242-8548-5E5A2553F5D0}"
-        "PackageCode" = "8:{ADB1990C-9561-48C1-AB8D-604583F713A4}"
+        "PackageCode" = "8:{B3DEFEDA-339C-4AF5-A3CD-75C166457170}"
         "UpgradeCode" = "8:{03B6A13A-5A11-43E0-AB8A-AD6F1DD68098}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
@@ -285,6 +311,34 @@
         }
         "Shortcut"
         {
+            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_28540F03C06F4500A742953D0CDD5CF6"
+            {
+            "Name" = "8:Branta"
+            "Arguments" = "8:"
+            "Description" = "8:"
+            "ShowCmd" = "3:1"
+            "IconIndex" = "3:0"
+            "Transitive" = "11:FALSE"
+            "Target" = "8:_2F58850C6BB84440AAC8BFC3A0E1A7AF"
+            "Folder" = "8:_063FCA859C314920AC90B81868B438E7"
+            "WorkingFolder" = "8:_DAD6389736FE40DB8C1ED7FA52432AA4"
+            "Icon" = "8:_3A02A8705D5C4A8DBDBABAA7DF6B57C7"
+            "Feature" = "8:"
+            }
+            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_E6A09A663FDD44A6B32041A539E23DF3"
+            {
+            "Name" = "8:Branta"
+            "Arguments" = "8:"
+            "Description" = "8:"
+            "ShowCmd" = "3:1"
+            "IconIndex" = "3:0"
+            "Transitive" = "11:FALSE"
+            "Target" = "8:_2F58850C6BB84440AAC8BFC3A0E1A7AF"
+            "Folder" = "8:_5138D3885EFF47FEAFC199500F597B64"
+            "WorkingFolder" = "8:_DAD6389736FE40DB8C1ED7FA52432AA4"
+            "Icon" = "8:_3A02A8705D5C4A8DBDBABAA7DF6B57C7"
+            "Feature" = "8:"
+            }
         }
         "UserInterface"
         {
