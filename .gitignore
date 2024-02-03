@@ -1,7 +1,7 @@
 .DS_Store
 
 .vs
-Branta/obj
-Branta/bin
-Branta.Tests/obj
-Branta.Tests/bin
+
+[Bb]in/
+[Oo]bj/
+Release/
