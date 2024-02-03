@@ -1,11 +1,11 @@
-﻿using System.ComponentModel;
+﻿using Branta.Classes;
 using Branta.Domain;
-using System.Windows;
 using Branta.Enums;
+using System.ComponentModel;
 
 namespace Branta.Views;
 
-public partial class WalletDetailWindow : Window
+public partial class WalletDetailWindow : BaseWindow
 {
     public WalletDetailWindow(Wallet wallet)
     {

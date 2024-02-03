@@ -1,4 +1,5 @@
 ﻿using Branta.Automation;
+using Branta.Classes;
 using Branta.Domain;
 using Branta.Views;
 using System.ComponentModel;
@@ -12,7 +13,7 @@ using Application = System.Windows.Application;
 
 namespace Branta;
 
-public partial class MainWindow : Window
+public partial class MainWindow : BaseWindow
 {
     private readonly NotifyIcon _notifyIcon;
     private readonly System.Timers.Timer _verifyWalletTimer;
@@ -27,6 +28,8 @@ public partial class MainWindow : Window
         {
             InitializeComponent();
             DataContext = this;
+
+            SetResizeImage(ImageScreenSize);
 
             _notifyIcon = new NotifyIcon
             {
