@@ -48,6 +48,7 @@
 ## External dependencies
 
 Zero network calls, zero dependencies.
+
 Branta uses no external dependencies; Branta-Windows is purely native C-Sharp.
 
 ## Building
