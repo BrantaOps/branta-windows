@@ -34,10 +34,6 @@
  - ✅ Blockstream Green
  - 🔳 Ledger
  - 🔳 Whirlpool
- - 🔳 Armory
- - 🔳 Specter
- - 🔳 Electrum
- - 🔳 Bitcoin Core
 
 
 ## Known Limitations
