@@ -36,7 +36,7 @@ public class Focus : BaseAutomation
             {
                 NotifyIcon.ShowBalloonTip(new Notification
                 {
-                    Message = $"{wallet.Name} {wallet.Version} is running. Status: {wallet.Status}"
+                    Message = $"{wallet.Name} {wallet.Version} is running. Status: {wallet.Status.Name}"
                 });
 
                 _walletTypes[walletType] = wallet.Status;
