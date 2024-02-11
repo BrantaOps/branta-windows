@@ -13,9 +13,14 @@
     <None Remove="Assets\bip39wordlist.txt" />
     <None Remove="Assets\black_circle.ico" />
     <None Remove="Assets\black_circle.png" />
+    <None Remove="Assets\close.png" />
+    <None Remove="Assets\close.svg" />
     <None Remove="Assets\favicon.png" />
+    <None Remove="Assets\fullscreen.png" />
+    <None Remove="Assets\fullscreen_exit.png" />
     <None Remove="Assets\goldwhitecropped.png" />
     <None Remove="Assets\help.png" />
+    <None Remove="Assets\minimize.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -28,13 +33,25 @@
     <Resource Include="Assets\black_circle.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Assets\close.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Assets\favicon.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\fullscreen.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\fullscreen_exit.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Assets\goldwhitecropped.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Assets\help.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\minimize.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
   </ItemGroup>

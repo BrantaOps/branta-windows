@@ -1,12 +1,13 @@
-﻿using System.Diagnostics;
+﻿using Branta.Classes;
+using Branta.Enums;
+using System.Diagnostics;
 using System.Reflection;
 using System.Windows;
 using System.Windows.Input;
-using Branta.Enums;
 
 namespace Branta.Views;
 
-public partial class HelpWindow : Window
+public partial class HelpWindow : BaseWindow
 {
     public HelpWindow()
     {
