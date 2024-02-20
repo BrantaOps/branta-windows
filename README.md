@@ -41,11 +41,6 @@
 - Spoof Wallets likely install to custom paths. Branta needs to have more flexible path scanning to catch these.
 - Ongoing wallet support - Branta doesn't know about new releases unless we manually input them.
 
-## External dependencies
-
-Zero network calls, zero dependencies.
-
-Branta uses no external dependencies; Branta-Windows is purely native C-Sharp.
 
 ## Building
 
