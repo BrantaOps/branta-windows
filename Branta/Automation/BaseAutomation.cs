@@ -11,7 +11,7 @@ public abstract class BaseAutomation : DispatcherObject
 
     protected Settings Settings;
 
-    public int RunInterval { get; }
+    public int RunInterval { get; set; }
 
     private bool _processingComplete = true;
 

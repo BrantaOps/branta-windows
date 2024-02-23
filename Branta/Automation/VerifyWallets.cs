@@ -25,7 +25,8 @@ public class VerifyWallets : BaseAutomation
 
     private bool _isFirstRun = true;
 
-    public VerifyWallets(NotifyIcon notifyIcon, Settings settings) : base(notifyIcon, settings, 10)
+    public VerifyWallets(NotifyIcon notifyIcon, Settings settings) : base(notifyIcon, settings,
+        (int)settings.WalletVerification.WalletVerifyEvery.TotalSeconds)
     {
     }
 

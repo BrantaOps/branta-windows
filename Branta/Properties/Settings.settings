@@ -26,5 +26,8 @@
     <Setting Name="WalletStatusChangeEnabled" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
+    <Setting Name="WalletVerifyEvery" Type="System.TimeSpan" Scope="User">
+      <Value Profile="(Default)">00:00:10</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

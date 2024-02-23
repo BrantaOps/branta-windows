@@ -1,4 +1,5 @@
-﻿using Branta.Classes;
+﻿using System.Windows.Controls;
+using Branta.Classes;
 
 namespace Branta.Views;
 
@@ -46,6 +47,8 @@ public partial class SettingsWindow : BaseWindow
         set { _nostrPrivateKeyEnabled = value; OnPropertyChanged(); }
     }
 
+    public TimeSpan VerifyEvery { get; set; }
+
     private bool _launchingWalletEnabled;
     public bool LaunchingWalletEnabled
     {
@@ -60,7 +63,6 @@ public partial class SettingsWindow : BaseWindow
         get => _walletStatusChangeEnabled;
         set { _walletStatusChangeEnabled = value; OnPropertyChanged(); }
     }
-
 
     public SettingsWindow(Settings settings)
     {
@@ -77,6 +79,28 @@ public partial class SettingsWindow : BaseWindow
 
         LaunchingWalletEnabled = settings.WalletVerification.LaunchingWalletEnabled;
         WalletStatusChangeEnabled = settings.WalletVerification.WalletStatusChangeEnabled;
+
+        var verifyEveryOptions = new List<TimeSpan>
+        {
+            new(0, 0, 1),
+            new(0, 0, 5),
+            new(0, 0, 10),
+            new(0, 0, 30),
+            new(0, 1, 0),
+            new(0, 5, 0),
+            new(0, 10, 0),
+            new(0, 30, 0)
+        };
+
+        foreach (var option in verifyEveryOptions)
+        {
+            ComboBoxVerifyEvery.Items.Add(new ComboBoxItem
+            {
+                IsSelected = option == settings.WalletVerification.WalletVerifyEvery,
+                Content = option.Format(),
+                Tag = option
+            });
+        }
     }
 
     public Settings GetSettings()
@@ -94,9 +118,18 @@ public partial class SettingsWindow : BaseWindow
             },
             WalletVerification = new WalletVerificationSettings
             {
+                WalletVerifyEvery = VerifyEvery,
                 LaunchingWalletEnabled = LaunchingWalletEnabled,
                 WalletStatusChangeEnabled = WalletStatusChangeEnabled,
             }
         };
+    }
+
+    private void ComboBoxVerifyEvery_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        var comboBox = (ComboBox) sender;
+        var comboBoxItem = (ComboBoxItem) comboBox.SelectedValue;
+
+        VerifyEvery = (TimeSpan) comboBoxItem.Tag;
     }
 }

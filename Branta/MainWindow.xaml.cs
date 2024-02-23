@@ -16,10 +16,10 @@ namespace Branta;
 public partial class MainWindow : BaseWindow
 {
     private readonly NotifyIcon _notifyIcon;
-    private readonly System.Timers.Timer _verifyWalletTimer;
     private readonly System.Timers.Timer _clipboardGuardianTimer;
     private readonly System.Timers.Timer _focusTimer;
 
+    private System.Timers.Timer _verifyWalletTimer;
     private Settings _settings;
     public event Action<Settings> SettingsChanged;
 
@@ -33,24 +33,7 @@ public partial class MainWindow : BaseWindow
             InitializeComponent();
             DataContext = this;
 
-            _settings = new Settings
-            {
-                ClipboardGuardian = new ClipboardGuardianSettings
-                {
-                    BitcoinAddressesEnabled = Properties.Settings.Default.BitcoinAddressesEnabled,
-                    SeedPhraseEnabled = Properties.Settings.Default.SeedPhraseEnabled,
-                    ExtendedPublicKeyEnabled = Properties.Settings.Default.ExtendedPublicKeyEnabled,
-                    PrivateKeyEnabled = Properties.Settings.Default.PrivateKeyEnabled,
-                    NostrPublicKeyEnabled = Properties.Settings.Default.NostrPublicKeyEnabled,
-                    NostrPrivateKeyEnabled = Properties.Settings.Default.NostrPrivateKeyEnabled
-                },
-                WalletVerification = new WalletVerificationSettings
-                {
-                    LaunchingWalletEnabled = Properties.Settings.Default.LaunchingWalletEnabled,
-                    WalletStatusChangeEnabled = Properties.Settings.Default.WalletStatusChangeEnabled
-                }
-            };
-
+            LoadSettings();
             SetResizeImage(ImageScreenSize);
 
             _notifyIcon = new NotifyIcon
@@ -96,6 +79,7 @@ public partial class MainWindow : BaseWindow
         Properties.Settings.Default.NostrPublicKeyEnabled = newSettings.ClipboardGuardian.NostrPublicKeyEnabled;
         Properties.Settings.Default.NostrPrivateKeyEnabled = newSettings.ClipboardGuardian.NostrPrivateKeyEnabled;
 
+        Properties.Settings.Default.WalletVerifyEvery = newSettings.WalletVerification.WalletVerifyEvery;
         Properties.Settings.Default.LaunchingWalletEnabled = newSettings.WalletVerification.LaunchingWalletEnabled;
         Properties.Settings.Default.WalletStatusChangeEnabled = newSettings.WalletVerification.WalletStatusChangeEnabled;
 
@@ -136,7 +120,16 @@ public partial class MainWindow : BaseWindow
 
         var result = settingsWindow.ShowDialog();
 
-        ChangeSettings(settingsWindow.GetSettings());
+        var settings = settingsWindow.GetSettings();
+
+        if (settings.WalletVerification.WalletVerifyEvery != _settings.WalletVerification.WalletVerifyEvery)
+        {
+            VerifyWallets.RunInterval = (int)settings.WalletVerification.WalletVerifyEvery.TotalSeconds;
+            _verifyWalletTimer.Dispose();
+            _verifyWalletTimer = VerifyWallets.CreateTimer();
+        }
+
+        ChangeSettings(settings);
     }
 
     private void OnClick_Help(object sender, MouseButtonEventArgs e)
@@ -160,5 +153,27 @@ public partial class MainWindow : BaseWindow
         };
 
         walletDetailWindow.Show();
+    }
+
+    private void LoadSettings()
+    {
+        _settings = new Settings
+        {
+            ClipboardGuardian = new ClipboardGuardianSettings
+            {
+                BitcoinAddressesEnabled = Properties.Settings.Default.BitcoinAddressesEnabled,
+                SeedPhraseEnabled = Properties.Settings.Default.SeedPhraseEnabled,
+                ExtendedPublicKeyEnabled = Properties.Settings.Default.ExtendedPublicKeyEnabled,
+                PrivateKeyEnabled = Properties.Settings.Default.PrivateKeyEnabled,
+                NostrPublicKeyEnabled = Properties.Settings.Default.NostrPublicKeyEnabled,
+                NostrPrivateKeyEnabled = Properties.Settings.Default.NostrPrivateKeyEnabled
+            },
+            WalletVerification = new WalletVerificationSettings
+            {
+                WalletVerifyEvery = Properties.Settings.Default.WalletVerifyEvery,
+                LaunchingWalletEnabled = Properties.Settings.Default.LaunchingWalletEnabled,
+                WalletStatusChangeEnabled = Properties.Settings.Default.WalletStatusChangeEnabled
+            }
+        };
     }
 }

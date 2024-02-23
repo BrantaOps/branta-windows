@@ -23,6 +23,8 @@ public class ClipboardGuardianSettings
 
 public class WalletVerificationSettings
 {
+    public TimeSpan WalletVerifyEvery { get; set; } = new(0, 0, 10);
+
     public bool LaunchingWalletEnabled { get; set; } = true;
 
     public bool WalletStatusChangeEnabled { get; set; } = true;

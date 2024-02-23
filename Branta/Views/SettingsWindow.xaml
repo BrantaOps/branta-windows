@@ -1,17 +1,17 @@
 ﻿<src:BaseWindow x:Class="Branta.Views.SettingsWindow"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:src="clr-namespace:Branta.Classes"
-        mc:Ignorable="d"
-        Title="Settings"
-        Height="600"
-        Width="400"
-        Background="#555"
-        Icon="pack://application:,,,/Assets/black_circle.png"
-        WindowStyle="None"
-        MouseLeftButtonDown="MainWindow_OnMouseLeftButtonDown">
+                xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                xmlns:src="clr-namespace:Branta.Classes"
+                mc:Ignorable="d"
+                Title="Settings"
+                Height="600"
+                Width="400"
+                Background="#555"
+                Icon="pack://application:,,,/Assets/black_circle.png"
+                WindowStyle="None"
+                MouseLeftButtonDown="MainWindow_OnMouseLeftButtonDown">
     <WindowChrome.WindowChrome>
         <WindowChrome GlassFrameThickness="0"
                       CornerRadius="15"
@@ -41,14 +41,16 @@
                Width="400" />
 
         <TextBlock Grid.Row="2"
-                    Margin="20,5,20,25"
+                   Margin="20,5,20,25"
                    Foreground="White"
                    FontSize="20">Settings</TextBlock>
-        <ScrollViewer Grid.Row="3" VerticalScrollBarVisibility="Auto">
+        <ScrollViewer Grid.Row="3"
+                      VerticalScrollBarVisibility="Auto">
             <StackPanel  Margin="20,0">
                 <TextBlock Margin="0,0,0,10"
                            Foreground="White"
                            FontSize="20">Clipboard Notifications</TextBlock>
+
                 <CheckBox Content="Notify for Bitcoin Addresses"
                           IsChecked="{Binding BitcoinAddressesEnabled}"
                           Style="{StaticResource CheckBox}" />
@@ -77,6 +79,23 @@
                            Foreground="White"
                            FontSize="20">Wallet Verification</TextBlock>
 
+                <Grid VerticalAlignment="Center">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Margin="0,0,0,10"
+                               Foreground="White"
+                               FontSize="15">Verify Every</TextBlock>
+
+                    <ComboBox Grid.Column="1"
+                              HorizontalAlignment="Right"
+                              x:Name="ComboBoxVerifyEvery"
+                              Margin="0,0,0,10"
+                              SelectionChanged="ComboBoxVerifyEvery_OnSelectionChanged">
+                    </ComboBox>
+                </Grid>
                 <CheckBox Content="Notify Status Upon Launching Wallet"
                           IsChecked="{Binding LaunchingWalletEnabled}"
                           Style="{StaticResource CheckBox}" />

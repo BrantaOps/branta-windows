@@ -118,5 +118,17 @@ namespace Branta.Properties {
                 this["WalletStatusChangeEnabled"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("00:00:10")]
+        public global::System.TimeSpan WalletVerifyEvery {
+            get {
+                return ((global::System.TimeSpan)(this["WalletVerifyEvery"]));
+            }
+            set {
+                this["WalletVerifyEvery"] = value;
+            }
+        }
     }
 }
