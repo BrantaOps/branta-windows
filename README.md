@@ -18,7 +18,7 @@
 ## Features
  - ✅ Wallet Verification: Automatically verifies supported wallets against PGP verified SHA-256 checksums
  - ✅ Clipboard Guardian: Get notified of bitcoin-related activity on your clipboard
- - 🔳 Focus Automation: Verify wallets upon launch
+ - ✅ Focus Automation: Verify wallets upon launch
  - 🔳 Installer Automation
 
 
