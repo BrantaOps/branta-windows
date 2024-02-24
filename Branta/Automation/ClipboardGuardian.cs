@@ -15,7 +15,7 @@ public partial class ClipboardGuardian : BaseAutomation
     private string LastClipboardContent { get; set; }
     private HashSet<string> Bip39Words { get; set; }
 
-    public ClipboardGuardian(NotifyIcon notifyIcon) : base(notifyIcon, 1)
+    public ClipboardGuardian(NotifyIcon notifyIcon, Settings settings) : base(notifyIcon, settings, 1)
     {
     }
 
@@ -47,7 +47,7 @@ public partial class ClipboardGuardian : BaseAutomation
 
         LastClipboardContent = clipBoardContent;
 
-        if (CheckForBitcoinAddress(clipBoardContent))
+        if (Settings.ClipboardGuardian.BitcoinAddressesEnabled && CheckForBitcoinAddress(clipBoardContent))
         {
             return new Notification
             {
@@ -56,7 +56,7 @@ public partial class ClipboardGuardian : BaseAutomation
             };
         }
 
-        if (CheckForSeedPhrase(clipBoardContent))
+        if (Settings.ClipboardGuardian.SeedPhraseEnabled && CheckForSeedPhrase(clipBoardContent))
         {
             return new Notification
             {
@@ -65,7 +65,7 @@ public partial class ClipboardGuardian : BaseAutomation
             };
         }
 
-        if (CheckForXPub(clipBoardContent))
+        if (Settings.ClipboardGuardian.ExtendedPublicKeyEnabled && CheckForXPub(clipBoardContent))
         {
             return new Notification
             {
@@ -74,7 +74,7 @@ public partial class ClipboardGuardian : BaseAutomation
             };
         }
 
-        if (CheckForXPrv(clipBoardContent))
+        if (Settings.ClipboardGuardian.PrivateKeyEnabled && CheckForXPrv(clipBoardContent))
         {
             return new Notification
             {
@@ -83,7 +83,7 @@ public partial class ClipboardGuardian : BaseAutomation
             };
         }
 
-        if (CheckForNPub(clipBoardContent))
+        if (Settings.ClipboardGuardian.NostrPublicKeyEnabled && CheckForNPub(clipBoardContent))
         {
             return new Notification
             {
@@ -91,7 +91,7 @@ public partial class ClipboardGuardian : BaseAutomation
             };
         }
 
-        if (CheckForNPrv(clipBoardContent))
+        if (Settings.ClipboardGuardian.NostrPrivateKeyEnabled && CheckForNPrv(clipBoardContent))
         {
             return new Notification
             {

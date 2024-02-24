@@ -25,7 +25,8 @@ public class VerifyWallets : BaseAutomation
 
     private bool _isFirstRun = true;
 
-    public VerifyWallets(NotifyIcon notifyIcon) : base(notifyIcon, 10)
+    public VerifyWallets(NotifyIcon notifyIcon, Settings settings) : base(notifyIcon, settings,
+        (int)settings.WalletVerification.WalletVerifyEvery.TotalSeconds)
     {
     }
 
@@ -45,7 +46,8 @@ public class VerifyWallets : BaseAutomation
             var wallet = Verify(walletType);
 
             if (wallet.Status != WalletStatus.Verified &&
-                previousWalletStatus.GetValueOrDefault(walletType.Name, WalletStatus.Verified) == WalletStatus.Verified)
+                previousWalletStatus.GetValueOrDefault(walletType.Name, WalletStatus.Verified) == WalletStatus.Verified &&
+                Settings.WalletVerification.WalletStatusChangeEnabled)
             {
                 NotifyIcon.ShowBalloonTip(new Notification
                 {

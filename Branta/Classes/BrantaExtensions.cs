@@ -33,4 +33,19 @@ public static class BrantaExtensions
 
             image.Source = bitmapImage;
     }
+
+    public static string Format(this TimeSpan timeSpan)
+    {
+        if (timeSpan.Hours > 0)
+        {
+            return $"{timeSpan.Hours}h";
+        }
+
+        if (timeSpan.Minutes > 0)
+        {
+            return $"{timeSpan.Minutes}m";
+        }
+
+        return $"{timeSpan.Seconds}s";
+    }
 }

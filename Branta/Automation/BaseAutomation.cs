@@ -1,4 +1,4 @@
-﻿using System.Diagnostics;
+﻿using Branta.Classes;
 using System.Timers;
 using System.Windows.Forms;
 using System.Windows.Threading;
@@ -9,14 +9,17 @@ public abstract class BaseAutomation : DispatcherObject
 {
     protected readonly NotifyIcon NotifyIcon;
 
-    public int RunInterval { get; }
+    protected Settings Settings;
+
+    public int RunInterval { get; set; }
 
     private bool _processingComplete = true;
 
-    protected BaseAutomation(NotifyIcon notifyIcon, int runInterval)
+    protected BaseAutomation(NotifyIcon notifyIcon, Settings settings, int runInterval)
     {
         NotifyIcon = notifyIcon;
         RunInterval = runInterval;
+        Settings = settings;
     }
 
     public abstract void Run();
@@ -45,5 +48,15 @@ public abstract class BaseAutomation : DispatcherObject
         timer.Start();
 
         return timer;
+    }
+
+    public void SubscribeToSettingsChanges(MainWindow mainWindow)
+    {
+        mainWindow.SettingsChanged += UpdateSettings;
+    }
+
+    private void UpdateSettings(Settings newSettings)
+    {
+        Settings = newSettings;
     }
 }

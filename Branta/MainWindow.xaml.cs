@@ -16,11 +16,15 @@ namespace Branta;
 public partial class MainWindow : BaseWindow
 {
     private readonly NotifyIcon _notifyIcon;
-    private readonly System.Timers.Timer _verifyWalletTimer;
     private readonly System.Timers.Timer _clipboardGuardianTimer;
     private readonly System.Timers.Timer _focusTimer;
 
+    private System.Timers.Timer _verifyWalletTimer;
+    private Settings _settings;
+    public event Action<Settings> SettingsChanged;
+
     public VerifyWallets VerifyWallets { get; }
+
 
     public MainWindow()
     {
@@ -29,6 +33,7 @@ public partial class MainWindow : BaseWindow
             InitializeComponent();
             DataContext = this;
 
+            LoadSettings();
             SetResizeImage(ImageScreenSize);
 
             _notifyIcon = new NotifyIcon
@@ -39,17 +44,21 @@ public partial class MainWindow : BaseWindow
             };
             _notifyIcon.DoubleClick += OnClick_NotifyIcon;
             _notifyIcon.ContextMenuStrip = new ContextMenuStrip();
+            _notifyIcon.ContextMenuStrip.Items.Add("Settings", null, OnClick_Settings);
             _notifyIcon.ContextMenuStrip.Items.Add("Quit", null, OnClick_Quit);
 
-            VerifyWallets = new VerifyWallets(_notifyIcon);
+            VerifyWallets = new VerifyWallets(_notifyIcon, _settings);
+            VerifyWallets.SubscribeToSettingsChanges(this);
             _verifyWalletTimer = VerifyWallets.CreateTimer();
             VerifyWallets.Elapsed(null, null);
 
-            var clipboardGuardian = new ClipboardGuardian(_notifyIcon);
+            var clipboardGuardian = new ClipboardGuardian(_notifyIcon, _settings);
+            clipboardGuardian.SubscribeToSettingsChanges(this);
             _clipboardGuardianTimer = clipboardGuardian.CreateTimer();
             clipboardGuardian.Elapsed(null, null);
 
-            var focus = new Focus(_notifyIcon);
+            var focus = new Focus(_notifyIcon, _settings);
+            focus.SubscribeToSettingsChanges(this);
             _focusTimer = focus.CreateTimer();
             focus.Elapsed(null, null);
         }
@@ -59,6 +68,25 @@ public partial class MainWindow : BaseWindow
             Trace.WriteLine(ex);
             Trace.Flush();
         }
+    }
+
+    public void ChangeSettings(Settings newSettings)
+    {
+        Properties.Settings.Default.BitcoinAddressesEnabled = newSettings.ClipboardGuardian.BitcoinAddressesEnabled;
+        Properties.Settings.Default.SeedPhraseEnabled = newSettings.ClipboardGuardian.SeedPhraseEnabled;
+        Properties.Settings.Default.ExtendedPublicKeyEnabled = newSettings.ClipboardGuardian.ExtendedPublicKeyEnabled;
+        Properties.Settings.Default.PrivateKeyEnabled = newSettings.ClipboardGuardian.PrivateKeyEnabled;
+        Properties.Settings.Default.NostrPublicKeyEnabled = newSettings.ClipboardGuardian.NostrPublicKeyEnabled;
+        Properties.Settings.Default.NostrPrivateKeyEnabled = newSettings.ClipboardGuardian.NostrPrivateKeyEnabled;
+
+        Properties.Settings.Default.WalletVerifyEvery = newSettings.WalletVerification.WalletVerifyEvery;
+        Properties.Settings.Default.LaunchingWalletEnabled = newSettings.WalletVerification.LaunchingWalletEnabled;
+        Properties.Settings.Default.WalletStatusChangeEnabled = newSettings.WalletVerification.WalletStatusChangeEnabled;
+
+        Properties.Settings.Default.Save();
+
+        _settings = newSettings;
+        SettingsChanged?.Invoke(_settings);
     }
 
     protected override void OnClosing(CancelEventArgs e)
@@ -82,6 +110,27 @@ public partial class MainWindow : BaseWindow
         _focusTimer.Dispose();
         Application.Current.Shutdown();
     }
+    
+    private void OnClick_Settings(object sender, EventArgs e)
+    {
+        var settingsWindow = new SettingsWindow(_settings)
+        {
+            Topmost = true
+        };
+
+        var result = settingsWindow.ShowDialog();
+
+        var settings = settingsWindow.GetSettings();
+
+        if (settings.WalletVerification.WalletVerifyEvery != _settings.WalletVerification.WalletVerifyEvery)
+        {
+            VerifyWallets.RunInterval = (int)settings.WalletVerification.WalletVerifyEvery.TotalSeconds;
+            _verifyWalletTimer.Dispose();
+            _verifyWalletTimer = VerifyWallets.CreateTimer();
+        }
+
+        ChangeSettings(settings);
+    }
 
     private void OnClick_Help(object sender, MouseButtonEventArgs e)
     {
@@ -104,5 +153,27 @@ public partial class MainWindow : BaseWindow
         };
 
         walletDetailWindow.Show();
+    }
+
+    private void LoadSettings()
+    {
+        _settings = new Settings
+        {
+            ClipboardGuardian = new ClipboardGuardianSettings
+            {
+                BitcoinAddressesEnabled = Properties.Settings.Default.BitcoinAddressesEnabled,
+                SeedPhraseEnabled = Properties.Settings.Default.SeedPhraseEnabled,
+                ExtendedPublicKeyEnabled = Properties.Settings.Default.ExtendedPublicKeyEnabled,
+                PrivateKeyEnabled = Properties.Settings.Default.PrivateKeyEnabled,
+                NostrPublicKeyEnabled = Properties.Settings.Default.NostrPublicKeyEnabled,
+                NostrPrivateKeyEnabled = Properties.Settings.Default.NostrPrivateKeyEnabled
+            },
+            WalletVerification = new WalletVerificationSettings
+            {
+                WalletVerifyEvery = Properties.Settings.Default.WalletVerifyEvery,
+                LaunchingWalletEnabled = Properties.Settings.Default.LaunchingWalletEnabled,
+                WalletStatusChangeEnabled = Properties.Settings.Default.WalletStatusChangeEnabled
+            }
+        };
     }
 }

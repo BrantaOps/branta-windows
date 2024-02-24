@@ -1,4 +1,6 @@
-﻿using System.Windows;
+﻿using System.ComponentModel;
+using System.Runtime.CompilerServices;
+using System.Windows;
 using System.Windows.Input;
 
 namespace Branta.Classes;
@@ -7,6 +9,14 @@ public class BaseWindow : Window
 {
     private System.Windows.Controls.Image _resizeImage;
 
+    public event PropertyChangedEventHandler PropertyChanged;
+
+    protected void  OnPropertyChanged([CallerMemberName] string name = "")
+    {
+        var handler = PropertyChanged;
+        handler?.Invoke(this, new  PropertyChangedEventArgs(name));
+    }
+
     public void SetResizeImage(System.Windows.Controls.Image resizeImage)
     {
         _resizeImage = resizeImage;
@@ -14,7 +24,14 @@ public class BaseWindow : Window
 
     protected void MainWindow_OnMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
     {
-        DragMove();
+        try
+        {
+            DragMove();
+        }
+        catch
+        {
+            // ignored
+        }
     }
 
     protected void BtnMinimize_OnClick(object sender, RoutedEventArgs e)

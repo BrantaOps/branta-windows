@@ -10,13 +10,18 @@ public class Focus : BaseAutomation
 {
     private readonly Dictionary<BaseWallet, WalletStatus> _walletTypes;
 
-    public Focus(NotifyIcon notifyIcon) : base(notifyIcon, 2)
+    public Focus(NotifyIcon notifyIcon, Settings settings) : base(notifyIcon, settings, 2)
     {
         _walletTypes = VerifyWallets.WalletTypes.ToDictionary(w => w, _ => WalletStatus.None);
     }
 
     public override void Run()
     {
+        if (!Settings.WalletVerification.LaunchingWalletEnabled)
+        {
+            return;
+        }
+
         var processNames = Process.GetProcesses()
             .Select(p => p.ProcessName)
             .Distinct()
