@@ -2,6 +2,8 @@
 using Branta.Classes;
 using Branta.Domain;
 using Branta.Views;
+using CountlySDK;
+using CountlySDK.Entities;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
@@ -25,7 +27,6 @@ public partial class MainWindow : BaseWindow
 
     public VerifyWallets VerifyWallets { get; }
 
-
     public MainWindow()
     {
         try
@@ -33,6 +34,7 @@ public partial class MainWindow : BaseWindow
             InitializeComponent();
             DataContext = this;
 
+            InitCountly();
             LoadSettings();
             SetResizeImage(ImageScreenSize);
 
@@ -175,5 +177,18 @@ public partial class MainWindow : BaseWindow
                 WalletStatusChangeEnabled = Properties.Settings.Default.WalletStatusChangeEnabled
             }
         };
+    }
+
+    private static void InitCountly()
+    {
+        var cc = new CountlyConfig
+        {
+            serverUrl = "https://branta-0dc12e4ffb389.flex.countly.com",
+            appKey = "ccc4eb59a850e5f3bdf640b8d36284c3bce03f12",
+            appVersion = Helper.GetBrantaVersionWithoutCommitHash()
+        };
+
+        Countly.Instance.Init(cc);
+        Countly.Instance.SessionBegin();
     }
 }
