@@ -1,7 +1,6 @@
 ﻿using Branta.Classes;
 using Branta.Enums;
 using System.Diagnostics;
-using System.Reflection;
 using System.Windows;
 using System.Windows.Input;
 
@@ -15,7 +14,7 @@ public partial class HelpWindow : BaseWindow
 
         TbLink.Foreground = Color.Brush(Color.Gold);
 
-        TbVersion.Text = GetBrantaVersionWithoutCommitHash();
+        TbVersion.Text = "v" + Helper.GetBrantaVersionWithoutCommitHash();
     }
 
     private void Link_Click(object sender, MouseButtonEventArgs e)
@@ -28,12 +27,5 @@ public partial class HelpWindow : BaseWindow
         {
             MessageBox.Show($"Error opening webpage: {ex.Message}");
         }
-    }
-
-    private static string GetBrantaVersionWithoutCommitHash()
-    {
-        var version = Assembly.GetEntryAssembly()!.GetCustomAttribute<AssemblyInformationalVersionAttribute>()!.InformationalVersion;
-
-        return "v" + version.Split("+")[0];
     }
 }
