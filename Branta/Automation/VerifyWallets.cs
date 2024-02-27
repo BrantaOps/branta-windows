@@ -34,7 +34,7 @@ public class VerifyWallets : BaseAutomation
     {
         Trace.WriteLine("Started: Verify Wallets");
         var sw = Stopwatch.StartNew();
-
+        
         var previousWalletStatus = Wallets
             .DistinctBy(w => w.Name)
             .ToDictionary(w => w.Name, w => w.Status);
@@ -44,7 +44,12 @@ public class VerifyWallets : BaseAutomation
         foreach (var walletType in WalletTypes)
         {
             var wallet = Verify(walletType);
-
+            
+            if (wallet == null)
+            {
+                continue;
+            }
+        
             if (wallet.Status != WalletStatus.Verified &&
                 previousWalletStatus.GetValueOrDefault(walletType.Name, WalletStatus.Verified) == WalletStatus.Verified &&
                 Settings.WalletVerification.WalletStatusChangeEnabled)
@@ -55,7 +60,7 @@ public class VerifyWallets : BaseAutomation
                     Icon = ToolTipIcon.Warning
                 });
             }
-
+        
             if (_isFirstRun)
             {
                 Dispatcher.Invoke(() => Wallets.Add(wallet));
@@ -70,7 +75,7 @@ public class VerifyWallets : BaseAutomation
         {
             Dispatcher.Invoke(() => Wallets.Set(bufferedWallets));
         }
-
+        
         _isFirstRun = false;
 
         sw.Stop();
@@ -79,7 +84,8 @@ public class VerifyWallets : BaseAutomation
 
     public static Wallet Verify(BaseWallet walletType)
     {
-        if (!Directory.Exists(walletType.GetPath()))
+        var path = walletType.GetPath();
+        if (!Directory.Exists(path) || Directory.GetFiles(path).Length == 0)
         {
             return null;
         }

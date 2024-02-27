@@ -1,9 +1,17 @@
+## 1.1.0 - 2024/02/25
+
+Added 
+ - Replace Ardalis.SmartEnum
+ - Windows Installer
+ - Preferences Panel
+ - Integrate Countly
+
 ## 1.0.0 - 2024/01/27
 
 Fixes
  - Verification failed notification should only appear once
 
- Added
+Added
   - Focus Automation: Verification status notification when you open a supported wallet
   - Blockstream Green Support
 
@@ -11,7 +19,6 @@ Fixes
 
 Fixes
  - When verifying wallets takes longer than RunInterval duplicate wallets show on UI
-
 
 Added
  - Wasabi Support
