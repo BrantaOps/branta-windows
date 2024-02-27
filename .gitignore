@@ -5,3 +5,7 @@
 [Bb]in/
 [Oo]bj/
 Release/
+Debug/
+
+Branta/Properties/PublishProfiles/win-x64.pubxml.user
+/Branta/Branta.csproj.user
