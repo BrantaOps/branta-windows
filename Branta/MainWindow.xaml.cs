@@ -115,10 +115,7 @@ public partial class MainWindow : BaseWindow
     
     private void OnClick_Settings(object sender, EventArgs e)
     {
-        var settingsWindow = new SettingsWindow(_settings)
-        {
-            Topmost = true
-        };
+        var settingsWindow = new SettingsWindow(_settings);
 
         var result = settingsWindow.ShowDialog();
 
@@ -136,10 +133,7 @@ public partial class MainWindow : BaseWindow
 
     private void OnClick_Help(object sender, MouseButtonEventArgs e)
     {
-        var helpWindow = new HelpWindow
-        {
-            Topmost = true
-        };
+        var helpWindow = new HelpWindow();
 
         helpWindow.Show();
     }
@@ -149,10 +143,7 @@ public partial class MainWindow : BaseWindow
         var textBlock = (TextBlock) sender;
         var wallet = (Wallet) textBlock.Tag;
 
-        var walletDetailWindow = new WalletDetailWindow(wallet)
-        {
-            Topmost = true
-        };
+        var walletDetailWindow = new WalletDetailWindow(wallet);
 
         walletDetailWindow.Show();
     }
