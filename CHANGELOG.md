@@ -1,3 +1,11 @@
+## 1.2.0 - 2024/03/11
+
+Fixes
+ - Popup windows don't go to Background when another app is opened
+
+Added
+ - Spanish Translations
+
 ## 1.1.0 - 2024/02/25
 
 Added 
