@@ -12,6 +12,8 @@ public partial class HelpWindow : BaseWindow
     {
         InitializeComponent();
 
+        SetLanguageDictionary();
+
         TbLink.Foreground = Color.Brush(Color.Gold);
 
         TbVersion.Text = "v" + Helper.GetBrantaVersionWithoutCommitHash();

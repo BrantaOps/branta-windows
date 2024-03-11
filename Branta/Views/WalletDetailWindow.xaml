@@ -48,7 +48,8 @@
             </Button>
         </StackPanel>
 
-        <Image Grid.Row="1" Source="../Assets/black_circle.png"
+        <Image Grid.Row="1"
+               Source="../Assets/black_circle.png"
                Height="50"
                Margin="0,15" />
         <TextBlock Grid.Row="2"

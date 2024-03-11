@@ -1,0 +1,37 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:system="clr-namespace:System;assembly=mscorlib">
+
+    <!-- Main Window -->
+    <system:String x:Key="WalletsDetected">Wallets Detected</system:String>
+    <system:String x:Key="WalletColumnHeader">Wallet</system:String>
+    <system:String x:Key="StatusColumnHeader">Status</system:String>
+
+    <!-- Help Window -->
+    <system:String x:Key="How">How does Branta verify my Wallets?</system:String>
+    <system:String x:Key="HowDetails">Branta runs the SHA-256 algorithm on your wallet, then matches against the PGP verified SHA-256. If the hashes match, its very likely you have an authentic wallet. If they do not match, you should consider reinstalling the wallet from the developers website.</system:String>
+    <system:String x:Key="LearnMore">How do I learn more?</system:String>
+    <system:String x:Key="LearnMoreAt">You can learn more about Branta at</system:String>
+
+    <!-- Wallet Details Window -->
+    <system:String x:Key="VerifiedMessage">Branta verified the validity of</system:String>
+    <system:String x:Key="NotVerifiedMessage">Branta could not verify the validity of</system:String>
+    <system:String x:Key="VersionNotSupportedMessage">Version not supported.</system:String>
+
+    <!-- Settings Window -->
+    <system:String x:Key="SettingsTitle">Settings</system:String>
+
+    <system:String x:Key="ClipboardNotificationsTitle">Clipboard Notifications</system:String>
+    <system:String x:Key="BitcoinAddressesEnabledText">Notify for Bitcoin Addresses</system:String>
+    <system:String x:Key="SeedPhraseEnabledText">Notify for Seed Phrase</system:String>
+    <system:String x:Key="ExtendedPublicKeyEnabledText">Notify for Extended Public Key</system:String>
+    <system:String x:Key="PrivateKeyEnabledText">Notify for Private Key</system:String>
+    <system:String x:Key="NostrPublicKeyEnabledText">Notify for Nostr Public Key</system:String>
+    <system:String x:Key="NostrPrivateKeyEnabledText">Notify for Nostr Private Key</system:String>
+
+    <system:String x:Key="WalletVerificationTitle">Wallet Verification</system:String>
+    <system:String x:Key="VerifyEveryText">Verify Every</system:String>
+    <system:String x:Key="LaunchingWalletEnabledText">Notify Status Upon Launching Wallet</system:String>
+    <system:String x:Key="WalletStatusChangeEnabledText">Notify Status Upon Status Change</system:String>
+
+</ResourceDictionary> 

@@ -34,6 +34,7 @@ public partial class MainWindow : BaseWindow
             InitializeComponent();
             DataContext = this;
 
+            SetLanguageDictionary();
             InitCountly();
             LoadSettings();
             SetResizeImage(ImageScreenSize);
