@@ -68,6 +68,7 @@ public class BaseWindow : Window
                 dict.Source = new Uri("Resources\\StringResources.xaml", UriKind.Relative);
                 break;
             case "es":
+            case "es-US":
                 dict.Source = new Uri("Resources\\StringResources-es.xaml", UriKind.Relative);
                 break;
             default:
