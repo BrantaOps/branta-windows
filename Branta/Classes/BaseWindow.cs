@@ -57,4 +57,24 @@ public class BaseWindow : Window
     {
         Close();
     }
+
+    protected void SetLanguageDictionary()
+    {
+        var dict = new ResourceDictionary();
+
+        switch (Thread.CurrentThread.CurrentCulture.ToString())
+        {
+            case "en-US":
+                dict.Source = new Uri("Resources\\StringResources.xaml", UriKind.Relative);
+                break;
+            case "es":
+                dict.Source = new Uri("Resources\\StringResources-es.xaml", UriKind.Relative);
+                break;
+            default:
+                dict.Source = new Uri("Resources\\StringResources.xaml", UriKind.Relative);
+                break;
+        }
+
+        Resources.MergedDictionaries.Add(dict);
+    }
 }

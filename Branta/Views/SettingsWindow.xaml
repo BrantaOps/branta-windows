@@ -41,43 +41,46 @@
                Width="400" />
 
         <TextBlock Grid.Row="2"
+                   Text="{DynamicResource SettingsTitle}"
                    Margin="20,5,20,25"
                    Foreground="White"
-                   FontSize="20">Settings</TextBlock>
+                   FontSize="20" />
         <ScrollViewer Grid.Row="3"
                       VerticalScrollBarVisibility="Auto">
             <StackPanel  Margin="20,0">
-                <TextBlock Margin="0,0,0,10"
+                <TextBlock Text="{DynamicResource ClipboardNotificationsTitle}"
+                           Margin="0,0,0,10"
                            Foreground="White"
-                           FontSize="20">Clipboard Notifications</TextBlock>
+                           FontSize="20" />
 
-                <CheckBox Content="Notify for Bitcoin Addresses"
+                <CheckBox Content="{DynamicResource BitcoinAddressesEnabledText}"
                           IsChecked="{Binding BitcoinAddressesEnabled}"
                           Style="{StaticResource CheckBox}" />
 
-                <CheckBox Content="Notify for Seed Phrase"
+                <CheckBox Content="{DynamicResource SeedPhraseEnabledText}"
                           IsChecked="{Binding SeedPhraseEnabled}"
                           Style="{StaticResource CheckBox}" />
 
-                <CheckBox Content="Notify for Extended Public Key"
+                <CheckBox Content="{DynamicResource ExtendedPublicKeyEnabledText}"
                           IsChecked="{Binding ExtendedPublicKeyEnabled}"
                           Style="{StaticResource CheckBox}" />
 
-                <CheckBox Content="Notify for Private Key"
+                <CheckBox Content="{DynamicResource PrivateKeyEnabledText}"
                           IsChecked="{Binding PrivateKeyEnabled}"
                           Style="{StaticResource CheckBox}" />
 
-                <CheckBox Content="Notify for Nostr Public Key"
+                <CheckBox Content="{DynamicResource NostrPublicKeyEnabledText}"
                           IsChecked="{Binding NostrPublicKeyEnabled}"
                           Style="{StaticResource CheckBox}" />
 
-                <CheckBox Content="Notify for Nostr Private Key"
+                <CheckBox Content="{DynamicResource NostrPrivateKeyEnabledText}"
                           IsChecked="{Binding NostrPrivateKeyEnabled}"
                           Style="{StaticResource CheckBox}" />
 
-                <TextBlock Margin="0,0,0,10"
+                <TextBlock Text="{DynamicResource WalletVerificationTitle}"
+                           Margin="0,0,0,10"
                            Foreground="White"
-                           FontSize="20">Wallet Verification</TextBlock>
+                           FontSize="20" />
 
                 <Grid VerticalAlignment="Center">
                     <Grid.ColumnDefinitions>
@@ -85,9 +88,10 @@
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
 
-                    <TextBlock Margin="0,0,0,10"
+                    <TextBlock Text="{DynamicResource VerifyEveryText}"
+                               Margin="0,0,0,10"
                                Foreground="White"
-                               FontSize="15">Verify Every</TextBlock>
+                               FontSize="15" />
 
                     <ComboBox Grid.Column="1"
                               HorizontalAlignment="Right"
@@ -96,14 +100,13 @@
                               SelectionChanged="ComboBoxVerifyEvery_OnSelectionChanged">
                     </ComboBox>
                 </Grid>
-                <CheckBox Content="Notify Status Upon Launching Wallet"
+                <CheckBox Content="{DynamicResource LaunchingWalletEnabledText}"
                           IsChecked="{Binding LaunchingWalletEnabled}"
                           Style="{StaticResource CheckBox}" />
 
-                <CheckBox Content="Notify Status Upon Status Change"
+                <CheckBox Content="{DynamicResource WalletStatusChangeEnabledText}"
                           IsChecked="{Binding WalletStatusChangeEnabled}"
                           Style="{StaticResource CheckBox}" />
-
 
             </StackPanel>
         </ScrollViewer>

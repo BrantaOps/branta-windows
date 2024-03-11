@@ -1,0 +1,37 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:system="clr-namespace:System;assembly=mscorlib">
+
+    <!-- Main Window -->
+    <system:String x:Key="WalletsDetected">Carteras detectadas</system:String>
+    <system:String x:Key="WalletColumnHeader">Billetera</system:String>
+    <system:String x:Key="StatusColumnHeader">Estado</system:String>
+
+    <!-- Help Window -->
+    <system:String x:Key="How">¿Cómo verifica Branta mis billeteras?</system:String>
+    <system:String x:Key="HowDetails">Branta ejecuta el algoritmo SHA-256 en su billetera y luego lo compara con el SHA-256 verificado por PGP. Si los hashes coinciden, es muy probable que tenga una billetera auténtica. Si no coinciden, debería considerar reinstalar la billetera desde el sitio web de los desarrolladores.</system:String>
+    <system:String x:Key="LearnMore">¿Cómo puedo obtener más información?</system:String>
+    <system:String x:Key="LearnMoreAt">Puede obtener más información sobre Branta en</system:String>
+
+    <!-- Wallet Details Window -->
+    <system:String x:Key="VerifiedMessage">Branta verificó la validez de</system:String>
+    <system:String x:Key="NotVerifiedMessage">Branta no pudo verificar la validez de la</system:String>
+    <system:String x:Key="VersionNotSupportedMessage">Versión no compatible.</system:String>
+
+    <!-- Settings Window -->
+    <system:String x:Key="SettingsTitle">Configuración</system:String>
+
+    <system:String x:Key="ClipboardNotificationsTitle">Notificaciones del portapapeles</system:String>
+    <system:String x:Key="BitcoinAddressesEnabledText">Notificar para direcciones de Bitcoin</system:String>
+    <system:String x:Key="SeedPhraseEnabledText">Notificar para la frase semilla</system:String>
+    <system:String x:Key="ExtendedPublicKeyEnabledText">Notificar para clave pública extendida</system:String>
+    <system:String x:Key="PrivateKeyEnabledText">Notificar para la clave privada</system:String>
+    <system:String x:Key="NostrPublicKeyEnabledText">Notificar para la clave pública de Nostr</system:String>
+    <system:String x:Key="NostrPrivateKeyEnabledText">Notificar para la clave privada de Nostr</system:String>
+
+    <system:String x:Key="WalletVerificationTitle">Verificación de billetera</system:String>
+    <system:String x:Key="VerifyEveryText">Verifique cada</system:String>
+    <system:String x:Key="LaunchingWalletEnabledText">Notificar el estado al iniciar la billetera</system:String>
+    <system:String x:Key="WalletStatusChangeEnabledText">Notificar el estado en caso de cambio de estado</system:String>
+
+</ResourceDictionary> 

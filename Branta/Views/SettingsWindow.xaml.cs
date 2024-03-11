@@ -69,6 +69,8 @@ public partial class SettingsWindow : BaseWindow
         InitializeComponent();
         DataContext = this;
 
+        SetLanguageDictionary();
+
         BitcoinAddressesEnabled = settings.ClipboardGuardian.BitcoinAddressesEnabled;
         SeedPhraseEnabled = settings.ClipboardGuardian.SeedPhraseEnabled;
         ExtendedPublicKeyEnabled = settings.ClipboardGuardian.ExtendedPublicKeyEnabled;
