@@ -44,11 +44,13 @@ public class BaseWindow : Window
         if (WindowState == WindowState.Maximized)
         {
             WindowState = WindowState.Normal;
+            BorderThickness = new Thickness(0);
             _resizeImage.SetSource("Assets/fullscreen.png");
         }
         else
         {
             WindowState = WindowState.Maximized;
+            BorderThickness = new Thickness(8);
             _resizeImage.SetSource("Assets/fullscreen_exit.png");
         }
     }

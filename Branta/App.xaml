@@ -56,7 +56,7 @@
         <Style TargetType="CheckBox"
                x:Key="CheckBox">
             <Setter Property="Foreground"
-                    Value="White"></Setter>
+                    Value="#c2c2c2"></Setter>
             <Setter Property="Margin"
                     Value="0,0,0,10"></Setter>
             <Setter Property="FontSize"
