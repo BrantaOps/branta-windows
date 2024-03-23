@@ -11,10 +11,10 @@ public class BaseWindow : Window
 
     public event PropertyChangedEventHandler PropertyChanged;
 
-    protected void  OnPropertyChanged([CallerMemberName] string name = "")
+    protected void OnPropertyChanged([CallerMemberName] string name = "")
     {
         var handler = PropertyChanged;
-        handler?.Invoke(this, new  PropertyChangedEventArgs(name));
+        handler?.Invoke(this, new PropertyChangedEventArgs(name));
     }
 
     public void SetResizeImage(System.Windows.Controls.Image resizeImage)
@@ -58,24 +58,26 @@ public class BaseWindow : Window
         Close();
     }
 
-    protected void SetLanguageDictionary()
+    protected ResourceDictionary SetLanguageDictionary()
     {
-        var dict = new ResourceDictionary();
+        var resourceDictionary = new ResourceDictionary();
 
         switch (Thread.CurrentThread.CurrentCulture.ToString())
         {
             case "en-US":
-                dict.Source = new Uri("Resources\\StringResources.xaml", UriKind.Relative);
+                resourceDictionary.Source = new Uri("Resources\\StringResources.xaml", UriKind.Relative);
                 break;
             case "es":
             case "es-US":
-                dict.Source = new Uri("Resources\\StringResources-es.xaml", UriKind.Relative);
+                resourceDictionary.Source = new Uri("Resources\\StringResources-es.xaml", UriKind.Relative);
                 break;
             default:
-                dict.Source = new Uri("Resources\\StringResources.xaml", UriKind.Relative);
+                resourceDictionary.Source = new Uri("Resources\\StringResources.xaml", UriKind.Relative);
                 break;
         }
 
-        Resources.MergedDictionaries.Add(dict);
+        Resources.MergedDictionaries.Add(resourceDictionary);
+
+        return resourceDictionary;
     }
 }

@@ -14,8 +14,7 @@ public partial class WalletDetailWindow : BaseWindow
     {
         InitializeComponent();
 
-        SetLanguageDictionary();
-        _dictionary = Resources.MergedDictionaries.FirstOrDefault();
+        _dictionary = SetLanguageDictionary();
 
         TbWallet.Text = $"{wallet.Name} {wallet.Version}";
 

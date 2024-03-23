@@ -12,6 +12,8 @@ public class Wasabi : BaseWallet
         { "2.0.3", "c4cc9b9f99b8e5114090c9820695d573" }
     };
 
+    public override Dictionary<string, string> InstallerHashes => new();
+
     public Wasabi() : base("WasabiWallet", "wassabee")
     {
     }

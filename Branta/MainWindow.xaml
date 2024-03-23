@@ -7,7 +7,7 @@
                 xmlns:src="clr-namespace:Branta.Classes"
                 mc:Ignorable="d"
                 Title="Branta"
-                Height="480"
+                Height="530"
                 Width="600"
                 MinHeight="480"
                 MinWidth="600"
@@ -26,6 +26,7 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
+            <RowDefinition Height="110" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <StackPanel Orientation="Horizontal"
@@ -140,7 +141,44 @@
                 </StackPanel>
             </ScrollViewer>
         </Grid>
-        <Image Grid.Row="4"
+
+        <Border Grid.Row="4"
+                BorderThickness="2"
+                MaxWidth="550"
+                Drop="VerifyInstaller_Drop"
+                AllowDrop="True"
+                Margin="0,15,0,0"
+                Background="Transparent">
+            <Border.BorderBrush>
+                <DrawingBrush Viewport="0,0,12,12"
+                              ViewportUnits="Absolute"
+                              TileMode="Tile">
+                    <DrawingBrush.Drawing>
+                        <DrawingGroup>
+                            <GeometryDrawing Brush="#666">
+                                <GeometryDrawing.Geometry>
+                                    <GeometryGroup>
+                                        <RectangleGeometry Rect="0,0,50,50" />
+                                        <RectangleGeometry Rect="50,50,50,50" />
+                                    </GeometryGroup>
+                                </GeometryDrawing.Geometry>
+                            </GeometryDrawing>
+                        </DrawingGroup>
+                    </DrawingBrush.Drawing>
+                </DrawingBrush>
+            </Border.BorderBrush>
+
+            <StackPanel HorizontalAlignment="Center"
+                        VerticalAlignment="Center">
+                <TextBlock Text="{DynamicResource DragAndDropText}"
+                           Foreground="#bbb"
+                           FontSize="14"
+                           MaxWidth="300"
+                           TextWrapping="Wrap"
+                           TextAlignment="Center" />
+            </StackPanel>
+        </Border>
+        <Image Grid.Row="5"
                Source="pack://application:,,,/Assets/help.png"
                Width="24"
                Margin="10"
