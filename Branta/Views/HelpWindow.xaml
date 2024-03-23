@@ -9,7 +9,7 @@
                 Title="Branta"
                 Height="350"
                 Width="600"
-                Background="#555"
+                Background="#444"
                 Icon="pack://application:,,,/Assets/black_circle.png"
                 ResizeMode="NoResize"
                 WindowStyle="None"
@@ -32,53 +32,58 @@
                     Value="14"></Setter>
         </Style>
     </Window.Resources>
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="30" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-        </Grid.RowDefinitions>
 
-        <StackPanel Orientation="Horizontal"
-                    HorizontalAlignment="Right">
-            <Button x:Name="BtnClose"
-                    Style="{StaticResource TitleBarCloseButton}"
-                    Click="BtnClose_OnClick">
-                <Image Source="pack://application:,,,/Assets/close.png"
-                       Style="{StaticResource TitleBarIcon}" />
-            </Button>
-        </StackPanel>
-        <Image Grid.Row="1"
-               Source="../Assets/goldwhitecropped.png"
-               Width="400" />
-        <TextBlock Grid.Row="2"
-                   Text="{DynamicResource How}"
-                   FontWeight="Bold"
-                   Margin="0,0,0,15" />
-        <TextBlock Grid.Row="3"
-                   Text="{DynamicResource HowDetails}"
-                   Width="500"
-                   TextWrapping="Wrap"
-                   TextAlignment="Center" />
-        <TextBlock Grid.Row="4"
-                   Text="{DynamicResource LearnMore}"
-                   FontWeight="Bold"
-                   Margin="0,0,0,15" />
-        <TextBlock Grid.Row="5"
-                   Text="{DynamicResource LearnMoreAt}" />
-        <TextBlock Grid.Row="6"
-                   Name="TbLink"
-                   Margin="0,0,0,30"
-                   Cursor="Hand"
-                   MouseDown="Link_Click"
-                   TextDecorations="Underline">https://www.branta.pro</TextBlock>
-        <TextBlock Grid.Row="7"
-                   Name="TbVersion"
-                   Foreground="LightGray">v0.0.0</TextBlock>
-    </Grid>
+    <Border BorderBrush="#666"
+            BorderThickness="1"
+            CornerRadius="7">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <StackPanel Orientation="Horizontal"
+                        HorizontalAlignment="Right">
+                <Button x:Name="BtnClose"
+                        Style="{StaticResource TitleBarCloseButton}"
+                        Click="BtnClose_OnClick">
+                    <Image Source="pack://application:,,,/Assets/close.png"
+                           Style="{StaticResource TitleBarIcon}" />
+                </Button>
+            </StackPanel>
+            <Image Grid.Row="1"
+                   Source="../Assets/goldwhitecropped.png"
+                   Width="400" />
+            <TextBlock Grid.Row="2"
+                       Text="{DynamicResource How}"
+                       FontWeight="Bold"
+                       Margin="0,0,0,15" />
+            <TextBlock Grid.Row="3"
+                       Text="{DynamicResource HowDetails}"
+                       Width="500"
+                       TextWrapping="Wrap"
+                       TextAlignment="Center" />
+            <TextBlock Grid.Row="4"
+                       Text="{DynamicResource LearnMore}"
+                       FontWeight="Bold"
+                       Margin="0,0,0,15" />
+            <TextBlock Grid.Row="5"
+                       Text="{DynamicResource LearnMoreAt}" />
+            <TextBlock Grid.Row="6"
+                       Name="TbLink"
+                       Margin="0,0,0,30"
+                       Cursor="Hand"
+                       MouseDown="Link_Click"
+                       TextDecorations="Underline">https://www.branta.pro</TextBlock>
+            <TextBlock Grid.Row="7"
+                       Name="TbVersion"
+                       Foreground="LightGray">v0.0.0</TextBlock>
+        </Grid>
+    </Border>
 </src:BaseWindow>
