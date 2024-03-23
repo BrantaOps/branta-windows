@@ -13,6 +13,8 @@ public class Trezor : BaseWallet
         { "23.12.2", "98123719e05a9d004b776084aba1d133" }
     };
 
+    public override Dictionary<string, string> InstallerHashes => new();
+
     public Trezor() : base("Trezor Suite")
     {
     }

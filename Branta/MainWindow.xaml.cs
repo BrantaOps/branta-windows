@@ -12,12 +12,15 @@ using System.Windows.Controls;
 using System.Windows.Forms;
 using System.Windows.Input;
 using Application = System.Windows.Application;
+using DataFormats = System.Windows.DataFormats;
+using DragEventArgs = System.Windows.DragEventArgs;
 
 namespace Branta;
 
 public partial class MainWindow : BaseWindow
 {
     private readonly NotifyIcon _notifyIcon;
+    private readonly ResourceDictionary _resourceDictionary;
     private readonly System.Timers.Timer _clipboardGuardianTimer;
     private readonly System.Timers.Timer _focusTimer;
 
@@ -34,7 +37,7 @@ public partial class MainWindow : BaseWindow
             InitializeComponent();
             DataContext = this;
 
-            SetLanguageDictionary();
+            _resourceDictionary = SetLanguageDictionary();
             InitCountly();
             LoadSettings();
             SetResizeImage(ImageScreenSize);
@@ -147,6 +150,20 @@ public partial class MainWindow : BaseWindow
         var walletDetailWindow = new WalletDetailWindow(wallet);
 
         walletDetailWindow.Show();
+    }
+    
+    private void VerifyInstaller_Drop(object sender, DragEventArgs e)
+    {
+        if (!e.Data.GetDataPresent(DataFormats.FileDrop))
+        {
+            return;
+        }
+
+        var files = (string[])e.Data.GetData(DataFormats.FileDrop);
+
+        var installer = new Installer(_notifyIcon, _resourceDictionary);
+
+        installer.ProcessFiles(files);
     }
 
     private void LoadSettings()

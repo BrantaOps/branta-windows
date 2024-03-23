@@ -11,6 +11,8 @@ public class Ledger : BaseWallet
         { "2.75.0", "833bfb66155d24510c71be62bf341d83" }
     };
 
+    public override Dictionary<string, string> InstallerHashes => new();
+
     public Ledger() : base("Ledger Live")
     {
     }

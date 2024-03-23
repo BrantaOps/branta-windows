@@ -6,6 +6,7 @@
     <system:String x:Key="WalletsDetected">Carteras detectadas</system:String>
     <system:String x:Key="WalletColumnHeader">Billetera</system:String>
     <system:String x:Key="StatusColumnHeader">Estado</system:String>
+    <system:String x:Key="DragAndDropText">Arrastre los archivos ejecutables aquí antes de instalar nuevas billeteras para verificar la autenticidad</system:String>
 
     <!-- Help Window -->
     <system:String x:Key="How">¿Cómo verifica Branta mis billeteras?</system:String>
@@ -33,5 +34,10 @@
     <system:String x:Key="VerifyEveryText">Verifique cada</system:String>
     <system:String x:Key="LaunchingWalletEnabledText">Notificar el estado al iniciar la billetera</system:String>
     <system:String x:Key="WalletStatusChangeEnabledText">Notificar el estado en caso de cambio de estado</system:String>
+
+    <!--Installer Notifications -->
+    <system:String x:Key="InstallerValid">El instalador es válido.</system:String>
+    <system:String x:Key="InstallerInvalid">El instalador no es válido.</system:String>
+    <system:String x:Key="InstallerNotSupported">Versión no compatible.</system:String>
 
 </ResourceDictionary> 

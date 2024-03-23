@@ -11,6 +11,8 @@ public class BlockStreamGreen : BaseWallet
         { "1.2.7", "6f452462209bb191386339a6b4dfef10" }
     };
 
+    public override Dictionary<string, string> InstallerHashes => new();
+
     public BlockStreamGreen() : base("Blockstream Green")
     {
     }
