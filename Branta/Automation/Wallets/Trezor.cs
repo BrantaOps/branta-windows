@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using Branta.Enums;
 
 namespace Branta.Automation.Wallets;
 
@@ -13,10 +14,18 @@ public class Trezor : BaseWallet
         { "23.12.2", "98123719e05a9d004b776084aba1d133" }
     };
 
-    public override Dictionary<string, string> InstallerHashes => new();
+    public override Dictionary<string, string> InstallerHashes => new()
+    {
+        { "Trezor-Suite-24.3.3-win-x64.exe", "n1n/1/SITTJzJttUXWiN9mxoL3Udyh6HVMXpimKYoibdAWvV8EDEaswn8ofiU2pcQ7F5GB/PA3c7bfaWORfTpw==" },
+        { "Trezor-Suite-24.3.3-mac-x64.dmg", "vBI4c/6mSjQZjpMxybFsYFL2e/8uNtrjEzMBZNeQulsnpGnZ/9As5zXU5MYumYkFVICCxpxawIv+lrATBMJQeA==" },
+        { "Trezor-Suite-24.3.3-mac-arm64.dmg", "xZ6pMgNelfXOzKxGrp8TOXNCuFj/4Poz0yEcZRdMPMm8UY08k7IUPoMkjMw3wzSY2NKc9JNCSE9K8N1qE8VK/A==" },
+        { "Trezor-Suite-24.3.3-linux-arm64.AppImage", "9/yhYKwAnOTVTC/DYHR7QP5AzAKJ4MnsbxZJuKHQhoRClQmT2MK485M5+tFXI0weRP50hpx42PY8QA/njmpwFw==" }
+    };
 
     public Trezor() : base("Trezor Suite")
     {
+        InstallerName = "Trezor-Suite";
+        InstallerHashType = HashType.Sha512WithBase64Encode;
     }
 
     public override string GetPath()

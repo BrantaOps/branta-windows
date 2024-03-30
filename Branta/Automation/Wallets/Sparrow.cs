@@ -37,6 +37,7 @@ public class Sparrow : BaseWallet
 
     public Sparrow() : base("Sparrow")
     {
+        InstallerName = "Sparrow";
     }
 
     public override string GetPath()

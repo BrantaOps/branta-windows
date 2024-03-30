@@ -21,4 +21,15 @@ public static class Helper
         var hashBytes = sha256.ComputeHash(stream);
         return BitConverter.ToString(hashBytes).Replace("-", "").ToLower();
     }
+
+    public static string CalculateSha512(string filePath, bool base64Encoding = false)
+    {
+        using var sha512 = SHA512.Create();
+        using var stream = File.OpenRead(filePath);
+        var hashBytes = sha512.ComputeHash(stream);
+
+        return base64Encoding
+            ? Convert.ToBase64String(hashBytes)
+            : BitConverter.ToString(hashBytes).Replace("-", "").ToLower();
+    }
 }

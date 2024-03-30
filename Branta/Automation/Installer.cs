@@ -1,5 +1,6 @@
 ﻿using Branta.Automation.Wallets;
 using Branta.Classes;
+using Branta.Enums;
 using System.IO;
 using System.Windows;
 using System.Windows.Forms;
@@ -21,13 +22,24 @@ public class Installer
     {
         foreach (var file in files)
         {
+            var walletFound = false;
             foreach (var walletType in VerifyWallets.WalletTypes)
             {
                 if (IsFileValid(file, walletType, out var notification))
                 {
+                    walletFound = true;
                     _notifyIcon.ShowBalloonTip(notification);
                     break;
                 }
+            }
+
+            if (!walletFound)
+            {
+                _notifyIcon.ShowBalloonTip(new Notification
+                {
+                    Icon = ToolTipIcon.Warning,
+                    Message = (string)_resourceDictionary["InstallerNotSupported"]
+                });
             }
         }
     }
@@ -37,12 +49,20 @@ public class Installer
         notification = null;
         var fileName = Path.GetFileName(file);
 
-        if (!file.Contains(wallet.Name))
+        if (!file.Contains(wallet.InstallerName))
             return false;
 
         if (wallet.InstallerHashes.TryGetValue(fileName, out var expectedHash))
         {
-            if (expectedHash == Helper.CalculateSha256(file))
+            var actualHash = wallet.InstallerHashType switch
+            {
+                HashType.Sha256 =>  Helper.CalculateSha256(file),
+                HashType.Sha512 =>  Helper.CalculateSha512(file),
+                HashType.Sha512WithBase64Encode => Helper.CalculateSha512(file, base64Encoding: true),
+                _ => throw new NotImplementedException()
+            };
+
+            if (expectedHash == actualHash)
             {
                 notification = new Notification
                 {
