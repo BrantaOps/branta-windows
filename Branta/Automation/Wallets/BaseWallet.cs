@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.IO;
 using System.Text.RegularExpressions;
+using Branta.Enums;
 
 namespace Branta.Automation.Wallets;
 
@@ -11,7 +12,13 @@ public abstract partial class BaseWallet
 
     public string ExeName { get; }
 
+    public string InstallerName { get; set; }
+
+    public HashType InstallerHashType { get; set; } = HashType.Sha256;
+
     public abstract IReadOnlyDictionary<string, string> CheckSums { get; }
+
+    public abstract IReadOnlyDictionary<string, string> InstallerHashes { get; }
 
     private const string RegistryUninstallPath = @"SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\";
 
