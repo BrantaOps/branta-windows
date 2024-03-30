@@ -1,3 +1,11 @@
+## 1.3.0 - 2024/03/30
+
+Added
+ - Drag & Drop for installer files
+ - UI/UX Improvements
+ - Sparrow 1.8.3 and 1.8.4 Support
+ - Ledger Support
+
 ## 1.2.0 - 2024/03/11
 
 Fixes
