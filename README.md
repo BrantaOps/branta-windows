@@ -19,7 +19,7 @@
  - ✅ Wallet Verification: Automatically verifies supported wallets against PGP verified SHA-256 checksums
  - ✅ Clipboard Guardian: Get notified of bitcoin-related activity on your clipboard
  - ✅ Focus Automation: Verify wallets upon launch
- - 🔳 Installer Automation
+ - ✅ Installer Automation
 
 
 ![IMAGE 2024-02-04 10:53:51](https://github.com/BrantaOps/branta-windows/assets/74844722/aad0859b-4f9e-47c2-a302-f602df05e1cc)
@@ -32,8 +32,9 @@
  - ✅ Wasabi
  - ✅ Trezor
  - ✅ Blockstream Green
- - 🔳 Ledger
+ - ✅ Ledger
  - 🔳 Whirlpool
+ - 🔳 Bitcoin Core
 
 
 ## Known Limitations
