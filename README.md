@@ -4,6 +4,8 @@
   <img alt="Branta" src="Branta/Assets/goldblackcropped.jpg">
 </picture>
 
+
+
 ![.NET Workflow Badge](https://github.com/BrantaOps/branta-windows/actions/workflows/dotnet.yml/badge.svg)
 
 
@@ -22,7 +24,7 @@
  - ✅ Installer Automation
 
 
-![IMAGE 2024-02-04 10:53:51](https://github.com/BrantaOps/branta-windows/assets/74844722/aad0859b-4f9e-47c2-a302-f602df05e1cc)
+![Branta Screenshot](https://github.com/BrantaOps/branta-windows/assets/110685100/8e18f727-6208-4f55-baf9-c40b550d1389)
 
 
 
