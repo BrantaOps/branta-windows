@@ -6,6 +6,7 @@ public class BlockStreamGreen : BaseWallet
 {
     public override Dictionary<string, string> CheckSums => new()
     {
+        { "2.0.3", "13c8ee4a54b90c8af3e489ad72013a83" },
         { "1.2.9", "c21fcd79baeccc5cbc06101a12747322" },
         { "1.2.8", "1080a79948f976c682604bca429f6e14" },
         { "1.2.7", "6f452462209bb191386339a6b4dfef10" }
