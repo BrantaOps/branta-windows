@@ -67,6 +67,8 @@ public partial class MainWindow : BaseWindow
             focus.SubscribeToSettingsChanges(this);
             _focusTimer = focus.CreateTimer();
             focus.Elapsed(null, null);
+
+            Task.Run(() => UpdateApp.CheckForNewReleaseAsync(_notifyIcon, _resourceDictionary));
         }
         catch (Exception ex)
         {
