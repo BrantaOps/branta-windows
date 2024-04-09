@@ -8,6 +8,7 @@ public class UpdateApp : BaseAutomation
 {
     private readonly GitHubClient _githubClient;
     private readonly ResourceDictionary _resourceDictionary;
+    private bool _isUpdateAvailableShow;
 
     public UpdateApp(NotifyIcon notifyIcon, ResourceDictionary resourceDictionary) : base(notifyIcon, null, 60 * 60 * 24)
     {
@@ -38,9 +39,20 @@ public class UpdateApp : BaseAutomation
                 NotifyIcon.ShowBalloonTip(new Notification
                 {
                     Icon = ToolTipIcon.Info,
-                    Message = string.Format((string)_resourceDictionary["UpdateApp"], latestVersion)
+                    Message = string.Format((string)_resourceDictionary["UpdateApp"] ?? string.Empty, latestVersion)
                 });
+
+                if (_isUpdateAvailableShow == false)
+                {
+                    NotifyIcon.ContextMenuStrip?.Items.Add("Update Available", null, OnClick_UpdateAvailable);
+                    _isUpdateAvailableShow = true;
+                }
             }
         });
+    }
+
+    private void OnClick_UpdateAvailable(object sender, EventArgs e)
+    {
+        Helper.OpenLink("https://branta.pro/download");
     }
 }

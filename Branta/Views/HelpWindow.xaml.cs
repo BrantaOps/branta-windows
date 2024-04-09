@@ -1,6 +1,5 @@
 ﻿using Branta.Classes;
 using Branta.Enums;
-using System.Diagnostics;
 using System.Windows;
 using System.Windows.Input;
 
@@ -23,7 +22,7 @@ public partial class HelpWindow : BaseWindow
     {
         try
         {
-            Process.Start(new ProcessStartInfo("cmd", "/c start https://branta.pro") { CreateNoWindow = true });
+            Helper.OpenLink("https://branta.pro");
         }
         catch (Exception ex)
         {
