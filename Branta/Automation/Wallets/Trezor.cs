@@ -7,6 +7,7 @@ public class Trezor : BaseWallet
 {
     public override Dictionary<string, string> CheckSums => new()
     {
+        { "24.3.4", "50cda1bd8576ae6c09ea1a74fc737ec6" },
         { "24.1.2", "b7870df0e3bad1a6324339ba49809f26" },
         { "24.1.1", "f28f804762ba8817acaa4cfd9dd11847" },
         { "23.12.4", "fde08eb9997ee117a81d2bd65be35b12" },
@@ -16,6 +17,7 @@ public class Trezor : BaseWallet
 
     public override Dictionary<string, string> InstallerHashes => new()
     {
+        { "Trezor-Suite-24.3.4-win-x64.exe", "QIQ6lkTJgyzL0PU45RYV/WzywP8PaEEore4UQb6qiGWuBcTN+RhAtOlWSNCEswMz+GZUA7nfBfajU/ndjfSGBQ==" },
         { "Trezor-Suite-24.3.3-win-x64.exe", "n1n/1/SITTJzJttUXWiN9mxoL3Udyh6HVMXpimKYoibdAWvV8EDEaswn8ofiU2pcQ7F5GB/PA3c7bfaWORfTpw==" },
         { "Trezor-Suite-24.3.3-mac-x64.dmg", "vBI4c/6mSjQZjpMxybFsYFL2e/8uNtrjEzMBZNeQulsnpGnZ/9As5zXU5MYumYkFVICCxpxawIv+lrATBMJQeA==" },
         { "Trezor-Suite-24.3.3-mac-arm64.dmg", "xZ6pMgNelfXOzKxGrp8TOXNCuFj/4Poz0yEcZRdMPMm8UY08k7IUPoMkjMw3wzSY2NKc9JNCSE9K8N1qE8VK/A==" },

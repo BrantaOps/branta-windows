@@ -6,6 +6,7 @@ public class Wasabi : BaseWallet
 {
     public override Dictionary<string, string> CheckSums => new()
     {
+        { "2.0.6", "8424d1148164565b296f87e5abc49885" },
         { "2.0.5", "9b0e8a5d732a862820bfec7e092707a7" },
         { "2.0.4.1", "06462137cb7968fc0a2e36fade6e6b52" },
         { "2.0.4", "ebcd119a10e793d133c52e4463ce3246" },
