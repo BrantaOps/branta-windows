@@ -11,6 +11,12 @@ public class UpdateApp
         var client = new GitHubClient();
 
         var latestVersion = await client.GetLatestReleaseVersionAsync();
+
+        if (latestVersion == null)
+        {
+            return;
+        }
+
         var installedVersion = Helper.GetBrantaVersionWithoutCommitHash();
 
         if (latestVersion != installedVersion)

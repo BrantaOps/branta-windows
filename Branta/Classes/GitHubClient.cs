@@ -22,12 +22,19 @@ public class GitHubClient
 
     public async Task<string> GetLatestReleaseVersionAsync()
     {
-        _httpClient.DefaultRequestHeaders.UserAgent.ParseAdd("request");
-        var response = await _httpClient.GetAsync($"/repos/{Owner}/{Repo}/releases/latest");
-        var temp = await response.Content.ReadAsStringAsync();
+        try
+        {
+            _httpClient.DefaultRequestHeaders.UserAgent.ParseAdd("request");
+            var response = await _httpClient.GetAsync($"/repos/{Owner}/{Repo}/releases/latest");
+            var temp = await response.Content.ReadAsStringAsync();
 
-        var githubRelease = JsonSerializer.Deserialize<GitHubRelease>(temp);
+            var githubRelease = JsonSerializer.Deserialize<GitHubRelease>(temp);
 
-        return githubRelease.Name;
+            return githubRelease.Name;
+        }
+        catch
+        {
+            return null;
+        }
     }
 }
