@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.Diagnostics;
+using System.IO;
 using System.Reflection;
 using System.Security.Cryptography;
 
@@ -12,6 +13,11 @@ public static class Helper
             .InformationalVersion;
 
         return version.Split("+")[0];
+    }
+
+    public static void OpenLink(string url)
+    {
+        Process.Start(new ProcessStartInfo("cmd", $"/c start {url}") { CreateNoWindow = true });
     }
 
     public static string CalculateSha256(string filePath)
