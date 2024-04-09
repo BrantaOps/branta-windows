@@ -4,28 +4,43 @@ using System.Windows.Forms;
 
 namespace Branta.Automation;
 
-public class UpdateApp
+public class UpdateApp : BaseAutomation
 {
-    public static async Task CheckForNewReleaseAsync(NotifyIcon notifyIcon, ResourceDictionary resourceDictionary)
+    private readonly GitHubClient _githubClient;
+    private readonly ResourceDictionary _resourceDictionary;
+
+    public UpdateApp(NotifyIcon notifyIcon, ResourceDictionary resourceDictionary) : base(notifyIcon, null, 60 * 60 * 24)
     {
-        var client = new GitHubClient();
+        _resourceDictionary = resourceDictionary;
+        _githubClient = new GitHubClient();
+    }
 
-        var latestVersion = await client.GetLatestReleaseVersionAsync();
+    public UpdateApp(NotifyIcon notifyIcon, Settings settings, int runInterval) : base(notifyIcon, settings,
+        runInterval)
+    {
+    }
 
-        if (latestVersion == null)
+    public override void Run()
+    {
+        Task.Run(async () =>
         {
-            return;
-        }
+            var latestVersion = await _githubClient.GetLatestReleaseVersionAsync();
 
-        var installedVersion = Helper.GetBrantaVersionWithoutCommitHash();
-
-        if (latestVersion != installedVersion)
-        {
-            notifyIcon.ShowBalloonTip(new Notification
+            if (latestVersion == null)
             {
-                Icon = ToolTipIcon.Info,
-                Message = string.Format((string)resourceDictionary["UpdateApp"], latestVersion)
-            });
-        }
+                return;
+            }
+
+            var installedVersion = Helper.GetBrantaVersionWithoutCommitHash();
+
+            if (latestVersion != installedVersion)
+            {
+                NotifyIcon.ShowBalloonTip(new Notification
+                {
+                    Icon = ToolTipIcon.Info,
+                    Message = string.Format((string)_resourceDictionary["UpdateApp"], latestVersion)
+                });
+            }
+        });
     }
 }

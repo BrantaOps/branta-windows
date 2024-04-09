@@ -14,6 +14,7 @@ using System.Windows.Input;
 using Application = System.Windows.Application;
 using DataFormats = System.Windows.DataFormats;
 using DragEventArgs = System.Windows.DragEventArgs;
+using Timer = System.Timers.Timer;
 
 namespace Branta;
 
@@ -23,6 +24,7 @@ public partial class MainWindow : BaseWindow
     private readonly ResourceDictionary _resourceDictionary;
     private readonly System.Timers.Timer _clipboardGuardianTimer;
     private readonly System.Timers.Timer _focusTimer;
+    private readonly Timer _updateTimer;
 
     private System.Timers.Timer _verifyWalletTimer;
     private Settings _settings;
@@ -68,7 +70,9 @@ public partial class MainWindow : BaseWindow
             _focusTimer = focus.CreateTimer();
             focus.Elapsed(null, null);
 
-            Task.Run(() => UpdateApp.CheckForNewReleaseAsync(_notifyIcon, _resourceDictionary));
+            var update = new UpdateApp(_notifyIcon, _resourceDictionary);
+            _updateTimer = update.CreateTimer();
+            update.Elapsed(null, null);
         }
         catch (Exception ex)
         {
