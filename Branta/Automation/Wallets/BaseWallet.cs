@@ -18,8 +18,6 @@ public abstract partial class BaseWallet
 
     public abstract IReadOnlyDictionary<string, string> CheckSums { get; }
 
-    public abstract IReadOnlyDictionary<string, string> InstallerHashes { get; }
-
     private const string RegistryUninstallPath = @"SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\";
 
     protected BaseWallet(string name, string exeName = null)

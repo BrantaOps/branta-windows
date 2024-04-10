@@ -37,8 +37,7 @@
 
     <!--Installer Notifications -->
     <system:String x:Key="InstallerValid">Installer is valid.</system:String>
-    <system:String x:Key="InstallerInvalid">Installer is not valid.</system:String>
-    <system:String x:Key="InstallerNotSupported">Unsupported Version.</system:String>
+    <system:String x:Key="InstallerInvalid">Installer is not valid or unsupported.</system:String>
 
     <!-- Other Notifications -->
     <system:String x:Key="UpdateApp">Branta version {0} is available.</system:String>
