@@ -37,8 +37,7 @@
 
     <!--Installer Notifications -->
     <system:String x:Key="InstallerValid">El instalador es válido.</system:String>
-    <system:String x:Key="InstallerInvalid">El instalador no es válido.</system:String>
-    <system:String x:Key="InstallerNotSupported">Versión no compatible.</system:String>
+    <system:String x:Key="InstallerInvalid">El instalador no es válido o no es compatible.</system:String>
 
     <!-- Other Notifications -->
     <system:String x:Key="UpdateApp">Branta versión {0} está disponible.</system:String>

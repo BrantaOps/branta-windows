@@ -20,6 +20,7 @@
     <None Remove="Assets\fullscreen_exit.png" />
     <None Remove="Assets\goldwhitecropped.png" />
     <None Remove="Assets\help.png" />
+    <None Remove="Assets\InstallerHashes.yaml" />
     <None Remove="Assets\minimize.png" />
   </ItemGroup>
 
@@ -30,6 +31,9 @@
 
   <ItemGroup>
     <EmbeddedResource Include="Assets\bip39wordlist.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Assets\InstallerHashes.yaml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <Resource Include="Assets\black_circle.png">
@@ -64,6 +68,7 @@
   <ItemGroup>
     <PackageReference Include="Countly" Version="24.1.0" />
     <PackageReference Include="Hardcodet.NotifyIcon.Wpf" Version="1.1.0" />
+    <PackageReference Include="YamlDotNet" Version="15.1.2" />
   </ItemGroup>
 
   <ItemGroup>
