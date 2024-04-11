@@ -14,45 +14,63 @@ namespace Branta.Automation;
 public class VerifyWallets : BaseAutomation
 {
     public ObservableCollection<Wallet> Wallets { get; } = new();
-
-    public static readonly List<BaseWallet> WalletTypes = new()
-    {
-        new BlockStreamGreen(),
-        new Ledger(),
-        new Sparrow(),
-        new Wasabi(),
-        new Trezor()
-    };
+    public static List<BaseWallet> WalletTypes;
 
     private bool _isFirstRun = true;
 
     public VerifyWallets(NotifyIcon notifyIcon, Settings settings) : base(notifyIcon, settings,
         (int)settings.WalletVerification.WalletVerifyEvery.TotalSeconds)
     {
+        var checkSums = YamlLoader.LoadCheckSums();
+
+        WalletTypes = new List<BaseWallet>
+        {
+            new BlockStreamGreen
+            {
+                CheckSums = checkSums.BlockstreamGreen
+            },
+            new Ledger
+            {
+                CheckSums = checkSums.Ledger
+            },
+            new Sparrow
+            {
+                CheckSums = checkSums.Sparrow
+            },
+            new Trezor
+            {
+                CheckSums = checkSums.Trezor
+            },
+            new Wasabi
+            {
+                CheckSums = checkSums.Wasabi
+            }
+        };
     }
 
     public override void Run()
     {
         Trace.WriteLine("Started: Verify Wallets");
         var sw = Stopwatch.StartNew();
-        
+
         var previousWalletStatus = Wallets
             .DistinctBy(w => w.Name)
             .ToDictionary(w => w.Name, w => w.Status);
-        
+
         var bufferedWallets = new List<Wallet>();
 
         foreach (var walletType in WalletTypes)
         {
             var wallet = Verify(walletType);
-            
+
             if (wallet == null)
             {
                 continue;
             }
-        
+
             if (wallet.Status != WalletStatus.Verified &&
-                previousWalletStatus.GetValueOrDefault(walletType.Name, WalletStatus.Verified) == WalletStatus.Verified &&
+                previousWalletStatus.GetValueOrDefault(walletType.Name, WalletStatus.Verified) ==
+                WalletStatus.Verified &&
                 Settings.WalletVerification.WalletStatusChangeEnabled)
             {
                 NotifyIcon.ShowBalloonTip(new Notification
@@ -61,7 +79,7 @@ public class VerifyWallets : BaseAutomation
                     Icon = ToolTipIcon.Warning
                 });
             }
-        
+
             if (_isFirstRun)
             {
                 Dispatcher.Invoke(() => Wallets.Add(wallet));
@@ -76,7 +94,7 @@ public class VerifyWallets : BaseAutomation
         {
             Dispatcher.Invoke(() => Wallets.Set(bufferedWallets));
         }
-        
+
         _isFirstRun = false;
 
         sw.Stop();
@@ -93,34 +111,56 @@ public class VerifyWallets : BaseAutomation
 
         var version = walletType.GetVersion();
 
-        WalletStatus status;
+        var versionInfo = version != null ? walletType.CheckSums.GetValueOrDefault(version) : null;
 
-        var expectedHash = version != null ? walletType.CheckSums.GetValueOrDefault(version) : null;
-
-        if (expectedHash == null)
+        if (versionInfo == null)
         {
-            status = WalletStatus.VersionNotSupported;
-        }
-        else
-        {
-            try
+            return new Wallet
             {
-                var hash = CreateMd5ForFolder(walletType.GetPath());
-                Trace.WriteLine($"Expected: {expectedHash}; Actual: {hash}");
-                status = hash == expectedHash ? WalletStatus.Verified : WalletStatus.NotVerified;
-            }
-            catch
-            {
-                status = WalletStatus.NotVerified;
-            }
+                Name = walletType.Name,
+                Version = version,
+                Status = WalletStatus.VersionNotSupported
+            };
         }
 
-        return new Wallet
+        try
         {
-            Name = walletType.Name,
-            Version = version,
-            Status = status
-        };
+            string hash = null;
+            string expectedHash = null;
+
+            if (versionInfo.Md5 != null)
+            {
+                hash = CreateMd5ForFolder(path);
+                expectedHash = versionInfo.Md5;
+            }
+
+            if (hash == null)
+            {
+                return new Wallet
+                {
+                    Name = walletType.Name,
+                    Version = version,
+                    Status = WalletStatus.VersionNotSupported
+                };
+            }
+
+            Trace.WriteLine($"Expected: {expectedHash}; Actual: {hash}");
+            return new Wallet
+            {
+                Name = walletType.Name,
+                Version = version,
+                Status = hash == expectedHash ? WalletStatus.Verified : WalletStatus.NotVerified
+            };
+        }
+        catch
+        {
+            return new Wallet
+            {
+                Name = walletType.Name,
+                Version = version,
+                Status = WalletStatus.NotVerified
+            };
+        }
     }
 
     public static string CreateMd5ForFolder(string path)

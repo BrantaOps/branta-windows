@@ -13,6 +13,7 @@
     <None Remove="Assets\bip39wordlist.txt" />
     <None Remove="Assets\black_circle.ico" />
     <None Remove="Assets\black_circle.png" />
+    <None Remove="Assets\CheckSums.yaml" />
     <None Remove="Assets\close.png" />
     <None Remove="Assets\close.svg" />
     <None Remove="Assets\favicon.png" />
@@ -31,6 +32,9 @@
 
   <ItemGroup>
     <EmbeddedResource Include="Assets\bip39wordlist.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Assets\CheckSums.yaml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="Assets\InstallerHashes.yaml">

@@ -17,7 +17,7 @@ public class Installer
 
     public void ProcessFiles(string[] files)
     {
-        var hashes = YamlLoader.LoadYamlFile("Assets\\InstallerHashes.yaml");
+        var hashes = YamlLoader.LoadInstallerHashes();
 
         foreach (var file in files)
         {

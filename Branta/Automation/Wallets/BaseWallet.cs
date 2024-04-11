@@ -16,7 +16,7 @@ public abstract partial class BaseWallet
 
     public HashType InstallerHashType { get; set; } = HashType.Sha256;
 
-    public abstract IReadOnlyDictionary<string, string> CheckSums { get; }
+    public Dictionary<string, VersionInfo> CheckSums { get; set; }
 
     private const string RegistryUninstallPath = @"SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\";
 
