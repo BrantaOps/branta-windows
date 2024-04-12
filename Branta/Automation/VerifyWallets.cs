@@ -163,7 +163,7 @@ public class VerifyWallets : BaseAutomation
         }
     }
 
-    public static string CreateMd5ForFolder(string path)
+    private static string CreateMd5ForFolder(string path)
     {
         var files = Directory
             .GetFiles(path, "*", SearchOption.AllDirectories)
