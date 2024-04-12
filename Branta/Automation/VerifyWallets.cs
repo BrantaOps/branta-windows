@@ -128,7 +128,12 @@ public class VerifyWallets : BaseAutomation
             string hash = null;
             string expectedHash = null;
 
-            if (versionInfo.Md5 != null)
+            if (versionInfo.Sha256 != null)
+            {
+                hash = CreateSha256ForFolder(path);
+                expectedHash = versionInfo.Sha256;
+            }
+            else if (versionInfo.Md5 != null)
             {
                 hash = CreateMd5ForFolder(path);
                 expectedHash = versionInfo.Md5;
@@ -144,7 +149,7 @@ public class VerifyWallets : BaseAutomation
                 };
             }
 
-            Trace.WriteLine($"Expected: {expectedHash}; Actual: {hash}");
+            Trace.WriteLine($"Wallet [{walletType.Name}] Expected: {expectedHash}; Actual: {hash}");
             return new Wallet
             {
                 Name = walletType.Name,
@@ -161,6 +166,32 @@ public class VerifyWallets : BaseAutomation
                 Status = WalletStatus.NotVerified
             };
         }
+    }
+
+    private static string CreateSha256ForFolder(string path)
+    {
+        var files = Directory
+            .GetFiles(path, "*", SearchOption.AllDirectories)
+            .OrderBy(p => p).ToList();
+
+        var sha256 = SHA256.Create();
+
+        for (var i = 0; i < files.Count; i++)
+        {
+            var file = files[i];
+
+            var relativePath = file.Substring(path.Length + 1);
+            var pathBytes = Encoding.UTF8.GetBytes(relativePath.ToLower());
+            sha256.TransformBlock(pathBytes, 0, pathBytes.Length, pathBytes, 0);
+
+            var contentBytes = File.ReadAllBytes(file);
+            if (i == files.Count - 1)
+                sha256.TransformFinalBlock(contentBytes, 0, contentBytes.Length);
+            else
+                sha256.TransformBlock(contentBytes, 0, contentBytes.Length, contentBytes, 0);
+        }
+
+        return BitConverter.ToString(sha256.Hash).Replace("-", "").ToLower();
     }
 
     private static string CreateMd5ForFolder(string path)
