@@ -22,11 +22,14 @@ public partial class MainWindow : BaseWindow
 {
     private readonly NotifyIcon _notifyIcon;
     private readonly ResourceDictionary _resourceDictionary;
-    private readonly System.Timers.Timer _clipboardGuardianTimer;
-    private readonly System.Timers.Timer _focusTimer;
+    private readonly Installer _installer;
+    private readonly Timer _clipboardGuardianTimer;
+    private readonly Timer _focusTimer;
     private readonly Timer _updateTimer;
+    private readonly Timer _installerTimer;
 
-    private System.Timers.Timer _verifyWalletTimer;
+    private Timer _verifyWalletTimer;
+
     private Settings _settings;
     public event Action<Settings> SettingsChanged;
 
@@ -73,6 +76,10 @@ public partial class MainWindow : BaseWindow
             var update = new UpdateApp(_notifyIcon, _resourceDictionary);
             _updateTimer = update.CreateTimer();
             update.Elapsed(null, null);
+
+            _installer = new Installer(_notifyIcon, _resourceDictionary);
+            _installerTimer = _installer.CreateTimer();
+            _installer.Elapsed(null, null);
         }
         catch (Exception ex)
         {
@@ -120,6 +127,8 @@ public partial class MainWindow : BaseWindow
         _verifyWalletTimer.Dispose();
         _clipboardGuardianTimer.Dispose();
         _focusTimer.Dispose();
+        _updateTimer.Dispose();
+        _installerTimer.Dispose();
         Application.Current.Shutdown();
     }
     
@@ -167,9 +176,7 @@ public partial class MainWindow : BaseWindow
 
         var files = (string[])e.Data.GetData(DataFormats.FileDrop);
 
-        var installer = new Installer(_notifyIcon, _resourceDictionary);
-
-        installer.ProcessFiles(files);
+        _installer.ProcessFiles(files);
     }
 
     private void LoadSettings()

@@ -4,26 +4,29 @@ using System.Windows.Forms;
 
 namespace Branta.Automation;
 
-public class Installer
+public class Installer : BaseAutomation
 {
     private readonly NotifyIcon _notifyIcon;
     private readonly ResourceDictionary _resourceDictionary;
+    private readonly BrantaClient _brantaClient;
 
-    public Installer(NotifyIcon notifyIcon, ResourceDictionary resourceDictionary)
+    private Dictionary<string, string> _hashes;
+
+    public Installer(NotifyIcon notifyIcon, ResourceDictionary resourceDictionary) : base(notifyIcon, null, 60 * 60 * 4)
     {
         _notifyIcon = notifyIcon;
         _resourceDictionary = resourceDictionary;
+
+        _brantaClient = new BrantaClient();
     }
 
     public void ProcessFiles(string[] files)
     {
-        var hashes = YamlLoader.LoadInstallerHashes();
-
         foreach (var file in files)
         {
-            var filename = hashes.GetValueOrDefault(Helper.CalculateSha256(file)) ??
-                           hashes.GetValueOrDefault(Helper.CalculateSha512(file)) ??
-                           hashes.GetValueOrDefault(Helper.CalculateSha512(file, base64Encoding: true));
+            var filename = _hashes.GetValueOrDefault(Helper.CalculateSha256(file)) ??
+                           _hashes.GetValueOrDefault(Helper.CalculateSha512(file)) ??
+                           _hashes.GetValueOrDefault(Helper.CalculateSha512(file, base64Encoding: true));
 
             _notifyIcon.ShowBalloonTip(filename != null ? new Notification
             {
@@ -35,5 +38,10 @@ public class Installer
                 Icon = ToolTipIcon.Error
             });
         }
+    }
+
+    public override void Run()
+    {
+        Task.Run(async () => _hashes = await _brantaClient.GetInstallerHashesAsync() ?? YamlLoader.LoadInstallerHashes());
     }
 }
