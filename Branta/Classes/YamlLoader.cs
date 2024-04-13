@@ -9,11 +9,17 @@ public class YamlLoader
 {
     public static Dictionary<string, string> LoadInstallerHashes()
     {
+        using var reader = new StreamReader("Assets\\InstallerHashes.yaml");
+
+        return LoadInstallerHashes(reader);
+    }
+
+    public static Dictionary<string, string> LoadInstallerHashes(StreamReader streamReader)
+    {
         var result = new Dictionary<string, string>();
 
-        using var reader = new StreamReader("Assets\\InstallerHashes.yaml");
         var yaml = new YamlStream();
-        yaml.Load(reader);
+        yaml.Load(streamReader);
 
         foreach (var doc in yaml.Documents)
         {
