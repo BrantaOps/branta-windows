@@ -1,6 +1,4 @@
 ﻿using Branta.Classes;
-using System.IO;
-using System.Net.Http;
 using System.Windows;
 using System.Windows.Forms;
 
@@ -10,19 +8,16 @@ public class Installer : BaseAutomation
 {
     private readonly NotifyIcon _notifyIcon;
     private readonly ResourceDictionary _resourceDictionary;
-    private readonly HttpClient _brantaHashClient;
+    private readonly BrantaClient _brantaClient;
 
     private Dictionary<string, string> _hashes;
 
-    public Installer(NotifyIcon notifyIcon, ResourceDictionary resourceDictionary) : base(notifyIcon, null, 60)
+    public Installer(NotifyIcon notifyIcon, ResourceDictionary resourceDictionary) : base(notifyIcon, null, 60 * 60 * 4)
     {
         _notifyIcon = notifyIcon;
         _resourceDictionary = resourceDictionary;
 
-        _brantaHashClient = new HttpClient()
-        {
-            BaseAddress = new Uri("https://hash-server-7be6da1b0395.herokuapp.com")
-        };
+        _brantaClient = new BrantaClient();
     }
 
     public void ProcessFiles(string[] files)
@@ -47,26 +42,6 @@ public class Installer : BaseAutomation
 
     public override void Run()
     {
-        Task.Run(LoadInstallerHashesAsync);
-    }
-
-    private async Task LoadInstallerHashesAsync()
-    {
-        _hashes = await FetchInstallerHashes() ?? YamlLoader.LoadInstallerHashes();
-    }
-
-    private async Task<Dictionary<string, string>> FetchInstallerHashes()
-    {
-        try
-        {
-            var response = await _brantaHashClient.GetAsync("/installer_hashes");
-            var content = await response.Content.ReadAsStreamAsync();
-
-            return YamlLoader.LoadInstallerHashes(new StreamReader(content));
-        }
-        catch
-        {
-            return null;
-        }
+        Task.Run(async () => _hashes = await _brantaClient.GetInstallerHashesAsync() ?? YamlLoader.LoadInstallerHashes());
     }
 }
