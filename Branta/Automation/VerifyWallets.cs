@@ -14,38 +14,18 @@ namespace Branta.Automation;
 public class VerifyWallets : BaseAutomation
 {
     public ObservableCollection<Wallet> Wallets { get; } = new();
-    public static List<BaseWallet> WalletTypes;
+    public static List<BaseWallet> WalletTypes = new();
+
+    private readonly BrantaClient _brantaClient;
 
     private bool _isFirstRun = true;
 
     public VerifyWallets(NotifyIcon notifyIcon, Settings settings) : base(notifyIcon, settings,
         (int)settings.WalletVerification.WalletVerifyEvery.TotalSeconds)
     {
-        var checkSums = YamlLoader.LoadCheckSums();
+        _brantaClient = new BrantaClient();
 
-        WalletTypes = new List<BaseWallet>
-        {
-            new BlockStreamGreen
-            {
-                CheckSums = checkSums.BlockstreamGreen
-            },
-            new Ledger
-            {
-                CheckSums = checkSums.Ledger
-            },
-            new Sparrow
-            {
-                CheckSums = checkSums.Sparrow
-            },
-            new Trezor
-            {
-                CheckSums = checkSums.Trezor
-            },
-            new Wasabi
-            {
-                CheckSums = checkSums.Wasabi
-            }
-        };
+        Task.Run(LoadCheckSums);
     }
 
     public override void Run()
@@ -218,5 +198,34 @@ public class VerifyWallets : BaseAutomation
         }
 
         return BitConverter.ToString(md5.Hash).Replace("-", "").ToLower();
+    }
+
+    private async Task LoadCheckSums()
+    {
+        var checkSums = await _brantaClient.GetCheckSumsAsync() ?? YamlLoader.LoadCheckSums();
+
+        WalletTypes = new List<BaseWallet>
+        {
+            new BlockStreamGreen
+            {
+                CheckSums = checkSums.BlockstreamGreen
+            },
+            new Ledger
+            {
+                CheckSums = checkSums.Ledger
+            },
+            new Sparrow
+            {
+                CheckSums = checkSums.Sparrow
+            },
+            new Trezor
+            {
+                CheckSums = checkSums.Trezor
+            },
+            new Wasabi
+            {
+                CheckSums = checkSums.Wasabi
+            }
+        };
     }
 }

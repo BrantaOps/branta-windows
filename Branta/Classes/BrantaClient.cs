@@ -24,4 +24,19 @@ internal class BrantaClient
             return null;
         }
     }
+
+    public async Task<CheckSums> GetCheckSumsAsync()
+    {
+        try
+        {
+            var response = await _httpClient.GetAsync("/windows/checksums");
+            var content = await response.Content.ReadAsStringAsync();
+
+            return YamlLoader.LoadCheckSums(content);
+        }
+        catch
+        {
+            return null;
+        }
+    }
 }
