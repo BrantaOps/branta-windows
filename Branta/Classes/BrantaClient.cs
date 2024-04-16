@@ -7,14 +7,20 @@ internal class BrantaClient
 {
     private readonly HttpClient _httpClient = new()
     {
-        BaseAddress = new Uri("https://api.branta.pro")
+        BaseAddress = new Uri("https://api.branta.pro/v1/")
     };
 
     public async Task<Dictionary<string, string>> GetInstallerHashesAsync()
     {
         try
         {
-            var response = await _httpClient.GetAsync("/installer_hashes");
+            var response = await _httpClient.GetAsync("installer_hashes");
+
+            if (!response.IsSuccessStatusCode)
+            {
+                return null;
+            }
+
             var content = await response.Content.ReadAsStreamAsync();
 
             return YamlLoader.LoadInstallerHashes(new StreamReader(content));
@@ -29,7 +35,13 @@ internal class BrantaClient
     {
         try
         {
-            var response = await _httpClient.GetAsync("/windows/checksums");
+            var response = await _httpClient.GetAsync("checksums?platform=windows");
+
+            if (!response.IsSuccessStatusCode)
+            {
+                return null;
+            }
+
             var content = await response.Content.ReadAsStringAsync();
 
             return YamlLoader.LoadCheckSums(content);
