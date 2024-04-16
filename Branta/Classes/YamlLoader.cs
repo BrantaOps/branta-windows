@@ -39,11 +39,16 @@ public class YamlLoader
 
     public static CheckSums LoadCheckSums()
     {
+        var yaml = File.ReadAllText("Assets\\CheckSums.yaml");
+
+        return LoadCheckSums(yaml);
+    }
+
+    public static CheckSums LoadCheckSums(string yaml)
+    {
         var deserializer = new DeserializerBuilder()
             .WithNamingConvention(CamelCaseNamingConvention.Instance)
             .Build();
-
-        var yaml = File.ReadAllText("Assets\\CheckSums.yaml");
 
         return deserializer.Deserialize<CheckSums>(yaml);
     }

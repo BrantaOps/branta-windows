@@ -21,7 +21,6 @@ namespace Branta;
 public partial class MainWindow : BaseWindow
 {
     private readonly NotifyIcon _notifyIcon;
-    private readonly ResourceDictionary _resourceDictionary;
     private readonly Installer _installer;
     private readonly Timer _clipboardGuardianTimer;
     private readonly Timer _focusTimer;
@@ -42,7 +41,7 @@ public partial class MainWindow : BaseWindow
             InitializeComponent();
             DataContext = this;
 
-            _resourceDictionary = SetLanguageDictionary();
+            var resourceDictionary = SetLanguageDictionary();
             InitCountly();
             LoadSettings();
             SetResizeImage(ImageScreenSize);
@@ -73,11 +72,11 @@ public partial class MainWindow : BaseWindow
             _focusTimer = focus.CreateTimer();
             focus.Elapsed(null, null);
 
-            var update = new UpdateApp(_notifyIcon, _resourceDictionary);
+            var update = new UpdateApp(_notifyIcon, resourceDictionary);
             _updateTimer = update.CreateTimer();
             update.Elapsed(null, null);
 
-            _installer = new Installer(_notifyIcon, _resourceDictionary);
+            _installer = new Installer(_notifyIcon, resourceDictionary);
             _installerTimer = _installer.CreateTimer();
             _installer.Elapsed(null, null);
         }
