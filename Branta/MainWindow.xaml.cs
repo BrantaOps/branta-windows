@@ -28,6 +28,7 @@ public partial class MainWindow : BaseWindow
     private Timer _verifyWalletTimer;
 
     private Settings _settings;
+    private readonly Timer _loadCheckSumsTimer;
     public event Action<Settings> SettingsChanged;
 
     public VerifyWallets VerifyWallets { get; }
@@ -55,10 +56,19 @@ public partial class MainWindow : BaseWindow
             _notifyIcon.ContextMenuStrip.Items.Add("Settings", null, OnClick_Settings);
             _notifyIcon.ContextMenuStrip.Items.Add("Quit", null, OnClick_Quit);
 
-            VerifyWallets = new VerifyWallets(_notifyIcon, _settings);
+            var loadCheckSums = new LoadCheckSums();
+            _loadCheckSumsTimer = loadCheckSums.CreateTimer();
+
+            VerifyWallets = new VerifyWallets(_notifyIcon, _settings, loadCheckSums);
             VerifyWallets.SubscribeToSettingsChanges(this);
             _verifyWalletTimer = VerifyWallets.CreateTimer();
-            VerifyWallets.Elapsed(null, null);
+
+            Task.Run(async () =>
+            {
+                await loadCheckSums.LoadAsync();
+
+                VerifyWallets.Elapsed(null, null);
+            });
 
             var clipboardGuardian = new ClipboardGuardian(_notifyIcon, _settings);
             clipboardGuardian.SubscribeToSettingsChanges(this);
@@ -107,6 +117,7 @@ public partial class MainWindow : BaseWindow
         _focusTimer.Dispose();
         _updateTimer.Dispose();
         _installerTimer.Dispose();
+        _loadCheckSumsTimer.Dispose();
         Application.Current.Shutdown();
     }
     

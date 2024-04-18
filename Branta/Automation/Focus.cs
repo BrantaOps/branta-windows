@@ -12,7 +12,7 @@ public class Focus : BaseAutomation
 
     public Focus(NotifyIcon notifyIcon, Settings settings) : base(notifyIcon, settings, 2)
     {
-        _walletTypes = VerifyWallets.WalletTypes.ToDictionary(w => w, _ => WalletStatus.None);
+        _walletTypes = BaseWallet.GetSupportedWallets().ToDictionary(w => w, _ => WalletStatus.None);
     }
 
     public override void Run()

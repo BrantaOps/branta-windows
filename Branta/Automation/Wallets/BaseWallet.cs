@@ -52,4 +52,31 @@ public abstract partial class BaseWallet
 
     [GeneratedRegex(@"(\d+\.\d+\.\d+)")]
     private static partial Regex VersionRegex();
+
+    public static List<BaseWallet> GetSupportedWallets(CheckSums checkSums = null)
+    {
+        return new List<BaseWallet>
+        {
+            // new BlockStreamGreen
+            // {
+            //     CheckSums = checkSums?.BlockstreamGreen
+            // },
+            // new Ledger
+            // {
+            //     CheckSums = checkSums?.Ledger
+            // },
+            new Sparrow
+            {
+                CheckSums = checkSums?.Sparrow
+            },
+            // new Trezor
+            // {
+            //     CheckSums = checkSums?.Trezor
+            // },
+            // new Wasabi
+            // {
+            //     CheckSums = checkSums?.Wasabi
+            // }
+        };
+    }
 }
