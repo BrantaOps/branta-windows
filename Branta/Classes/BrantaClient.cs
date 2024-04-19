@@ -3,7 +3,7 @@ using System.Net.Http;
 
 namespace Branta.Classes;
 
-internal class BrantaClient
+public class BrantaClient
 {
     private readonly HttpClient _httpClient = new()
     {

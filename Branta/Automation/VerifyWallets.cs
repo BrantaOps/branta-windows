@@ -13,19 +13,18 @@ namespace Branta.Automation;
 
 public class VerifyWallets : BaseAutomation
 {
+    private readonly LoadCheckSums _loadCheckSums;
     public ObservableCollection<Wallet> Wallets { get; } = new();
-    public static List<BaseWallet> WalletTypes = new();
 
     private readonly BrantaClient _brantaClient;
 
     private bool _isFirstRun = true;
 
-    public VerifyWallets(NotifyIcon notifyIcon, Settings settings) : base(notifyIcon, settings,
+    public VerifyWallets(NotifyIcon notifyIcon, Settings settings, LoadCheckSums loadCheckSums) : base(notifyIcon, settings,
         (int)settings.WalletVerification.WalletVerifyEvery.TotalSeconds)
     {
+        _loadCheckSums = loadCheckSums;
         _brantaClient = new BrantaClient();
-
-        Task.Run(LoadCheckSums);
     }
 
     public override void Run()
@@ -39,7 +38,7 @@ public class VerifyWallets : BaseAutomation
 
         var bufferedWallets = new List<Wallet>();
 
-        foreach (var walletType in WalletTypes)
+        foreach (var walletType in _loadCheckSums.WalletTypes)
         {
             var wallet = Verify(walletType);
 
@@ -198,34 +197,5 @@ public class VerifyWallets : BaseAutomation
         }
 
         return BitConverter.ToString(md5.Hash).Replace("-", "").ToLower();
-    }
-
-    private async Task LoadCheckSums()
-    {
-        var checkSums = await _brantaClient.GetCheckSumsAsync() ?? YamlLoader.LoadCheckSums();
-
-        WalletTypes = new List<BaseWallet>
-        {
-            new BlockStreamGreen
-            {
-                CheckSums = checkSums.BlockstreamGreen
-            },
-            new Ledger
-            {
-                CheckSums = checkSums.Ledger
-            },
-            new Sparrow
-            {
-                CheckSums = checkSums.Sparrow
-            },
-            new Trezor
-            {
-                CheckSums = checkSums.Trezor
-            },
-            new Wasabi
-            {
-                CheckSums = checkSums.Wasabi
-            }
-        };
     }
 }

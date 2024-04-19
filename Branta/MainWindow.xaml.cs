@@ -2,8 +2,6 @@
 using Branta.Classes;
 using Branta.Domain;
 using Branta.Views;
-using CountlySDK;
-using CountlySDK.Entities;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
@@ -30,6 +28,7 @@ public partial class MainWindow : BaseWindow
     private Timer _verifyWalletTimer;
 
     private Settings _settings;
+    private readonly Timer _loadCheckSumsTimer;
     public event Action<Settings> SettingsChanged;
 
     public VerifyWallets VerifyWallets { get; }
@@ -42,8 +41,8 @@ public partial class MainWindow : BaseWindow
             DataContext = this;
 
             var resourceDictionary = SetLanguageDictionary();
-            InitCountly();
-            LoadSettings();
+            Analytics.Init();
+            _settings = Settings.Load();
             SetResizeImage(ImageScreenSize);
 
             _notifyIcon = new NotifyIcon
@@ -57,10 +56,19 @@ public partial class MainWindow : BaseWindow
             _notifyIcon.ContextMenuStrip.Items.Add("Settings", null, OnClick_Settings);
             _notifyIcon.ContextMenuStrip.Items.Add("Quit", null, OnClick_Quit);
 
-            VerifyWallets = new VerifyWallets(_notifyIcon, _settings);
+            var loadCheckSums = new LoadCheckSums();
+            _loadCheckSumsTimer = loadCheckSums.CreateTimer();
+
+            VerifyWallets = new VerifyWallets(_notifyIcon, _settings, loadCheckSums);
             VerifyWallets.SubscribeToSettingsChanges(this);
             _verifyWalletTimer = VerifyWallets.CreateTimer();
-            VerifyWallets.Elapsed(null, null);
+
+            Task.Run(async () =>
+            {
+                await loadCheckSums.LoadAsync();
+
+                VerifyWallets.Elapsed(null, null);
+            });
 
             var clipboardGuardian = new ClipboardGuardian(_notifyIcon, _settings);
             clipboardGuardian.SubscribeToSettingsChanges(this);
@@ -88,25 +96,6 @@ public partial class MainWindow : BaseWindow
         }
     }
 
-    public void ChangeSettings(Settings newSettings)
-    {
-        Properties.Settings.Default.BitcoinAddressesEnabled = newSettings.ClipboardGuardian.BitcoinAddressesEnabled;
-        Properties.Settings.Default.SeedPhraseEnabled = newSettings.ClipboardGuardian.SeedPhraseEnabled;
-        Properties.Settings.Default.ExtendedPublicKeyEnabled = newSettings.ClipboardGuardian.ExtendedPublicKeyEnabled;
-        Properties.Settings.Default.PrivateKeyEnabled = newSettings.ClipboardGuardian.PrivateKeyEnabled;
-        Properties.Settings.Default.NostrPublicKeyEnabled = newSettings.ClipboardGuardian.NostrPublicKeyEnabled;
-        Properties.Settings.Default.NostrPrivateKeyEnabled = newSettings.ClipboardGuardian.NostrPrivateKeyEnabled;
-
-        Properties.Settings.Default.WalletVerifyEvery = newSettings.WalletVerification.WalletVerifyEvery;
-        Properties.Settings.Default.LaunchingWalletEnabled = newSettings.WalletVerification.LaunchingWalletEnabled;
-        Properties.Settings.Default.WalletStatusChangeEnabled = newSettings.WalletVerification.WalletStatusChangeEnabled;
-
-        Properties.Settings.Default.Save();
-
-        _settings = newSettings;
-        SettingsChanged?.Invoke(_settings);
-    }
-
     protected override void OnClosing(CancelEventArgs e)
     {
         e.Cancel = true;
@@ -128,6 +117,7 @@ public partial class MainWindow : BaseWindow
         _focusTimer.Dispose();
         _updateTimer.Dispose();
         _installerTimer.Dispose();
+        _loadCheckSumsTimer.Dispose();
         Application.Current.Shutdown();
     }
     
@@ -146,7 +136,10 @@ public partial class MainWindow : BaseWindow
             _verifyWalletTimer = VerifyWallets.CreateTimer();
         }
 
-        ChangeSettings(settings);
+        Settings.Save(settings);
+
+        _settings = settings;
+        SettingsChanged?.Invoke(_settings);
     }
 
     private void OnClick_Help(object sender, MouseButtonEventArgs e)
@@ -176,40 +169,5 @@ public partial class MainWindow : BaseWindow
         var files = (string[])e.Data.GetData(DataFormats.FileDrop);
 
         _installer.ProcessFiles(files);
-    }
-
-    private void LoadSettings()
-    {
-        _settings = new Settings
-        {
-            ClipboardGuardian = new ClipboardGuardianSettings
-            {
-                BitcoinAddressesEnabled = Properties.Settings.Default.BitcoinAddressesEnabled,
-                SeedPhraseEnabled = Properties.Settings.Default.SeedPhraseEnabled,
-                ExtendedPublicKeyEnabled = Properties.Settings.Default.ExtendedPublicKeyEnabled,
-                PrivateKeyEnabled = Properties.Settings.Default.PrivateKeyEnabled,
-                NostrPublicKeyEnabled = Properties.Settings.Default.NostrPublicKeyEnabled,
-                NostrPrivateKeyEnabled = Properties.Settings.Default.NostrPrivateKeyEnabled
-            },
-            WalletVerification = new WalletVerificationSettings
-            {
-                WalletVerifyEvery = Properties.Settings.Default.WalletVerifyEvery,
-                LaunchingWalletEnabled = Properties.Settings.Default.LaunchingWalletEnabled,
-                WalletStatusChangeEnabled = Properties.Settings.Default.WalletStatusChangeEnabled
-            }
-        };
-    }
-
-    private static void InitCountly()
-    {
-        var cc = new CountlyConfig
-        {
-            serverUrl = "https://branta-0dc12e4ffb389.flex.countly.com",
-            appKey = "ccc4eb59a850e5f3bdf640b8d36284c3bce03f12",
-            appVersion = Helper.GetBrantaVersionWithoutCommitHash()
-        };
-
-        Countly.Instance.Init(cc);
-        Countly.Instance.SessionBegin();
     }
 }
