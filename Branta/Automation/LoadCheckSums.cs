@@ -9,6 +9,8 @@ public class LoadCheckSums : BaseAutomation
 
     private readonly BrantaClient _brantaClient;
 
+    private const string CheckSumsPath = "CheckSums.yaml";
+
     public LoadCheckSums() : base(null, null, 60 * 60 * 4)
     {
         _brantaClient = new BrantaClient();
@@ -21,8 +23,29 @@ public class LoadCheckSums : BaseAutomation
 
     public async Task LoadAsync()
     {
-        var checkSums = await _brantaClient.GetCheckSumsAsync() ?? YamlLoader.LoadCheckSums();
+        var checkSums = await LoadCheckSumsAsync();
 
         WalletTypes = BaseWallet.GetSupportedWallets(checkSums);
+    }
+
+    private async Task<CheckSums> LoadCheckSumsAsync()
+    {
+        var serverCheckSums = await _brantaClient.GetCheckSumsAsync();
+
+        if (serverCheckSums != null)
+        {
+            FileStorage.Save(CheckSumsPath, serverCheckSums);
+
+            return YamlLoader.Load<CheckSums>(serverCheckSums);
+        }
+
+        var cacheCheckSums = FileStorage.Load(CheckSumsPath);
+
+        if (cacheCheckSums != null)
+        {
+            return YamlLoader.Load<CheckSums>(cacheCheckSums);
+        }
+
+        return YamlLoader.LoadCheckSums();
     }
 }

@@ -24,14 +24,15 @@ public partial class MainWindow : BaseWindow
     private readonly Timer _focusTimer;
     private readonly Timer _updateTimer;
     private readonly Timer _installerTimer;
+    private readonly Timer _loadCheckSumsTimer;
 
     private Timer _verifyWalletTimer;
 
     private Settings _settings;
-    private readonly Timer _loadCheckSumsTimer;
     public event Action<Settings> SettingsChanged;
 
     public VerifyWallets VerifyWallets { get; }
+    public LoadCheckSums LoadCheckSums { get; }
 
     public MainWindow()
     {
@@ -56,16 +57,16 @@ public partial class MainWindow : BaseWindow
             _notifyIcon.ContextMenuStrip.Items.Add("Settings", null, OnClick_Settings);
             _notifyIcon.ContextMenuStrip.Items.Add("Quit", null, OnClick_Quit);
 
-            var loadCheckSums = new LoadCheckSums();
-            _loadCheckSumsTimer = loadCheckSums.CreateTimer();
+            LoadCheckSums = new LoadCheckSums();
+            _loadCheckSumsTimer = LoadCheckSums.CreateTimer();
 
-            VerifyWallets = new VerifyWallets(_notifyIcon, _settings, loadCheckSums);
+            VerifyWallets = new VerifyWallets(_notifyIcon, _settings, LoadCheckSums);
             VerifyWallets.SubscribeToSettingsChanges(this);
             _verifyWalletTimer = VerifyWallets.CreateTimer();
 
             Task.Run(async () =>
             {
-                await loadCheckSums.LoadAsync();
+                await LoadCheckSums.LoadAsync();
 
                 VerifyWallets.Elapsed(null, null);
             });

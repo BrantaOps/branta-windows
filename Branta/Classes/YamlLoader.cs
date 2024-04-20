@@ -1,5 +1,4 @@
 ﻿using System.IO;
-using YamlDotNet.RepresentationModel;
 using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.NamingConventions;
 
@@ -9,47 +8,24 @@ public class YamlLoader
 {
     public static Dictionary<string, string> LoadInstallerHashes()
     {
-        using var reader = new StreamReader("Assets\\InstallerHashes.yaml");
+        var yaml = File.ReadAllText("Assets\\InstallerHashes.yaml");
 
-        return LoadInstallerHashes(reader);
-    }
-
-    public static Dictionary<string, string> LoadInstallerHashes(StreamReader streamReader)
-    {
-        var result = new Dictionary<string, string>();
-
-        var yaml = new YamlStream();
-        yaml.Load(streamReader);
-
-        foreach (var doc in yaml.Documents)
-        {
-            var mappingNode = (YamlMappingNode)doc.RootNode;
-
-            foreach (var entry in mappingNode.Children)
-            {
-                var hash = ((YamlScalarNode)entry.Key).Value;
-                var filename = ((YamlScalarNode)entry.Value).Value;
-
-                result.Add(hash, filename);
-            }
-        }
-
-        return result;
+        return Load<Dictionary<string, string>>(yaml);
     }
 
     public static CheckSums LoadCheckSums()
     {
         var yaml = File.ReadAllText("Assets\\CheckSums.yaml");
 
-        return LoadCheckSums(yaml);
+        return Load<CheckSums>(yaml);
     }
 
-    public static CheckSums LoadCheckSums(string yaml)
+    public static T Load<T>(string yaml)
     {
         var deserializer = new DeserializerBuilder()
             .WithNamingConvention(CamelCaseNamingConvention.Instance)
             .Build();
 
-        return deserializer.Deserialize<CheckSums>(yaml);
+        return deserializer.Deserialize<T>(yaml);
     }
 }
