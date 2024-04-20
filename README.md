@@ -18,10 +18,13 @@
 
 
 ## Security for your Custody
- - ⚡️ Wallet Verification: Automatically verifies supported wallets against PGP verified SHA-256 checksums
- - ⚡️ Clipboard Guardian: Get notified of bitcoin-related activity on your clipboard
- - ⚡️ Focus Automation: Verify wallets upon launch
- - ⚡️ Installer Automation
+ - ⚡️ Wallet Verification
+   - Automatically verifies supported wallets against PGP verified SHA-256 checksums
+ - ⚡️ Clipboard Guardian
+   - Get notified of bitcoin-related activity on your clipboard
+ - ⚡️ Focus Automation
+   - Verify Wallets automatically upon launch
+ - ⚡️ Drag & Drop PGP Verification for Installers
 
 
 ![Branta Screenshot](https://github.com/BrantaOps/branta-windows/assets/110685100/8e18f727-6208-4f55-baf9-c40b550d1389)
