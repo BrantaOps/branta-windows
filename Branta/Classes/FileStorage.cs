@@ -11,6 +11,11 @@ public static class FileStorage
 
     public static string Load(string path)
     {
+        if (!File.Exists(path))
+        {
+            return null;
+        }
+
         return File.ReadAllText(GetFullPath(path));
     }
 
