@@ -17,11 +17,11 @@
 </div>
 
 
-## Features
- - ✅ Wallet Verification: Automatically verifies supported wallets against PGP verified SHA-256 checksums
- - ✅ Clipboard Guardian: Get notified of bitcoin-related activity on your clipboard
- - ✅ Focus Automation: Verify wallets upon launch
- - ✅ Installer Automation
+## Security for your Custody
+ - ⚡️ Wallet Verification: Automatically verifies supported wallets against PGP verified SHA-256 checksums
+ - ⚡️ Clipboard Guardian: Get notified of bitcoin-related activity on your clipboard
+ - ⚡️ Focus Automation: Verify wallets upon launch
+ - ⚡️ Installer Automation
 
 
 ![Branta Screenshot](https://github.com/BrantaOps/branta-windows/assets/110685100/8e18f727-6208-4f55-baf9-c40b550d1389)
@@ -30,19 +30,9 @@
 
 
 #### Supported Wallets
- - ✅ Sparrow
- - ✅ Wasabi
- - ✅ Trezor
- - ✅ Blockstream Green
- - ✅ Ledger
- - 🔳 Whirlpool
- - 🔳 Bitcoin Core
+ - ⚡️ Sparrow
+ - More coming soon...
 
-
-## Known Limitations
-
-- Spoof Wallets likely install to custom paths. Branta needs to have more flexible path scanning to catch these.
-- Ongoing wallet support - Branta doesn't know about new releases unless we manually input them.
 
 
 ## Building
@@ -68,13 +58,15 @@ Run from Source
 dotnet run
 ```
 
+## Donate
+
+Branta is free open source software. If you can, consider donating on [Geyser](https://geyser.fund/project/branta). All funds go towards improving and automating security for your stack.
+
+
 ## Feature Requests & Bug Reporting
 
 Open a [new issue](https://github.com/BrantaOps/branta-windows/issues/new) on Github and we'll reply as soon as we can.
 
-## Policy on Altcoins/Altchains
-
-Branta is Bitcoin-only. Enduring Bitcoin products are difficult to build; adding support for the unstable, poorly designed altcoin ecosystem is a lose-lose proposition.
 
 ## Licensing
 
