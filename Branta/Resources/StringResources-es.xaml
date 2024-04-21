@@ -2,6 +2,9 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:system="clr-namespace:System;assembly=mscorlib">
 
+    <!-- General -->
+    <system:String x:Key="Loading">Carga...</system:String>
+
     <!-- Main Window -->
     <system:String x:Key="WalletsDetected">Carteras detectadas</system:String>
     <system:String x:Key="WalletColumnHeader">Billetera</system:String>

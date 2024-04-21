@@ -62,6 +62,7 @@
                    Width="400" />
             <TextBlock Grid.Row="2"
                        Name="TbWalletsDetected"
+                       Visibility="Hidden"
                        Margin="10"
                        Foreground="white"
                        FontSize="16"
@@ -70,6 +71,13 @@
                 <Run Text="{Binding Path=VerifyWallets.Wallets.Count, Mode=OneWay}" /><Run Text=" " />
                 <Run Text="{DynamicResource WalletsDetected}" /><Run Text="." />
             </TextBlock>
+            <TextBlock Grid.Row="3"
+                       Text="{DynamicResource Loading}"
+                       Name="TbCheckSumsLoading"
+                       Foreground="#bbb"
+                       FontSize="18"
+                       VerticalAlignment="Center"
+                       HorizontalAlignment="Center"></TextBlock>
             <Grid Grid.Row="3">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="35" />

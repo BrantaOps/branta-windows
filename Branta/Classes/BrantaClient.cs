@@ -6,7 +6,8 @@ public class BrantaClient
 {
     private readonly HttpClient _httpClient = new()
     {
-        BaseAddress = new Uri("https://api.branta.pro/v1/")
+        BaseAddress = new Uri("https://api.branta.pro/v1/"),
+        Timeout = new TimeSpan(0, 0, 15)
     };
 
     public async Task<string> GetInstallerHashesAsync()
