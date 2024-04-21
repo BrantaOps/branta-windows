@@ -112,11 +112,6 @@ public class VerifyWallets : BaseAutomation
                 hash = CreateSha256ForFolder(path);
                 expectedHash = versionInfo.Sha256;
             }
-            else if (versionInfo.Md5 != null)
-            {
-                hash = CreateMd5ForFolder(path);
-                expectedHash = versionInfo.Md5;
-            }
 
             if (hash == null)
             {
@@ -171,31 +166,5 @@ public class VerifyWallets : BaseAutomation
         }
 
         return BitConverter.ToString(sha256.Hash).Replace("-", "").ToLower();
-    }
-
-    private static string CreateMd5ForFolder(string path)
-    {
-        var files = Directory
-            .GetFiles(path, "*", SearchOption.AllDirectories)
-            .OrderBy(p => p).ToList();
-
-        var md5 = MD5.Create();
-
-        for (var i = 0; i < files.Count; i++)
-        {
-            var file = files[i];
-
-            var relativePath = file.Substring(path.Length + 1);
-            var pathBytes = Encoding.UTF8.GetBytes(relativePath.ToLower());
-            md5.TransformBlock(pathBytes, 0, pathBytes.Length, pathBytes, 0);
-
-            var contentBytes = File.ReadAllBytes(file);
-            if (i == files.Count - 1)
-                md5.TransformFinalBlock(contentBytes, 0, contentBytes.Length);
-            else
-                md5.TransformBlock(contentBytes, 0, contentBytes.Length, contentBytes, 0);
-        }
-
-        return BitConverter.ToString(md5.Hash).Replace("-", "").ToLower();
     }
 }

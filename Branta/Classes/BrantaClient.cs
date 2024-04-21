@@ -1,5 +1,4 @@
-﻿using System.IO;
-using System.Net.Http;
+﻿using System.Net.Http;
 
 namespace Branta.Classes;
 
@@ -10,7 +9,7 @@ public class BrantaClient
         BaseAddress = new Uri("https://api.branta.pro/v1/")
     };
 
-    public async Task<Dictionary<string, string>> GetInstallerHashesAsync()
+    public async Task<string> GetInstallerHashesAsync()
     {
         try
         {
@@ -21,9 +20,7 @@ public class BrantaClient
                 return null;
             }
 
-            var content = await response.Content.ReadAsStreamAsync();
-
-            return YamlLoader.LoadInstallerHashes(new StreamReader(content));
+            return await response.Content.ReadAsStringAsync();
         }
         catch
         {
@@ -31,7 +28,7 @@ public class BrantaClient
         }
     }
 
-    public async Task<CheckSums> GetCheckSumsAsync()
+    public async Task<string> GetCheckSumsAsync()
     {
         try
         {
@@ -42,9 +39,7 @@ public class BrantaClient
                 return null;
             }
 
-            var content = await response.Content.ReadAsStringAsync();
-
-            return YamlLoader.LoadCheckSums(content);
+            return await response.Content.ReadAsStringAsync();
         }
         catch
         {
