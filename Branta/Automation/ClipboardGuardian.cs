@@ -15,7 +15,7 @@ public partial class ClipboardGuardian : BaseAutomation
     private string LastClipboardContent { get; set; }
     private HashSet<string> Bip39Words { get; set; }
 
-    public ClipboardGuardian(NotifyIcon notifyIcon, Settings settings) : base(notifyIcon, settings, 1)
+    public ClipboardGuardian(NotifyIcon notifyIcon, Settings settings) : base(notifyIcon, settings, new TimeSpan(0, 0, 1))
     {
     }
 

@@ -10,7 +10,7 @@ public class Focus : BaseAutomation
 {
     private readonly Dictionary<BaseWallet, WalletStatus> _walletTypes;
 
-    public Focus(NotifyIcon notifyIcon, Settings settings) : base(notifyIcon, settings, 2)
+    public Focus(NotifyIcon notifyIcon, Settings settings) : base(notifyIcon, settings, new TimeSpan(0, 0, 2))
     {
         _walletTypes = BaseWallet.GetSupportedWallets().ToDictionary(w => w, _ => WalletStatus.None);
     }

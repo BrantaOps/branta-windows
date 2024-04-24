@@ -145,7 +145,7 @@ public partial class MainWindow : BaseWindow
 
         if (settings.WalletVerification.WalletVerifyEvery != _settings.WalletVerification.WalletVerifyEvery)
         {
-            VerifyWallets.RunInterval = (int)settings.WalletVerification.WalletVerifyEvery.TotalSeconds;
+            VerifyWallets.RunInterval = TimeSpan.FromSeconds(settings.WalletVerification.WalletVerifyEvery.TotalSeconds);
             _verifyWalletTimer.Dispose();
             _verifyWalletTimer = VerifyWallets.CreateTimer();
         }

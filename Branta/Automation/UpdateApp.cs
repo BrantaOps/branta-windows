@@ -10,13 +10,13 @@ public class UpdateApp : BaseAutomation
     private readonly ResourceDictionary _resourceDictionary;
     private bool _isUpdateAvailableShow;
 
-    public UpdateApp(NotifyIcon notifyIcon, ResourceDictionary resourceDictionary) : base(notifyIcon, null, 60 * 60 * 24)
+    public UpdateApp(NotifyIcon notifyIcon, ResourceDictionary resourceDictionary) : base(notifyIcon, null, new TimeSpan(24, 0, 0))
     {
         _resourceDictionary = resourceDictionary;
         _githubClient = new GitHubClient();
     }
 
-    public UpdateApp(NotifyIcon notifyIcon, Settings settings, int runInterval) : base(notifyIcon, settings,
+    public UpdateApp(NotifyIcon notifyIcon, Settings settings, TimeSpan runInterval) : base(notifyIcon, settings,
         runInterval)
     {
     }

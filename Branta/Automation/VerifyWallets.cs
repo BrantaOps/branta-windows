@@ -21,7 +21,7 @@ public class VerifyWallets : BaseAutomation
     private bool _isFirstRun = true;
 
     public VerifyWallets(NotifyIcon notifyIcon, Settings settings, LoadCheckSums loadCheckSums) : base(notifyIcon, settings,
-        (int)settings.WalletVerification.WalletVerifyEvery.TotalSeconds)
+        TimeSpan.FromSeconds(settings.WalletVerification.WalletVerifyEvery.TotalSeconds))
     {
         _loadCheckSums = loadCheckSums;
         _brantaClient = new BrantaClient();

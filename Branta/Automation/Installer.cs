@@ -14,7 +14,7 @@ public class Installer : BaseAutomation
 
     private Dictionary<string, string> _hashes;
 
-    public Installer(NotifyIcon notifyIcon, ResourceDictionary resourceDictionary) : base(notifyIcon, null, 60 * 30)
+    public Installer(NotifyIcon notifyIcon, ResourceDictionary resourceDictionary) : base(notifyIcon, null,new TimeSpan(0, 30, 0))
     {
         _notifyIcon = notifyIcon;
         _resourceDictionary = resourceDictionary;
