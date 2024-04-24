@@ -29,6 +29,7 @@ public partial class MainWindow : BaseWindow
     private Timer _verifyWalletTimer;
 
     private Settings _settings;
+    private bool _isLoading = true;
     public event Action<Settings> SettingsChanged;
 
     public VerifyWallets VerifyWallets { get; }
@@ -64,13 +65,6 @@ public partial class MainWindow : BaseWindow
             VerifyWallets.SubscribeToSettingsChanges(this);
             _verifyWalletTimer = VerifyWallets.CreateTimer();
 
-            Task.Run(async () =>
-            {
-                await LoadCheckSums.LoadAsync();
-
-                VerifyWallets.Elapsed(null, null);
-            });
-
             var clipboardGuardian = new ClipboardGuardian(_notifyIcon, _settings);
             clipboardGuardian.SubscribeToSettingsChanges(this);
             _clipboardGuardianTimer = clipboardGuardian.CreateTimer();
@@ -87,7 +81,16 @@ public partial class MainWindow : BaseWindow
 
             _installer = new Installer(_notifyIcon, resourceDictionary);
             _installerTimer = _installer.CreateTimer();
-            _installer.Elapsed(null, null);
+
+            Task.Run(async () =>
+            {
+                var checkSumsTask = Task.Run(LoadCheckSums.LoadAsync);
+                var installerHashTask = Task.Run(_installer.LoadAsync);
+
+                await Task.WhenAll(checkSumsTask, installerHashTask);
+
+                Dispatcher.Invoke(OnLoadComplete);
+            });
         }
         catch (Exception ex)
         {
@@ -97,13 +100,23 @@ public partial class MainWindow : BaseWindow
         }
     }
 
+    private void OnLoadComplete()
+    {
+        _isLoading = false;
+
+        TbCheckSumsLoading.Visibility = Visibility.Hidden;
+        TbWalletsDetected.Visibility = Visibility.Visible;
+
+        VerifyWallets.Elapsed(null, null);
+    }
+
     protected override void OnClosing(CancelEventArgs e)
     {
         e.Cancel = true;
         Hide();
         base.OnClosing(e);
     }
-    
+
     private void OnClick_NotifyIcon(object sender, EventArgs e)
     {
         WindowState = WindowState.Normal;
@@ -121,7 +134,7 @@ public partial class MainWindow : BaseWindow
         _loadCheckSumsTimer.Dispose();
         Application.Current.Shutdown();
     }
-    
+
     private void OnClick_Settings(object sender, EventArgs e)
     {
         var settingsWindow = new SettingsWindow(_settings);
@@ -132,7 +145,7 @@ public partial class MainWindow : BaseWindow
 
         if (settings.WalletVerification.WalletVerifyEvery != _settings.WalletVerification.WalletVerifyEvery)
         {
-            VerifyWallets.RunInterval = (int)settings.WalletVerification.WalletVerifyEvery.TotalSeconds;
+            VerifyWallets.RunInterval = TimeSpan.FromSeconds(settings.WalletVerification.WalletVerifyEvery.TotalSeconds);
             _verifyWalletTimer.Dispose();
             _verifyWalletTimer = VerifyWallets.CreateTimer();
         }
@@ -159,9 +172,19 @@ public partial class MainWindow : BaseWindow
 
         walletDetailWindow.Show();
     }
-    
+
     private void VerifyInstaller_Drop(object sender, DragEventArgs e)
     {
+        if (_isLoading)
+        {
+            _notifyIcon.ShowBalloonTip(new Notification
+            {
+                Message = "Installer hashes are still loading.",
+                Icon = ToolTipIcon.Info
+            });
+            return;
+        }
+
         if (!e.Data.GetDataPresent(DataFormats.FileDrop))
         {
             return;

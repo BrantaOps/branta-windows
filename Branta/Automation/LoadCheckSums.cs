@@ -11,7 +11,7 @@ public class LoadCheckSums : BaseAutomation
 
     private const string CheckSumsPath = "CheckSums.yaml";
 
-    public LoadCheckSums() : base(null, null, 60 * 60 * 4)
+    public LoadCheckSums() : base(null, null, new TimeSpan(0, 30, 0))
     {
         _brantaClient = new BrantaClient();
     }

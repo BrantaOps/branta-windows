@@ -14,7 +14,7 @@ public class Installer : BaseAutomation
 
     private Dictionary<string, string> _hashes;
 
-    public Installer(NotifyIcon notifyIcon, ResourceDictionary resourceDictionary) : base(notifyIcon, null, 60 * 60 * 4)
+    public Installer(NotifyIcon notifyIcon, ResourceDictionary resourceDictionary) : base(notifyIcon, null,new TimeSpan(0, 30, 0))
     {
         _notifyIcon = notifyIcon;
         _resourceDictionary = resourceDictionary;
@@ -44,10 +44,15 @@ public class Installer : BaseAutomation
 
     public override void Run()
     {
-        Task.Run(async () => { _hashes = await LoadAsync(); });
+        Task.Run(LoadAsync);
     }
 
-    private async Task<Dictionary<string, string>> LoadAsync()
+    public async Task LoadAsync()
+    {
+        _hashes = await LoadInstallerHashesAsync();
+    }
+
+    public async Task<Dictionary<string, string>> LoadInstallerHashesAsync()
     {
         var serverHashes = await _brantaClient.GetInstallerHashesAsync();
 

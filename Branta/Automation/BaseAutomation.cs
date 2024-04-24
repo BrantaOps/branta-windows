@@ -11,11 +11,11 @@ public abstract class BaseAutomation : DispatcherObject
 
     protected Settings Settings;
 
-    public int RunInterval { get; set; }
+    public TimeSpan RunInterval { get; set; }
 
     private bool _processingComplete = true;
 
-    protected BaseAutomation(NotifyIcon notifyIcon, Settings settings, int runInterval)
+    protected BaseAutomation(NotifyIcon notifyIcon, Settings settings, TimeSpan runInterval)
     {
         NotifyIcon = notifyIcon;
         RunInterval = runInterval;
@@ -42,7 +42,7 @@ public abstract class BaseAutomation : DispatcherObject
 
     public System.Timers.Timer CreateTimer()
     {
-        var timer = new System.Timers.Timer(RunInterval * 1000);
+        var timer = new System.Timers.Timer(RunInterval);
 
         timer.Elapsed += Elapsed;
         timer.Start();
