@@ -173,6 +173,20 @@ public partial class MainWindow : BaseWindow
         walletDetailWindow.Show();
     }
 
+    private void OnClick_BrowseFiles(object sender, RoutedEventArgs e)
+    {
+        var openFileDialog = new OpenFileDialog()
+        {
+            Multiselect = true
+        };
+
+        openFileDialog.ShowDialog();
+
+        var files = openFileDialog.FileNames;
+
+        _installer.ProcessFiles(files);
+    }
+
     private void VerifyInstaller_Drop(object sender, DragEventArgs e)
     {
         if (_isLoading)
