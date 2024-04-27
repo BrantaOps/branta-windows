@@ -10,7 +10,7 @@ public partial class WalletDetailWindow : BaseWindow
 {
     private readonly ResourceDictionary _dictionary;
 
-    public WalletDetailWindow(Wallet wallet)
+    public WalletDetailWindow(Window owner, Wallet wallet) : base(owner)
     {
         InitializeComponent();
 

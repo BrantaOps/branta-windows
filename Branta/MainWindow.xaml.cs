@@ -41,6 +41,7 @@ public partial class MainWindow : BaseWindow
         {
             InitializeComponent();
             DataContext = this;
+            WindowStartupLocation = WindowStartupLocation.CenterScreen;
 
             var resourceDictionary = SetLanguageDictionary();
             Analytics.Init();
@@ -158,7 +159,10 @@ public partial class MainWindow : BaseWindow
 
     private void OnClick_Help(object sender, MouseButtonEventArgs e)
     {
-        var helpWindow = new HelpWindow();
+        var helpWindow = new HelpWindow(this)
+        {
+            WindowStartupLocation = WindowStartupLocation.CenterOwner
+        };
 
         helpWindow.Show();
     }
@@ -168,7 +172,10 @@ public partial class MainWindow : BaseWindow
         var textBlock = (TextBlock) sender;
         var wallet = (Wallet) textBlock.Tag;
 
-        var walletDetailWindow = new WalletDetailWindow(wallet);
+        var walletDetailWindow = new WalletDetailWindow(this, wallet)
+        {
+            WindowStartupLocation = WindowStartupLocation.CenterOwner
+        };
 
         walletDetailWindow.Show();
     }
