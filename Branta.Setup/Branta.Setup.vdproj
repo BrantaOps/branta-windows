@@ -182,6 +182,17 @@
                 {
                 }
             }
+            "{1525181F-901A-416C-8A58-119130FE478E}:_DF557B103683464AB30350D10685AA7E"
+            {
+            "Name" = "8:#1928"
+            "AlwaysCreate" = "11:FALSE"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Property" = "8:StartupFolder"
+                "Folders"
+                {
+                }
+            }
         }
         "LaunchCondition"
         {
@@ -328,7 +339,7 @@
             "IconIndex" = "3:0"
             "Transitive" = "11:FALSE"
             "Target" = "8:_2F58850C6BB84440AAC8BFC3A0E1A7AF"
-            "Folder" = "8:_063FCA859C314920AC90B81868B438E7"
+            "Folder" = "8:_5138D3885EFF47FEAFC199500F597B64"
             "WorkingFolder" = "8:_DAD6389736FE40DB8C1ED7FA52432AA4"
             "Icon" = "8:_3A02A8705D5C4A8DBDBABAA7DF6B57C7"
             "Feature" = "8:"
@@ -336,13 +347,13 @@
             "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_E6A09A663FDD44A6B32041A539E23DF3"
             {
             "Name" = "8:Branta"
-            "Arguments" = "8:"
+            "Arguments" = "8:headless"
             "Description" = "8:"
             "ShowCmd" = "3:1"
             "IconIndex" = "3:0"
             "Transitive" = "11:FALSE"
             "Target" = "8:_2F58850C6BB84440AAC8BFC3A0E1A7AF"
-            "Folder" = "8:_5138D3885EFF47FEAFC199500F597B64"
+            "Folder" = "8:_DF557B103683464AB30350D10685AA7E"
             "WorkingFolder" = "8:_DAD6389736FE40DB8C1ED7FA52432AA4"
             "Icon" = "8:_3A02A8705D5C4A8DBDBABAA7DF6B57C7"
             "Feature" = "8:"

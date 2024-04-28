@@ -92,6 +92,13 @@ public partial class MainWindow : BaseWindow
 
                 Dispatcher.Invoke(OnLoadComplete);
             });
+            
+            var args = Environment.GetCommandLineArgs();
+
+            if (args.Contains("headless"))
+            {
+                OnClosing(new CancelEventArgs());
+            }
         }
         catch (Exception ex)
         {
@@ -111,7 +118,7 @@ public partial class MainWindow : BaseWindow
         VerifyWallets.Elapsed(null, null);
     }
 
-    protected override void OnClosing(CancelEventArgs e)
+    protected sealed override void OnClosing(CancelEventArgs e)
     {
         e.Cancel = true;
         Hide();
