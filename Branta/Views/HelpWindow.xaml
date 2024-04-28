@@ -8,7 +8,7 @@
                 mc:Ignorable="d"
                 Title="Branta"
                 Height="350"
-                Width="600"
+                Width="650"
                 Background="#444"
                 Icon="pack://application:,,,/Assets/black_circle.png"
                 ResizeMode="NoResize"
@@ -83,7 +83,8 @@
                        TextDecorations="Underline">https://www.branta.pro</TextBlock>
             <TextBlock Grid.Row="7"
                        Name="TbVersion"
-                       Foreground="LightGray">v0.0.0</TextBlock>
+                       Foreground="LightGray"
+                       Margin="0,0,0,15">v0.0.0</TextBlock>
         </Grid>
     </Border>
 </src:BaseWindow>
