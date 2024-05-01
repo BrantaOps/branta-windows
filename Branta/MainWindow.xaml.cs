@@ -20,6 +20,7 @@ public partial class MainWindow : BaseWindow
 {
     private readonly NotifyIcon _notifyIcon;
     private readonly Installer _installer;
+    private readonly Focus _focus;
     private readonly Timer _clipboardGuardianTimer;
     private readonly Timer _focusTimer;
     private readonly Timer _updateTimer;
@@ -71,10 +72,9 @@ public partial class MainWindow : BaseWindow
             _clipboardGuardianTimer = clipboardGuardian.CreateTimer();
             clipboardGuardian.Elapsed(null, null);
 
-            var focus = new Focus(_notifyIcon, _settings);
-            focus.SubscribeToSettingsChanges(this);
-            _focusTimer = focus.CreateTimer();
-            focus.Elapsed(null, null);
+            _focus = new Focus(_notifyIcon, _settings);
+            _focus.SubscribeToSettingsChanges(this);
+            _focusTimer = _focus.CreateTimer();
 
             var update = new UpdateApp(_notifyIcon, resourceDictionary);
             _updateTimer = update.CreateTimer();
@@ -92,7 +92,7 @@ public partial class MainWindow : BaseWindow
 
                 Dispatcher.Invoke(OnLoadComplete);
             });
-            
+
             var args = Environment.GetCommandLineArgs();
 
             if (args.Contains("headless"))
@@ -116,6 +116,9 @@ public partial class MainWindow : BaseWindow
         TbWalletsDetected.Visibility = Visibility.Visible;
 
         VerifyWallets.Elapsed(null, null);
+
+        _focus.Elapsed(null, null);
+        _focus.SetWallets(LoadCheckSums.WalletTypes);
     }
 
     protected sealed override void OnClosing(CancelEventArgs e)
@@ -187,9 +190,22 @@ public partial class MainWindow : BaseWindow
         walletDetailWindow.Show();
     }
 
+    private void OnClick_NetworkActivityDetails(object sender, MouseButtonEventArgs e)
+    {
+        var textBlock = (TextBlock) sender;
+        var wallet = (Wallet) textBlock.Tag;
+
+        var networkActivityWindow = new NetworkActivityWindow(this, wallet)
+        {
+            WindowStartupLocation = WindowStartupLocation.CenterOwner
+        };
+
+        networkActivityWindow.Show();
+    }
+
     private void OnClick_BrowseFiles(object sender, RoutedEventArgs e)
     {
-        var openFileDialog = new OpenFileDialog()
+        var openFileDialog = new OpenFileDialog
         {
             Multiselect = true
         };

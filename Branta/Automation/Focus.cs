@@ -8,16 +8,15 @@ namespace Branta.Automation;
 
 public class Focus : BaseAutomation
 {
-    private readonly Dictionary<BaseWallet, WalletStatus> _walletTypes;
+    private Dictionary<BaseWallet, WalletStatus> _walletTypes;
 
     public Focus(NotifyIcon notifyIcon, Settings settings) : base(notifyIcon, settings, new TimeSpan(0, 0, 2))
     {
-        _walletTypes = BaseWallet.GetSupportedWallets().ToDictionary(w => w, _ => WalletStatus.None);
     }
 
     public override void Run()
     {
-        if (!Settings.WalletVerification.LaunchingWalletEnabled)
+        if (!Settings.WalletVerification.LaunchingWalletEnabled || _walletTypes == null)
         {
             return;
         }
@@ -47,5 +46,10 @@ public class Focus : BaseAutomation
                 _walletTypes[walletType] = wallet.Status;
             }
         }
+    }
+
+    public void SetWallets(List<BaseWallet> wallets)
+    {
+        _walletTypes = wallets.ToDictionary(w => w, _ => WalletStatus.None);
     }
 }

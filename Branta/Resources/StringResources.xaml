@@ -6,7 +6,7 @@
     <system:String x:Key="Loading">Loading...</system:String>
 
     <!-- Main Window -->
-    <system:String x:Key="WalletsDetected">Wallets Detected</system:String>
+    <system:String x:Key="WalletsDetected">Wallet Detected</system:String>
     <system:String x:Key="WalletColumnHeader">Wallet</system:String>
     <system:String x:Key="StatusColumnHeader">Status</system:String>
     <system:String x:Key="DragAndDropText">Drag .exe files here before installing new wallets to verify authenticity</system:String>
@@ -37,6 +37,12 @@
     <system:String x:Key="VerifyEveryText">Verify Every</system:String>
     <system:String x:Key="LaunchingWalletEnabledText">Notify Status Upon Launching Wallet</system:String>
     <system:String x:Key="WalletStatusChangeEnabledText">Notify Status Upon Status Change</system:String>
+
+    <!-- Network Activity Window -->
+    <system:String x:Key="Connections">Connections</system:String>
+    <system:String x:Key="InsufficientPrivileges">Admin rights required for this feature.</system:String>
+    <system:String x:Key="ProcessId">Process ID</system:String>
+    <system:String x:Key="IpAddress">IP Address</system:String>
 
     <!--Installer Notifications -->
     <system:String x:Key="InstallerValid">Installer is valid.</system:String>
