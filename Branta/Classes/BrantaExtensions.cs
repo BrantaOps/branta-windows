@@ -13,15 +13,15 @@ public static class BrantaExtensions
         notifyIcon.ShowBalloonTip(notification.Timeout, notification.Title, notification.Message, notification.Icon);
     }
 
-    public static ObservableCollection<Wallet> Set(this ObservableCollection<Wallet> wallets, List<Wallet> newWallets)
+    public static ObservableCollection<T> Set<T>(this ObservableCollection<T> items, List<T> newItems)
     {
-        wallets.Clear();
-        foreach (var wallet in newWallets)
+        items.Clear();
+        foreach (var item in newItems)
         {
-            wallets.Add(wallet);
+            items.Add(item);
         }
 
-        return wallets;
+        return items;
     }
 
     public static void SetSource(this System.Windows.Controls.Image image, string path)

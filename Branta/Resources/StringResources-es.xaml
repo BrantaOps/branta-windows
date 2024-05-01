@@ -38,6 +38,12 @@
     <system:String x:Key="LaunchingWalletEnabledText">Notificar el estado al iniciar la billetera</system:String>
     <system:String x:Key="WalletStatusChangeEnabledText">Notificar el estado en caso de cambio de estado</system:String>
 
+    <!-- Network Activity Window -->
+    <system:String x:Key="Connections">Conexiones</system:String>
+    <system:String x:Key="InsufficientPrivileges">Se requieren derechos de administrador para esta función.</system:String>
+    <system:String x:Key="ProcessId">ID de proceso</system:String>
+    <system:String x:Key="IpAddress">Dirección IP</system:String>
+
     <!--Installer Notifications -->
     <system:String x:Key="InstallerValid">El instalador es válido.</system:String>
     <system:String x:Key="InstallerInvalid">El instalador no es válido o no es compatible.</system:String>
