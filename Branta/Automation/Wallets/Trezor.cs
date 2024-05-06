@@ -1,5 +1,5 @@
-﻿using System.IO;
-using Branta.Enums;
+﻿using Branta.Enums;
+using System.IO;
 
 namespace Branta.Automation.Wallets;
 

@@ -11,21 +11,14 @@ using System.Windows.Forms;
 
 namespace Branta.Automation;
 
-public class VerifyWallets : BaseAutomation
+public class VerifyWallets(NotifyIcon notifyIcon, Settings settings, LoadCheckSums loadCheckSums)
+    : BaseAutomation(notifyIcon,
+        settings,
+        TimeSpan.FromSeconds(settings.WalletVerification.WalletVerifyEvery.TotalSeconds))
 {
-    private readonly LoadCheckSums _loadCheckSums;
     public ObservableCollection<Wallet> Wallets { get; } = new();
 
-    private readonly BrantaClient _brantaClient;
-
     private bool _isFirstRun = true;
-
-    public VerifyWallets(NotifyIcon notifyIcon, Settings settings, LoadCheckSums loadCheckSums) : base(notifyIcon, settings,
-        TimeSpan.FromSeconds(settings.WalletVerification.WalletVerifyEvery.TotalSeconds))
-    {
-        _loadCheckSums = loadCheckSums;
-        _brantaClient = new BrantaClient();
-    }
 
     public override void Run()
     {
@@ -38,7 +31,7 @@ public class VerifyWallets : BaseAutomation
 
         var bufferedWallets = new List<Wallet>();
 
-        foreach (var walletType in _loadCheckSums.WalletTypes)
+        foreach (var walletType in loadCheckSums.WalletTypes)
         {
             var wallet = Verify(walletType);
 
@@ -154,7 +147,7 @@ public class VerifyWallets : BaseAutomation
         {
             var file = files[i];
 
-            var relativePath = file.Substring(path.Length + 1);
+            var relativePath = file[(path.Length + 1)..];
             var pathBytes = Encoding.UTF8.GetBytes(relativePath.ToLower());
             sha256.TransformBlock(pathBytes, 0, pathBytes.Length, pathBytes, 0);
 
@@ -165,6 +158,6 @@ public class VerifyWallets : BaseAutomation
                 sha256.TransformBlock(contentBytes, 0, contentBytes.Length, contentBytes, 0);
         }
 
-        return BitConverter.ToString(sha256.Hash).Replace("-", "").ToLower();
+        return BitConverter.ToString(sha256.Hash ?? Array.Empty<byte>()).Replace("-", "").ToLower();
     }
 }

@@ -1,16 +1,16 @@
 ﻿using Branta.Classes;
+using Branta.Enums;
 using System.Diagnostics;
 using System.IO;
 using System.Text.RegularExpressions;
-using Branta.Enums;
 
 namespace Branta.Automation.Wallets;
 
-public abstract partial class BaseWallet
+public abstract partial class BaseWallet(string name, string exeName = null)
 {
-    public string Name { get; }
+    public string Name { get; } = name;
 
-    public string ExeName { get; }
+    public string ExeName { get; } = exeName ?? name;
 
     public string InstallerName { get; set; }
 
@@ -19,12 +19,6 @@ public abstract partial class BaseWallet
     public Dictionary<string, VersionInfo> CheckSums { get; set; }
 
     private const string RegistryUninstallPath = @"SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\";
-
-    protected BaseWallet(string name, string exeName = null)
-    {
-        Name = name;
-        ExeName = exeName ?? name;
-    }
 
     public abstract string GetPath();
 

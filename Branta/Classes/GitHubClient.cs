@@ -6,8 +6,7 @@ namespace Branta.Classes;
 
 public class GitHubRelease
 {
-    [JsonPropertyName("name")]
-    public string Name { get; set; }
+    [JsonPropertyName("name")] public string Name { get; set; }
 }
 
 public class GitHubClient

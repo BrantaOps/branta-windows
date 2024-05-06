@@ -3,18 +3,13 @@ using Branta.Classes;
 
 namespace Branta.Automation;
 
-public class LoadCheckSums : BaseAutomation
+public class LoadCheckSums() : BaseAutomation(null, null, new TimeSpan(0, 30, 0))
 {
     public List<BaseWallet> WalletTypes = new();
 
-    private readonly BrantaClient _brantaClient;
+    private readonly BrantaClient _brantaClient = new();
 
     private const string CheckSumsPath = "CheckSums.yaml";
-
-    public LoadCheckSums() : base(null, null, new TimeSpan(0, 30, 0))
-    {
-        _brantaClient = new BrantaClient();
-    }
 
     public override void Run()
     {

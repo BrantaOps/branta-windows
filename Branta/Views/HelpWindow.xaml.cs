@@ -5,7 +5,7 @@ using System.Windows.Input;
 
 namespace Branta.Views;
 
-public partial class HelpWindow : BaseWindow
+public partial class HelpWindow
 {
     public HelpWindow(Window owner) : base(owner)
     {

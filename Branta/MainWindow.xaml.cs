@@ -16,7 +16,7 @@ using Timer = System.Timers.Timer;
 
 namespace Branta;
 
-public partial class MainWindow : BaseWindow
+public partial class MainWindow
 {
     private readonly NotifyIcon _notifyIcon;
     private readonly Installer _installer;
@@ -150,7 +150,7 @@ public partial class MainWindow : BaseWindow
     {
         var settingsWindow = new SettingsWindow(_settings);
 
-        var result = settingsWindow.ShowDialog();
+        settingsWindow.ShowDialog();
 
         var settings = settingsWindow.GetSettings();
 

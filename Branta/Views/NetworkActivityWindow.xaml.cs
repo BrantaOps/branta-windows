@@ -1,5 +1,4 @@
-﻿using Branta.Classes;
-using Branta.Domain;
+﻿using Branta.Domain;
 using Branta.Exceptions;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
@@ -7,7 +6,7 @@ using System.Windows;
 
 namespace Branta.Views;
 
-public partial class NetworkActivityWindow : BaseWindow
+public partial class NetworkActivityWindow
 {
     public ObservableCollection<NetworkActivityItem> NetworkActivities { get; } = new();
 

@@ -4,23 +4,14 @@ using System.Windows.Forms;
 
 namespace Branta.Automation;
 
-public class Installer : BaseAutomation
+public class Installer(NotifyIcon notifyIcon, ResourceDictionary resourceDictionary)
+    : BaseAutomation(notifyIcon, null, new TimeSpan(0, 30, 0))
 {
-    private readonly NotifyIcon _notifyIcon;
-    private readonly ResourceDictionary _resourceDictionary;
-    private readonly BrantaClient _brantaClient;
+    private readonly BrantaClient _brantaClient = new();
 
     private const string InstallerHashPath = "InstallerHash.yaml";
 
     private Dictionary<string, string> _hashes;
-
-    public Installer(NotifyIcon notifyIcon, ResourceDictionary resourceDictionary) : base(notifyIcon, null,new TimeSpan(0, 30, 0))
-    {
-        _notifyIcon = notifyIcon;
-        _resourceDictionary = resourceDictionary;
-
-        _brantaClient = new BrantaClient();
-    }
 
     public void ProcessFiles(string[] files)
     {
@@ -30,13 +21,15 @@ public class Installer : BaseAutomation
                            _hashes.GetValueOrDefault(Helper.CalculateSha512(file)) ??
                            _hashes.GetValueOrDefault(Helper.CalculateSha512(file, base64Encoding: true));
 
-            _notifyIcon.ShowBalloonTip(filename != null ? new Notification
+            notifyIcon.ShowBalloonTip(filename != null
+                ? new Notification
                 {
-                    Message = (string)_resourceDictionary["InstallerValid"],
+                    Message = (string)resourceDictionary["InstallerValid"],
                     Icon = ToolTipIcon.None
-            } : new Notification
+                }
+                : new Notification
                 {
-                    Message = (string)_resourceDictionary["InstallerInvalid"],
+                    Message = (string)resourceDictionary["InstallerInvalid"],
                     Icon = ToolTipIcon.Error
                 });
         }

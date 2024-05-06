@@ -15,7 +15,8 @@ public partial class ClipboardGuardian : BaseAutomation
     private string LastClipboardContent { get; set; }
     private HashSet<string> Bip39Words { get; set; }
 
-    public ClipboardGuardian(NotifyIcon notifyIcon, Settings settings) : base(notifyIcon, settings, new TimeSpan(0, 0, 1))
+    public ClipboardGuardian(NotifyIcon notifyIcon, Settings settings) : base(notifyIcon, settings,
+        new TimeSpan(0, 0, 1))
     {
     }
 
@@ -35,10 +36,7 @@ public partial class ClipboardGuardian : BaseAutomation
     {
         string clipBoardContent = null;
 
-        Dispatcher.Invoke(() =>
-        {
-            clipBoardContent = Clipboard.GetText();
-        });
+        Dispatcher.Invoke(() => { clipBoardContent = Clipboard.GetText(); });
 
         if (LastClipboardContent == clipBoardContent)
         {

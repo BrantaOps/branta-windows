@@ -5,22 +5,16 @@ using System.Windows.Threading;
 
 namespace Branta.Automation;
 
-public abstract class BaseAutomation : DispatcherObject
+public abstract class BaseAutomation(NotifyIcon notifyIcon, Settings settings, TimeSpan runInterval)
+    : DispatcherObject
 {
-    protected readonly NotifyIcon NotifyIcon;
+    protected readonly NotifyIcon NotifyIcon = notifyIcon;
 
-    protected Settings Settings;
+    protected Settings Settings = settings;
 
-    public TimeSpan RunInterval { get; set; }
+    public TimeSpan RunInterval { get; set; } = runInterval;
 
     private bool _processingComplete = true;
-
-    protected BaseAutomation(NotifyIcon notifyIcon, Settings settings, TimeSpan runInterval)
-    {
-        NotifyIcon = notifyIcon;
-        RunInterval = runInterval;
-        Settings = settings;
-    }
 
     public abstract void Run();
 
@@ -34,10 +28,7 @@ public abstract class BaseAutomation : DispatcherObject
         _processingComplete = false;
 
         Task.Run(Run)
-            .ContinueWith(_ =>
-            {
-                _processingComplete = true;
-            });
+            .ContinueWith(_ => { _processingComplete = true; });
     }
 
     public System.Timers.Timer CreateTimer()

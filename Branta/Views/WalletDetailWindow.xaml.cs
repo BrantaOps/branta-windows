@@ -1,12 +1,11 @@
-﻿using Branta.Classes;
-using Branta.Domain;
+﻿using Branta.Domain;
 using Branta.Enums;
 using System.ComponentModel;
 using System.Windows;
 
 namespace Branta.Views;
 
-public partial class WalletDetailWindow : BaseWindow
+public partial class WalletDetailWindow
 {
     private readonly ResourceDictionary _dictionary;
 
@@ -30,7 +29,6 @@ public partial class WalletDetailWindow : BaseWindow
 
         if (wallet.Status == WalletStatus.NotVerified)
         {
-
             return $"{_dictionary["NotVerifiedMessage"]} {wallet.Name}.";
         }
 

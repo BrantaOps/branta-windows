@@ -4,7 +4,6 @@
                 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                 xmlns:src="clr-namespace:Branta.Classes"
-                xmlns:local="clr-namespace:Branta.Views"
                 mc:Ignorable="d"
                 Title="Branta"
                 Height="350"
@@ -17,7 +16,8 @@
     <WindowChrome.WindowChrome>
         <WindowChrome GlassFrameThickness="0"
                       CornerRadius="15"
-                      CaptionHeight="0"></WindowChrome>
+                      CaptionHeight="0">
+        </WindowChrome>
     </WindowChrome.WindowChrome>
 
     <Window.Resources>
@@ -29,7 +29,8 @@
             <Setter Property="Foreground"
                     Value="White" />
             <Setter Property="FontSize"
-                    Value="14"></Setter>
+                    Value="14">
+            </Setter>
         </Style>
     </Window.Resources>
 
@@ -80,11 +81,15 @@
                        Margin="0,0,0,30"
                        Cursor="Hand"
                        MouseDown="Link_Click"
-                       TextDecorations="Underline">https://www.branta.pro</TextBlock>
+                       TextDecorations="Underline">
+                https://www.branta.pro
+            </TextBlock>
             <TextBlock Grid.Row="7"
                        Name="TbVersion"
                        Foreground="LightGray"
-                       Margin="0,0,0,15">v0.0.0</TextBlock>
+                       Margin="0,0,0,15">
+                v0.0.0
+            </TextBlock>
         </Grid>
     </Border>
 </src:BaseWindow>

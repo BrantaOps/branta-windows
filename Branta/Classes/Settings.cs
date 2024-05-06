@@ -1,6 +1,4 @@
-﻿using System.Net.NetworkInformation;
-
-namespace Branta.Classes;
+﻿namespace Branta.Classes;
 
 public class Settings
 {

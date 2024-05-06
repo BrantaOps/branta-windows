@@ -10,7 +10,8 @@ public class UpdateApp : BaseAutomation
     private readonly ResourceDictionary _resourceDictionary;
     private bool _isUpdateAvailableShow;
 
-    public UpdateApp(NotifyIcon notifyIcon, ResourceDictionary resourceDictionary) : base(notifyIcon, null, new TimeSpan(24, 0, 0))
+    public UpdateApp(NotifyIcon notifyIcon, ResourceDictionary resourceDictionary) : base(notifyIcon, null,
+        new TimeSpan(24, 0, 0))
     {
         _resourceDictionary = resourceDictionary;
         _githubClient = new GitHubClient();
@@ -51,7 +52,7 @@ public class UpdateApp : BaseAutomation
         });
     }
 
-    private void OnClick_UpdateAvailable(object sender, EventArgs e)
+    private static void OnClick_UpdateAvailable(object sender, EventArgs e)
     {
         Helper.OpenLink("https://branta.pro/download");
     }

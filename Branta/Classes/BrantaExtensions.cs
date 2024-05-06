@@ -1,8 +1,6 @@
 ﻿using System.Collections.ObjectModel;
-using System.Drawing;
 using System.Windows.Forms;
 using System.Windows.Media.Imaging;
-using Branta.Domain;
 
 namespace Branta.Classes;
 
@@ -26,12 +24,12 @@ public static class BrantaExtensions
 
     public static void SetSource(this System.Windows.Controls.Image image, string path)
     {
-            var bitmapImage = new BitmapImage();
-            bitmapImage.BeginInit();
-            bitmapImage.UriSource = new Uri($"pack://application:,,,/{path}", UriKind.Absolute);
-            bitmapImage.EndInit();
+        var bitmapImage = new BitmapImage();
+        bitmapImage.BeginInit();
+        bitmapImage.UriSource = new Uri($"pack://application:,,,/{path}", UriKind.Absolute);
+        bitmapImage.EndInit();
 
-            image.Source = bitmapImage;
+        image.Source = bitmapImage;
     }
 
     public static string Format(this TimeSpan timeSpan)

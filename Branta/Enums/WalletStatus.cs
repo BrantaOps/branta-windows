@@ -1,19 +1,12 @@
 ﻿namespace Branta.Enums;
 
-public class WalletStatus
+public class WalletStatus(string name, string icon, string color = null)
 {
-    public string Name { get; set; }
+    public string Name { get; set; } = name;
 
-    public string Icon { get; set; }
+    public string Icon { get; set; } = icon;
 
-    public string Color { get; set; }
-
-    public WalletStatus(string name, string icon, string color = null)
-    {
-        Name = name;
-        Icon = icon;
-        Color = color;
-    }
+    public string Color { get; set; } = color;
 
     public static WalletStatus None = new ("None", "");
     public static WalletStatus NotVerified = new ("Not Verified", "⚠", Enums.Color.Red);

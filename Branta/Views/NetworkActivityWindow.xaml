@@ -4,7 +4,6 @@
                 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                 xmlns:src="clr-namespace:Branta.Classes"
-                xmlns:local="clr-namespace:Branta.Views"
                 mc:Ignorable="d"
                 Title="Branta"
                 Height="600"
