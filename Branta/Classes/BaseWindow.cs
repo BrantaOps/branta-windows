@@ -11,15 +11,6 @@ public class BaseWindow : Window
 
     public event PropertyChangedEventHandler PropertyChanged;
 
-    public BaseWindow()
-    {
-    }
-
-    public BaseWindow(Window owner)
-    {
-        Owner = owner;
-    }
-
     protected void OnPropertyChanged([CallerMemberName] string name = "")
     {
         var handler = PropertyChanged;

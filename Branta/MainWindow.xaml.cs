@@ -169,8 +169,9 @@ public partial class MainWindow
 
     private void OnClick_Help(object sender, MouseButtonEventArgs e)
     {
-        var helpWindow = new HelpWindow(this)
+        var helpWindow = new HelpWindow
         {
+            Owner = this,
             WindowStartupLocation = WindowStartupLocation.CenterOwner
         };
 
@@ -182,8 +183,9 @@ public partial class MainWindow
         var textBlock = (TextBlock) sender;
         var wallet = (Wallet) textBlock.Tag;
 
-        var walletDetailWindow = new WalletDetailWindow(this, wallet)
+        var walletDetailWindow = new WalletDetailWindow(wallet)
         {
+            Owner = this,
             WindowStartupLocation = WindowStartupLocation.CenterOwner
         };
 
@@ -195,8 +197,9 @@ public partial class MainWindow
         var textBlock = (TextBlock) sender;
         var wallet = (Wallet) textBlock.Tag;
 
-        var networkActivityWindow = new NetworkActivityWindow(this, wallet)
+        var networkActivityWindow = new NetworkActivityWindow(wallet)
         {
+            Owner = this,
             WindowStartupLocation = WindowStartupLocation.CenterOwner
         };
 

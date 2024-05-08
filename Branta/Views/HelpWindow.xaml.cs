@@ -7,7 +7,7 @@ namespace Branta.Views;
 
 public partial class HelpWindow
 {
-    public HelpWindow(Window owner) : base(owner)
+    public HelpWindow()
     {
         InitializeComponent();
 
