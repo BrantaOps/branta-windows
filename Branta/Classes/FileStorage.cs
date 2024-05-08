@@ -6,7 +6,9 @@ public static class FileStorage
 {
     public static void Save(string path, string content)
     {
-        File.WriteAllText(GetFullPath(path), content);
+        var file = new FileInfo(GetFullPath(path));
+        file.Directory?.Create();
+        File.WriteAllText(file.FullName, content);
     }
 
     public static string Load(string path)
