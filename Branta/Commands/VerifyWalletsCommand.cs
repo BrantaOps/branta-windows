@@ -1,37 +1,38 @@
-﻿using Branta.Automation.Wallets;
-using Branta.Classes;
-using Branta.Domain;
+﻿using Branta.Classes;
+using Branta.Classes.Wallets;
 using Branta.Enums;
-using System.Collections.ObjectModel;
+using Branta.Models;
+using Branta.ViewModels;
 using System.Diagnostics;
 using System.IO;
 using System.Security.Cryptography;
 using System.Text;
 using System.Windows.Forms;
 
-namespace Branta.Automation;
+namespace Branta.Commands;
 
-public class VerifyWallets(NotifyIcon notifyIcon, Settings settings, LoadCheckSums loadCheckSums)
-    : BaseAutomation(notifyIcon,
-        settings,
-        TimeSpan.FromSeconds(settings.WalletVerification.WalletVerifyEvery.TotalSeconds))
+public class VerifyWalletsCommand : BaseCommand
 {
-    public ObservableCollection<Wallet> Wallets { get; } = new();
+    private readonly WalletVerificationViewModel _viewModel;
+    private readonly NotificationCenter _notificationCenter;
+    private readonly Settings _settings;
 
-    private bool _isFirstRun = true;
-
-    public override void Run()
+    public VerifyWalletsCommand(WalletVerificationViewModel viewModel, NotificationCenter notificationCenter, Settings settings)
     {
-        Trace.WriteLine("Started: Verify Wallets");
-        var sw = Stopwatch.StartNew();
+        _viewModel = viewModel;
+        _notificationCenter = notificationCenter;
+        _settings = settings;
+    }
 
-        var previousWalletStatus = Wallets
+    public override void Execute(object parameter)
+    {
+        var previousWalletStatus = _viewModel.Wallets
             .DistinctBy(w => w.Name)
             .ToDictionary(w => w.Name, w => w.Status);
 
-        var bufferedWallets = new List<Wallet>();
+        _viewModel.ClearWallets();
 
-        foreach (var walletType in loadCheckSums.WalletTypes)
+        foreach (var walletType in _viewModel.WalletTypes)
         {
             var wallet = Verify(walletType);
 
@@ -40,37 +41,19 @@ public class VerifyWallets(NotifyIcon notifyIcon, Settings settings, LoadCheckSu
                 continue;
             }
 
+            _viewModel.AddWallet(wallet);
+
             if (wallet.Status != WalletStatus.Verified &&
-                previousWalletStatus.GetValueOrDefault(walletType.Name, WalletStatus.Verified) ==
-                WalletStatus.Verified &&
-                Settings.WalletVerification.WalletStatusChangeEnabled)
+                previousWalletStatus.GetValueOrDefault(walletType.Name, WalletStatus.Verified) == WalletStatus.Verified &&
+                _settings.WalletVerification.WalletStatusChangeEnabled)
             {
-                NotifyIcon.ShowBalloonTip(new Notification
+                _notificationCenter.Notify(new Notification
                 {
                     Message = $"{walletType.Name} failed verification.",
                     Icon = ToolTipIcon.Warning
                 });
             }
-
-            if (_isFirstRun)
-            {
-                Dispatcher.Invoke(() => Wallets.Add(wallet));
-            }
-            else
-            {
-                bufferedWallets.Add(wallet);
-            }
         }
-
-        if (!_isFirstRun)
-        {
-            Dispatcher.Invoke(() => Wallets.Set(bufferedWallets));
-        }
-
-        _isFirstRun = false;
-
-        sw.Stop();
-        Trace.WriteLine($"Stopped: Verify Wallets. Took {sw.Elapsed}");
     }
 
     public static Wallet Verify(BaseWallet walletType)

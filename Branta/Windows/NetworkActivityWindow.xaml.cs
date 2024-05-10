@@ -1,5 +1,5 @@
-﻿using Branta.Domain;
-using Branta.Exceptions;
+﻿using Branta.Exceptions;
+using Branta.Models;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Windows;
@@ -15,7 +15,7 @@ public partial class NetworkActivityWindow
     private Process _process;
     private readonly CancellationTokenSource _cancellationTokenSource = new();
 
-    public NetworkActivityWindow(Window owner, Wallet wallet) : base(owner)
+    public NetworkActivityWindow(Wallet wallet)
     {
         InitializeComponent();
         DataContext = this;

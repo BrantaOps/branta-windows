@@ -1,5 +1,5 @@
-﻿using Branta.Domain;
-using Branta.Enums;
+﻿using Branta.Enums;
+using Branta.Models;
 using System.ComponentModel;
 using System.Windows;
 
@@ -9,7 +9,7 @@ public partial class WalletDetailWindow
 {
     private readonly ResourceDictionary _dictionary;
 
-    public WalletDetailWindow(Window owner, Wallet wallet) : base(owner)
+    public WalletDetailWindow(Wallet wallet)
     {
         InitializeComponent();
 

@@ -3,24 +3,28 @@ using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using System.Text.RegularExpressions;
-using System.Windows.Forms;
+using System.Windows;
 
-namespace Branta.Automation;
+namespace Branta.Commands;
 
-public partial class ClipboardGuardian : BaseAutomation
+public partial class ClipboardGuardianCommand : BaseCommand
 {
+    private readonly NotificationCenter _notificationCenter;
+    private readonly Settings _settings;
+
     private const int SeedWordMin = 12;
     private const int SeedWordMax = 24;
 
     private string LastClipboardContent { get; set; }
     private HashSet<string> Bip39Words { get; set; }
 
-    public ClipboardGuardian(NotifyIcon notifyIcon, Settings settings) : base(notifyIcon, settings,
-        new TimeSpan(0, 0, 1))
+    public ClipboardGuardianCommand(NotificationCenter notificationCenter, Settings settings)
     {
+        _notificationCenter = notificationCenter;
+        _settings = settings;
     }
 
-    public override void Run()
+    public override void Execute(object parameter)
     {
         var notification = Process();
 
@@ -29,23 +33,23 @@ public partial class ClipboardGuardian : BaseAutomation
             return;
         }
 
-        NotifyIcon.ShowBalloonTip(notification);
+        _notificationCenter.Notify(notification);
     }
 
     private Notification Process()
     {
         string clipBoardContent = null;
 
-        Dispatcher.Invoke(() => { clipBoardContent = Clipboard.GetText(); });
+        Application.Current.Dispatcher.Invoke(() => { clipBoardContent = Clipboard.GetText(); });
 
-        if (LastClipboardContent == clipBoardContent)
+        if (LastClipboardContent == clipBoardContent || clipBoardContent == null)
         {
             return null;
         }
 
         LastClipboardContent = clipBoardContent;
 
-        if (Settings.ClipboardGuardian.BitcoinAddressesEnabled && CheckForBitcoinAddress(clipBoardContent))
+        if (_settings.ClipboardGuardian.BitcoinAddressesEnabled && CheckForBitcoinAddress(clipBoardContent))
         {
             return new Notification
             {
@@ -54,7 +58,7 @@ public partial class ClipboardGuardian : BaseAutomation
             };
         }
 
-        if (Settings.ClipboardGuardian.SeedPhraseEnabled && CheckForSeedPhrase(clipBoardContent))
+        if (_settings.ClipboardGuardian.SeedPhraseEnabled && CheckForSeedPhrase(clipBoardContent))
         {
             return new Notification
             {
@@ -63,7 +67,7 @@ public partial class ClipboardGuardian : BaseAutomation
             };
         }
 
-        if (Settings.ClipboardGuardian.ExtendedPublicKeyEnabled && CheckForXPub(clipBoardContent))
+        if (_settings.ClipboardGuardian.ExtendedPublicKeyEnabled && CheckForXPub(clipBoardContent))
         {
             return new Notification
             {
@@ -72,7 +76,7 @@ public partial class ClipboardGuardian : BaseAutomation
             };
         }
 
-        if (Settings.ClipboardGuardian.PrivateKeyEnabled && CheckForXPrv(clipBoardContent))
+        if (_settings.ClipboardGuardian.PrivateKeyEnabled && CheckForXPrv(clipBoardContent))
         {
             return new Notification
             {
@@ -81,7 +85,7 @@ public partial class ClipboardGuardian : BaseAutomation
             };
         }
 
-        if (Settings.ClipboardGuardian.NostrPublicKeyEnabled && CheckForNPub(clipBoardContent))
+        if (_settings.ClipboardGuardian.NostrPublicKeyEnabled && CheckForNPub(clipBoardContent))
         {
             return new Notification
             {
@@ -89,7 +93,7 @@ public partial class ClipboardGuardian : BaseAutomation
             };
         }
 
-        if (Settings.ClipboardGuardian.NostrPrivateKeyEnabled && CheckForNPrv(clipBoardContent))
+        if (_settings.ClipboardGuardian.NostrPrivateKeyEnabled && CheckForNPrv(clipBoardContent))
         {
             return new Notification
             {
