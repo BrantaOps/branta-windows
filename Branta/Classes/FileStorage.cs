@@ -8,6 +8,8 @@ public static class FileStorage
     {
         try
         {
+            var file = new FileInfo(GetFullPath(path));
+            file.Directory?.Create();
             await File.WriteAllTextAsync(GetFullPath(path), content);
         }
         catch
