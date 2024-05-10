@@ -1,6 +1,6 @@
 ﻿using Branta.Enums;
 
-namespace Branta.Domain;
+namespace Branta.Models;
 
 public class Wallet
 {

@@ -1,22 +1,29 @@
-﻿using Branta.Automation.Wallets;
-using Branta.Classes;
+﻿using Branta.Classes;
+using Branta.Classes.Wallets;
 using Branta.Enums;
+using Branta.ViewModels;
 using System.Diagnostics;
-using System.Windows.Forms;
 
-namespace Branta.Automation;
+namespace Branta.Commands;
 
-public class Focus : BaseAutomation
+public class FocusCommand : BaseCommand
 {
+    private readonly WalletVerificationViewModel _viewModel;
+    private readonly NotificationCenter _notificationCenter;
+    private readonly Settings _settings;
+
     private Dictionary<BaseWallet, WalletStatus> _walletTypes;
 
-    public Focus(NotifyIcon notifyIcon, Settings settings) : base(notifyIcon, settings, new TimeSpan(0, 0, 2))
+    public FocusCommand(WalletVerificationViewModel viewModel, NotificationCenter notificationCenter, Settings settings)
     {
+        _viewModel = viewModel;
+        _notificationCenter = notificationCenter;
+        _settings = settings;
     }
 
-    public override void Run()
+    public override void Execute(object parameter)
     {
-        if (!Settings.WalletVerification.LaunchingWalletEnabled || _walletTypes == null)
+        if (!_settings.WalletVerification.LaunchingWalletEnabled || _walletTypes == null)
         {
             return;
         }
@@ -34,11 +41,11 @@ public class Focus : BaseAutomation
                 continue;
             }
 
-            var wallet = VerifyWallets.Verify(walletType);
+            var wallet = VerifyWalletsCommand.Verify(walletType);
 
             if (wallet.Status != _walletTypes.GetValueOrDefault(walletType))
             {
-                NotifyIcon.ShowBalloonTip(new Notification
+                _notificationCenter.Notify(new Notification
                 {
                     Message = $"{wallet.Name} {wallet.Version} is running. Status: {wallet.Status.Name}"
                 });
@@ -47,7 +54,7 @@ public class Focus : BaseAutomation
             }
         }
     }
-
+    
     public void SetWallets(List<BaseWallet> wallets)
     {
         _walletTypes = wallets.ToDictionary(w => w, _ => WalletStatus.None);

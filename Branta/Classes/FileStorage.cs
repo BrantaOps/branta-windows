@@ -4,21 +4,27 @@ namespace Branta.Classes;
 
 public static class FileStorage
 {
-    public static void Save(string path, string content)
+    public static async Task SaveAsync(string path, string content)
     {
-        var file = new FileInfo(GetFullPath(path));
-        file.Directory?.Create();
-        File.WriteAllText(file.FullName, content);
+        try
+        {
+            var file = new FileInfo(GetFullPath(path));
+            file.Directory?.Create();
+            await File.WriteAllTextAsync(GetFullPath(path), content);
+        }
+        catch
+        {
+        }
     }
 
-    public static string Load(string path)
+    public static async Task<string> LoadAsync(string path)
     {
         if (!File.Exists(path))
         {
             return null;
         }
 
-        return File.ReadAllText(GetFullPath(path));
+        return await File.ReadAllTextAsync(GetFullPath(path));
     }
 
     private static string GetFullPath(string path)

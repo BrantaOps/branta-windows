@@ -1,6 +1,6 @@
 ﻿using System.IO;
 
-namespace Branta.Automation.Wallets;
+namespace Branta.Classes.Wallets;
 
 public class BlockStreamGreen : BaseWallet
 {
