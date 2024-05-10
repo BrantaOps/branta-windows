@@ -42,6 +42,14 @@ public class Settings
 
         Properties.Settings.Default.Save();
     }
+
+    public void Update(Settings settings)
+    {
+        Save(settings);
+
+        ClipboardGuardian = settings.ClipboardGuardian;
+        WalletVerification = settings.WalletVerification;
+    }
 }
 
 public class ClipboardGuardianSettings

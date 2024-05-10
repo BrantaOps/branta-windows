@@ -1,5 +1,5 @@
-﻿using Branta.Domain;
-using Branta.Enums;
+﻿using Branta.Enums;
+using Branta.Models;
 using System.ComponentModel;
 using System.Windows;
 

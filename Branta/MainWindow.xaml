@@ -4,6 +4,7 @@
                  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                  xmlns:src="clr-namespace:Branta.Classes"
+                 xmlns:views="clr-namespace:Branta.Views"
                  mc:Ignorable="d"
                  Title="Branta"
                  Height="530"
@@ -27,7 +28,6 @@
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="30" />
-                <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
                 <RowDefinition Height="140" />
@@ -59,161 +59,8 @@
             <Image Grid.Row="1"
                    Source="pack://application:,,,/Assets/goldwhitecropped.png"
                    Width="400" />
-            <TextBlock Grid.Row="2"
-                       Name="TbWalletsDetected"
-                       Visibility="Hidden"
-                       Margin="10"
-                       Foreground="white"
-                       FontSize="16"
-                       VerticalAlignment="Center"
-                       HorizontalAlignment="Center">
-                <Run Text="{Binding Path=VerifyWallets.Wallets.Count, Mode=OneWay}" /><Run Text=" " />
-                <Run Text="{DynamicResource WalletsDetected}" /><Run Text="." />
-            </TextBlock>
-            <TextBlock Grid.Row="3"
-                       Text="{DynamicResource Loading}"
-                       Name="TbCheckSumsLoading"
-                       Foreground="#bbb"
-                       FontSize="18"
-                       VerticalAlignment="Center"
-                       HorizontalAlignment="Center"></TextBlock>
-            <Grid Grid.Row="3">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="35" />
-                    <RowDefinition Height="*" />
-                </Grid.RowDefinitions>
-
-                <Border Grid.Row="0"
-                        BorderBrush="#666"
-                        BorderThickness="0,0,0,1"
-                        MaxWidth="550">
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"
-                                              MinWidth="175" />
-                            <ColumnDefinition Width="125" />
-                            <ColumnDefinition Width="150" />
-                        </Grid.ColumnDefinitions>
-
-                        <Border Grid.Column="0"
-                                BorderBrush="#666"
-                                BorderThickness="0,0,1,0">
-                            <TextBlock Text="{DynamicResource WalletColumnHeader}"
-                                       Foreground="white"
-                                       VerticalAlignment="Center"
-                                       HorizontalAlignment="Center" />
-                        </Border>
-                        <Border Grid.Column="1"
-                                BorderBrush="#666"
-                                BorderThickness="0,0,1,0">
-                            <TextBlock Text="{DynamicResource StatusColumnHeader}"
-                                       Foreground="white"
-                                       VerticalAlignment="Center"
-                                       HorizontalAlignment="Center" />
-                        </Border>
-                        <TextBlock Grid.Column="2"
-                                   Text="Network Activity"
-                                   Foreground="white"
-                                   VerticalAlignment="Center"
-                                   HorizontalAlignment="Center" />
-                    </Grid>
-                </Border>
-                <ScrollViewer Grid.Row="1"
-                              VerticalScrollBarVisibility="Auto"
-                              MaxWidth="550">
-                    <StackPanel>
-                        <ItemsControl ItemsSource="{Binding VerifyWallets.Wallets}"
-                                      AlternationCount="2">
-                            <ItemsControl.ItemTemplate>
-                                <DataTemplate>
-                                    <Grid Height="35"
-                                          x:Name="FooBar">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition MinWidth="175" />
-                                            <ColumnDefinition Width="125" />
-                                            <ColumnDefinition Width="150" />
-                                        </Grid.ColumnDefinitions>
-
-                                        <TextBlock Text="{Binding Name}"
-                                                   Foreground="White"
-                                                   FontSize="16"
-                                                   VerticalAlignment="Center"
-                                                   HorizontalAlignment="Center" />
-                                        <TextBlock Grid.Column="1"
-                                                   Text="{Binding Status.Icon}"
-                                                   FontSize="20"
-                                                   Cursor="Hand"
-                                                   Foreground="{Binding Status.Color}"
-                                                   FontWeight="Bold"
-                                                   MouseDown="OnClick_Status"
-                                                   Tag="{Binding}"
-                                                   VerticalAlignment="Center"
-                                                   HorizontalAlignment="Center" />
-                                        <TextBlock Grid.Column="2"
-                                                   Text="View"
-                                                   Foreground="White"
-                                                   FontSize="16"
-                                                   VerticalAlignment="Center"
-                                                   HorizontalAlignment="Center"
-                                                   Cursor="Hand"
-                                                   Tag="{Binding}"
-                                                   MouseDown="OnClick_NetworkActivityDetails"/>
-                                    </Grid>
-                                    <DataTemplate.Triggers>
-                                        <Trigger Property="ItemsControl.AlternationIndex"
-                                                 Value="1">
-                                            <Setter Property="Background"
-                                                    Value="#4c4c4c"
-                                                    TargetName="FooBar" />
-                                        </Trigger>
-                                    </DataTemplate.Triggers>
-                                </DataTemplate>
-                            </ItemsControl.ItemTemplate>
-                        </ItemsControl>
-                    </StackPanel>
-                </ScrollViewer>
-            </Grid>
-            <Border Grid.Row="4"
-                    BorderThickness="2"
-                    MaxWidth="550"
-                    Drop="VerifyInstaller_Drop"
-                    AllowDrop="True"
-                    Margin="0,15,0,0"
-                    Background="Transparent">
-                <Border.BorderBrush>
-                    <DrawingBrush Viewport="0,0,12,12"
-                                  ViewportUnits="Absolute"
-                                  TileMode="Tile">
-                        <DrawingBrush.Drawing>
-                            <DrawingGroup>
-                                <GeometryDrawing Brush="#666">
-                                    <GeometryDrawing.Geometry>
-                                        <GeometryGroup>
-                                            <RectangleGeometry Rect="0,0,50,50" />
-                                            <RectangleGeometry Rect="50,50,50,50" />
-                                        </GeometryGroup>
-                                    </GeometryDrawing.Geometry>
-                                </GeometryDrawing>
-                            </DrawingGroup>
-                        </DrawingBrush.Drawing>
-                    </DrawingBrush>
-                </Border.BorderBrush>
-
-                <StackPanel HorizontalAlignment="Center"
-                            VerticalAlignment="Center">
-                    <Button Content="Browse Files"
-                            Click="OnClick_BrowseFiles"
-                            Style="{DynamicResource PrimaryButton}"
-                            HorizontalAlignment="Center"
-                            Margin="0,0,0,10" />
-                    <TextBlock Text="{DynamicResource DragAndDropText}"
-                               Foreground="#bbb"
-                               FontSize="14"
-                               MaxWidth="300"
-                               TextWrapping="Wrap"
-                               TextAlignment="Center" />
-                </StackPanel>
-            </Border>
+            <views:WalletVerificationView Grid.Row="2" DataContext="{Binding WalletVerificationViewModel}"/>
+            <views:InstallerVerificationView Grid.Row="3" DataContext="{Binding InstallerVerificationViewModel}" />
             <Image Grid.Row="5"
                    Source="pack://application:,,,/Assets/help.png"
                    Width="24"

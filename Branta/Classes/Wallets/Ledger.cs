@@ -1,7 +1,7 @@
 ﻿using Branta.Enums;
 using System.IO;
 
-namespace Branta.Automation.Wallets;
+namespace Branta.Classes.Wallets;
 
 public class Ledger : BaseWallet
 {

@@ -1,5 +1,5 @@
-﻿using Branta.Domain;
-using Branta.Exceptions;
+﻿using Branta.Exceptions;
+using Branta.Models;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Windows;

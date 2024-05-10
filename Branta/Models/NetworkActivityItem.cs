@@ -1,4 +1,4 @@
-﻿namespace Branta.Domain;
+﻿namespace Branta.Models;
 
 public class NetworkActivityItem
 {

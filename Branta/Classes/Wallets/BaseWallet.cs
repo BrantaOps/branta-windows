@@ -1,10 +1,9 @@
-﻿using Branta.Classes;
-using Branta.Enums;
+﻿using Branta.Enums;
 using System.Diagnostics;
 using System.IO;
 using System.Text.RegularExpressions;
 
-namespace Branta.Automation.Wallets;
+namespace Branta.Classes.Wallets;
 
 public abstract partial class BaseWallet(string name, string exeName = null)
 {

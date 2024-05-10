@@ -62,6 +62,15 @@ public class BaseWindow : Window
 
     protected ResourceDictionary SetLanguageDictionary()
     {
+        var resourceDictionary = GetLanguageDictionary();
+
+        Resources.MergedDictionaries.Add(resourceDictionary);
+
+        return resourceDictionary;
+    }
+
+    public static ResourceDictionary GetLanguageDictionary()
+    {
         var resourceDictionary = new ResourceDictionary();
 
         switch (Thread.CurrentThread.CurrentCulture.ToString())
@@ -77,8 +86,6 @@ public class BaseWindow : Window
                 resourceDictionary.Source = new Uri("Resources\\StringResources.xaml", UriKind.Relative);
                 break;
         }
-
-        Resources.MergedDictionaries.Add(resourceDictionary);
 
         return resourceDictionary;
     }
