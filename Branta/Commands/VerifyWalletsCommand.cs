@@ -45,6 +45,7 @@ public class VerifyWalletsCommand : BaseCommand
             _viewModel.AddWallet(wallet);
 
             if (wallet.Status != WalletStatus.Verified &&
+                wallet.Status != WalletStatus.NotFound &&
                 previousWalletStatus.GetValueOrDefault(walletType.Name, WalletStatus.Verified) == WalletStatus.Verified &&
                 _settings.WalletVerification.WalletStatusChangeEnabled)
             {
