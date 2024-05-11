@@ -8,5 +8,7 @@ public class Wallet
 
     public string Version { get; set; }
 
+    public DateTime LastScanned { get; set; }
+
     public WalletStatus Status { get; set; }
 }

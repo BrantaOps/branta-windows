@@ -6,9 +6,12 @@
     <system:String x:Key="Loading">Loading...</system:String>
 
     <!-- Main Window -->
-    <system:String x:Key="WalletsDetected">Wallet Detected</system:String>
+    <system:String x:Key="WalletDetected">Wallet Detected</system:String>
+    <system:String x:Key="WalletDetectedPlural">Wallets Detected</system:String>
     <system:String x:Key="WalletColumnHeader">Wallet</system:String>
-    <system:String x:Key="StatusColumnHeader">Status</system:String>
+    <system:String x:Key="LastScannedHeader">Last Scanned</system:String>
+    <system:String x:Key="NetworkActivityHeader">Network Activity</system:String>
+    <system:String x:Key="NetworkActivityText">View</system:String>
     <system:String x:Key="DragAndDropText">Drag .exe files here before installing new wallets to verify authenticity</system:String>
 
     <!-- Help Window -->

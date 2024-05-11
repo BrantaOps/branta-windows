@@ -74,6 +74,7 @@ public class VerifyWalletsCommand : BaseCommand
             {
                 Name = walletType.Name,
                 Version = version,
+                LastScanned = DateTime.Now,
                 Status = WalletStatus.VersionNotSupported
             };
         }
@@ -95,6 +96,7 @@ public class VerifyWalletsCommand : BaseCommand
                 {
                     Name = walletType.Name,
                     Version = version,
+                    LastScanned = DateTime.Now,
                     Status = WalletStatus.VersionNotSupported
                 };
             }
@@ -104,6 +106,7 @@ public class VerifyWalletsCommand : BaseCommand
             {
                 Name = walletType.Name,
                 Version = version,
+                LastScanned = DateTime.Now,
                 Status = hash == expectedHash ? WalletStatus.Verified : WalletStatus.NotVerified
             };
         }
@@ -113,6 +116,7 @@ public class VerifyWalletsCommand : BaseCommand
             {
                 Name = walletType.Name,
                 Version = version,
+                LastScanned = DateTime.Now,
                 Status = WalletStatus.NotVerified
             };
         }

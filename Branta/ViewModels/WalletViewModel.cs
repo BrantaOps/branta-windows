@@ -7,11 +7,13 @@ public class WalletViewModel : BaseViewModel
 {
     private readonly Wallet _wallet;
 
-    public string Name => _wallet.Name;
+    public string Name => $"{_wallet.Name}: {_wallet.Status.Name}";
 
     public string Version => _wallet.Version;
 
     public WalletStatus Status => _wallet.Status;
+
+    public string LastScanned => _wallet.LastScanned.ToString("T");
 
     public Wallet Wallet => _wallet;
 
