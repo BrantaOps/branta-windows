@@ -6,8 +6,8 @@
                 xmlns:src="clr-namespace:Branta.Classes"
                 mc:Ignorable="d"
                 Title="Wallet Detail"
-                Height="220"
-                Width="300"
+                Height="270"
+                Width="320"
                 Background="#444"
                 ResizeMode="NoResize"
                 Icon="pack://application:,,,/Assets/black_circle.png"
@@ -58,16 +58,23 @@
                    Margin="0,15" />
             <TextBlock Grid.Row="2"
                        Name="TbWallet"
-                       FontWeight="Bold">
-                Wallet Name v0.0.0
-            </TextBlock>
-            <TextBlock Grid.Row="3"
-                       Width="180"
-                       Name="TbInfo"
-                       TextWrapping="Wrap"
-                       TextAlignment="Center">
-                Branta verified the validity of Wallet Name.
-            </TextBlock>
+                       FontWeight="Bold" />
+            <ScrollViewer Grid.Row="3"
+                          VerticalScrollBarVisibility="Auto"
+                          VerticalAlignment="Center">
+                <ItemsControl x:Name="IcMessages"
+                              Margin="25">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding}"
+                                       Foreground="#cfcfcf"
+                                       Margin="0,0,0,10"
+                                       TextWrapping="Wrap"
+                                       TextAlignment="Center" />
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
         </Grid>
     </Border>
 </src:BaseWindow>

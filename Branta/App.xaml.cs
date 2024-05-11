@@ -20,7 +20,7 @@ public partial class App
     protected override void OnStartup(StartupEventArgs e)
     {
         var installerVerificationViewModel = new InstallerVerificationViewModel(_notificationCenter, _resourceDictionary);
-        var walletVerificationViewModel = new WalletVerificationViewModel(_notificationCenter, _settings);
+        var walletVerificationViewModel = new WalletVerificationViewModel(_notificationCenter, _settings, _resourceDictionary);
 
         MainWindow = new MainWindow(_notificationCenter, _settings, walletVerificationViewModel)
         {
