@@ -119,7 +119,7 @@
                                                 FontSize="16"
                                                 Padding="10,4"
                                                 Tag="{Binding}"
-                                                IsEnabled="{Binding IsEnabled}"
+                                                IsEnabled="{Binding IsNetworkActivityEnabled}"
                                                 Click="OnClick_NetworkActivityDetails" />
                                     </StackPanel>
                                 </Grid>
