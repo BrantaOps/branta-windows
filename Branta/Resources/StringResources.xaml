@@ -21,9 +21,10 @@
     <system:String x:Key="LearnMoreAt">You can learn more about Branta at</system:String>
 
     <!-- Wallet Details Window -->
-    <system:String x:Key="VerifiedMessage">Branta verified the validity of</system:String>
-    <system:String x:Key="NotVerifiedMessage">Branta could not verify the validity of</system:String>
+    <system:String x:Key="VerifiedMessage">Branta verified {0}.</system:String>
+    <system:String x:Key="NotVerifiedMessage">Branta could not verify {0}.</system:String>
     <system:String x:Key="VersionNotSupportedMessage">Version not supported.</system:String>
+    <system:String x:Key="NotFoundMessage">Branta could not locate {0} installation._NL_Either the wallet is not installed, or is installed in a different directory unknown to Branta.</system:String>
 
     <!-- Settings Window -->
     <system:String x:Key="SettingsTitle">Settings</system:String>

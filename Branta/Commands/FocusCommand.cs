@@ -1,22 +1,20 @@
 ﻿using Branta.Classes;
 using Branta.Classes.Wallets;
 using Branta.Enums;
-using Branta.ViewModels;
+using Branta.Models;
 using System.Diagnostics;
 
 namespace Branta.Commands;
 
 public class FocusCommand : BaseCommand
 {
-    private readonly WalletVerificationViewModel _viewModel;
     private readonly NotificationCenter _notificationCenter;
     private readonly Settings _settings;
 
     private Dictionary<BaseWallet, WalletStatus> _walletTypes;
 
-    public FocusCommand(WalletVerificationViewModel viewModel, NotificationCenter notificationCenter, Settings settings)
+    public FocusCommand(NotificationCenter notificationCenter, Settings settings)
     {
-        _viewModel = viewModel;
         _notificationCenter = notificationCenter;
         _settings = settings;
     }
@@ -37,11 +35,18 @@ public class FocusCommand : BaseCommand
         {
             if (!processNames.Contains(walletType.ExeName))
             {
-                _walletTypes[walletType] = WalletStatus.None;
+                _walletTypes[walletType] = null;
                 continue;
             }
 
-            var wallet = VerifyWalletsCommand.Verify(walletType);
+            var (version, walletStatus) = VerifyWalletsCommand.Verify(walletType);
+
+            var wallet = new Wallet()
+            {
+                Name = walletType.Name,
+                Version = version,
+                Status = walletStatus
+            };
 
             if (wallet.Status != _walletTypes.GetValueOrDefault(walletType))
             {
@@ -54,9 +59,9 @@ public class FocusCommand : BaseCommand
             }
         }
     }
-    
+
     public void SetWallets(List<BaseWallet> wallets)
     {
-        _walletTypes = wallets.ToDictionary(w => w, _ => WalletStatus.None);
+        _walletTypes = wallets.ToDictionary(w => w, _ => (WalletStatus)null);
     }
 }

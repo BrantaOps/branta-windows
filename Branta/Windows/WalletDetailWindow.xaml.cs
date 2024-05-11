@@ -1,6 +1,4 @@
-﻿using Branta.Enums;
-using Branta.Models;
-using System.ComponentModel;
+﻿using Branta.Models;
 using System.Windows;
 
 namespace Branta.Views;
@@ -17,26 +15,13 @@ public partial class WalletDetailWindow
 
         TbWallet.Text = $"{wallet.Name} {wallet.Version}";
 
-        TbInfo.Text = GetStatusMessage(wallet);
-    }
-
-    private string GetStatusMessage(Wallet wallet)
-    {
-        if (wallet.Status == WalletStatus.Verified)
+        if (!_dictionary.Contains(wallet.Status.LanguageDictionaryName))
         {
-            return $"{_dictionary["VerifiedMessage"]} {wallet.Name}.";
+            return;
         }
 
-        if (wallet.Status == WalletStatus.NotVerified)
-        {
-            return $"{_dictionary["NotVerifiedMessage"]} {wallet.Name}.";
-        }
+        var content = string.Format(_dictionary[wallet.Status.LanguageDictionaryName].ToString(), wallet.Name);
 
-        if (wallet.Status == WalletStatus.VersionNotSupported)
-        {
-            return _dictionary["VersionNotSupportedMessage"]?.ToString();
-        }
-
-        throw new InvalidEnumArgumentException();
+        IcMessages.ItemsSource = content.Split("_NL_").ToList();
     }
 }

@@ -12,9 +12,8 @@ namespace Branta.ViewModels;
 
 public class WalletVerificationViewModel : BaseViewModel
 {
-    private ObservableCollection<WalletViewModel> _wallets = new();
-
-    private readonly ResourceDictionary _resourceDictioanry;
+    private readonly ObservableCollection<WalletViewModel> _wallets = new();
+    private readonly ResourceDictionary _resourceDictionary;
     private readonly Timer _loadCheckSumsTimer;
     private readonly Timer _focusTimer;
 
@@ -33,7 +32,7 @@ public class WalletVerificationViewModel : BaseViewModel
         get
         {
             var resourceName = _wallets.Count == 1 ? "WalletDetected" : "WalletDetectedPlural";
-            return _wallets.Count + " " + _resourceDictioanry[resourceName] + ".";
+            return _wallets.Count + " " + _resourceDictionary[resourceName] + ".";
         }
     }
 
@@ -53,12 +52,12 @@ public class WalletVerificationViewModel : BaseViewModel
 
     public WalletVerificationViewModel(NotificationCenter notificationCenter, Settings settings, ResourceDictionary resourceDictionary)
     {
-        _resourceDictioanry = resourceDictionary;
+        _resourceDictionary = resourceDictionary;
         _wallets.CollectionChanged += (object _, NotifyCollectionChangedEventArgs _) => OnPropertyChanged(nameof(WalletsDetected));
 
         LoadCheckSumsCommand = new LoadCheckSumsCommand(this);
         VerifyWalletsCommand = new VerifyWalletsCommand(this, notificationCenter, settings);
-        FocusCommand = new FocusCommand(this, notificationCenter, settings);
+        FocusCommand = new FocusCommand(notificationCenter, settings);
 
         _loadCheckSumsTimer = new Timer(new TimeSpan(0, 30, 0));
         _loadCheckSumsTimer.Elapsed += (object sender, ElapsedEventArgs e) => LoadCheckSumsCommand.Execute(null);
@@ -90,7 +89,21 @@ public class WalletVerificationViewModel : BaseViewModel
 
     public void AddWallet(Wallet wallet)
     {
-        DispatchHelper.BeginInvoke(() => _wallets.Add(new WalletViewModel(wallet)));
+        DispatchHelper.BeginInvoke(() =>
+        {
+            var originalWallet = _wallets.FirstOrDefault(w => w.Name == wallet.Name);
+            var newWallet = new WalletViewModel(wallet);
+
+            if (originalWallet == null)
+            {
+                _wallets.Add(newWallet);
+            }
+            else
+            {
+                var index = _wallets.IndexOf(originalWallet);
+                _wallets[index] = newWallet;
+            }
+        });
     }
 
     public void ClearWallets()

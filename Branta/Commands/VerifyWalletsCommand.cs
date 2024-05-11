@@ -30,16 +30,17 @@ public class VerifyWalletsCommand : BaseCommand
             .DistinctBy(w => w.Name)
             .ToDictionary(w => w.Name, w => w.Status);
 
-        _viewModel.ClearWallets();
-
         foreach (var walletType in _viewModel.WalletTypes)
         {
-            var wallet = Verify(walletType);
+            var (version, walletStatus) = Verify(walletType);
 
-            if (wallet == null)
+            var wallet = new Wallet()
             {
-                continue;
-            }
+                Name = walletType.Name,
+                Version = version,
+                LastScanned = DateTime.Now,
+                Status = walletStatus
+            };
 
             _viewModel.AddWallet(wallet);
 
@@ -56,12 +57,12 @@ public class VerifyWalletsCommand : BaseCommand
         }
     }
 
-    public static Wallet Verify(BaseWallet walletType)
+    public static (string, WalletStatus) Verify(BaseWallet walletType)
     {
         var path = walletType.GetPath();
         if (!Directory.Exists(path) || Directory.GetFiles(path).Length == 0)
         {
-            return null;
+            return (null, WalletStatus.NotFound);
         }
 
         var version = walletType.GetVersion();
@@ -70,13 +71,7 @@ public class VerifyWalletsCommand : BaseCommand
 
         if (versionInfo == null)
         {
-            return new Wallet
-            {
-                Name = walletType.Name,
-                Version = version,
-                LastScanned = DateTime.Now,
-                Status = WalletStatus.VersionNotSupported
-            };
+            return (version, WalletStatus.VersionNotSupported);
         }
 
         try
@@ -92,33 +87,16 @@ public class VerifyWalletsCommand : BaseCommand
 
             if (hash == null)
             {
-                return new Wallet
-                {
-                    Name = walletType.Name,
-                    Version = version,
-                    LastScanned = DateTime.Now,
-                    Status = WalletStatus.VersionNotSupported
-                };
+                return (version, WalletStatus.VersionNotSupported);
             }
 
             Trace.WriteLine($"Wallet [{walletType.Name}] Expected: {expectedHash}; Actual: {hash}");
-            return new Wallet
-            {
-                Name = walletType.Name,
-                Version = version,
-                LastScanned = DateTime.Now,
-                Status = hash == expectedHash ? WalletStatus.Verified : WalletStatus.NotVerified
-            };
+
+            return (version, hash == expectedHash ? WalletStatus.Verified : WalletStatus.NotVerified);
         }
         catch
         {
-            return new Wallet
-            {
-                Name = walletType.Name,
-                Version = version,
-                LastScanned = DateTime.Now,
-                Status = WalletStatus.NotVerified
-            };
+            return (version, WalletStatus.NotVerified);
         }
     }
 

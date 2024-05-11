@@ -88,33 +88,40 @@
                                         <ColumnDefinition Width="155" />
                                         <ColumnDefinition Width="155" />
                                     </Grid.ColumnDefinitions>
+                                    <StackPanel VerticalAlignment="Center"
+                                                HorizontalAlignment="Center">
+                                        <Button Style="{DynamicResource SecondaryButton}"
+                                                FontSize="16"
+                                                Padding="10,4"
+                                                Tag="{Binding}"
+                                                Click="OnClick_Status">
+                                            <TextBlock>
+                                                <Run Text="{Binding DisplayName, Mode=OneWay}" />
+                                                <Run Text="{Binding Status.Icon, Mode=OneWay}"
+                                                     FontWeight="Bold"
+                                                     Foreground="{Binding Status.Color}" />
+                                            </TextBlock>
+                                        </Button>
+                                    </StackPanel>
 
-                                    <TextBlock Foreground="White"
-                                               FontSize="16"
-                                               Cursor="Hand"
-                                               MouseDown="OnClick_Status"
-                                               Tag="{Binding}"
-                                               VerticalAlignment="Center"
-                                               HorizontalAlignment="Center">
-                                        <Run Text="{Binding Name, Mode=OneWay}" />
-                                        <Run Text="{Binding Status.Icon, Mode=OneWay}"
-                                             FontWeight="Bold" />
-                                    </TextBlock>
+
                                     <TextBlock Grid.Column="1"
                                                Text="{Binding LastScanned}"
                                                FontSize="16"
                                                Foreground="White"
                                                VerticalAlignment="Center"
                                                HorizontalAlignment="Center" />
-                                    <TextBlock Grid.Column="2"
-                                               Text="{DynamicResource NetworkActivityText}"
-                                               Foreground="White"
-                                               FontSize="16"
-                                               VerticalAlignment="Center"
-                                               HorizontalAlignment="Center"
-                                               Cursor="Hand"
-                                               Tag="{Binding}"
-                                               MouseDown="OnClick_NetworkActivityDetails" />
+                                    <StackPanel Grid.Column="2"
+                                                VerticalAlignment="Center"
+                                                HorizontalAlignment="Center">
+                                        <Button Content="{DynamicResource NetworkActivityText}"
+                                                Style="{DynamicResource SecondaryButton}"
+                                                FontSize="16"
+                                                Padding="10,4"
+                                                Tag="{Binding}"
+                                                IsEnabled="{Binding IsEnabled}"
+                                                Click="OnClick_NetworkActivityDetails" />
+                                    </StackPanel>
                                 </Grid>
                                 <DataTemplate.Triggers>
                                     <Trigger Property="ItemsControl.AlternationIndex"

@@ -4,8 +4,8 @@ namespace Branta.Enums;
 
 public static class Color
 {
+    public const string Transparent = "Transparent";
     public const string Gold = "#B1914A";
-    public const string Red = "#944545";
 
     public static Brush Brush(string color)
     {

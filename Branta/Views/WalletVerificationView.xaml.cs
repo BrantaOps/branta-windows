@@ -1,7 +1,6 @@
 ﻿using Branta.ViewModels;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Input;
 
 namespace Branta.Views;
 
@@ -12,10 +11,10 @@ public partial class WalletVerificationView : UserControl
         InitializeComponent();
     }
 
-    public void OnClick_Status(object sender, MouseButtonEventArgs e)
+    public void OnClick_Status(object sender, RoutedEventArgs e)
     {
-        var textBlock = (TextBlock)sender;
-        var wallet = (WalletViewModel)textBlock.Tag;
+        var button = (Button)sender;
+        var wallet = (WalletViewModel)button.Tag;
 
         var walletDetailWindow = new WalletDetailWindow(wallet.Wallet)
         {
@@ -26,10 +25,10 @@ public partial class WalletVerificationView : UserControl
         walletDetailWindow.Show();
     }
 
-    private void OnClick_NetworkActivityDetails(object sender, MouseButtonEventArgs e)
+    private void OnClick_NetworkActivityDetails(object sender, RoutedEventArgs e)
     {
-        var textBlock = (TextBlock)sender;
-        var wallet = (WalletViewModel)textBlock.Tag;
+        var button = (Button)sender;
+        var wallet = (WalletViewModel)button.Tag;
 
         var networkActivityWindow = new NetworkActivityWindow(wallet.Wallet)
         {
