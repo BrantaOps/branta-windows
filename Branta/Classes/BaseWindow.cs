@@ -2,6 +2,7 @@
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Input;
+using Color = Branta.Enums.Color;
 
 namespace Branta.Classes;
 
@@ -10,6 +11,11 @@ public class BaseWindow : Window
     private System.Windows.Controls.Image _resizeImage;
 
     public event PropertyChangedEventHandler PropertyChanged;
+
+    public BaseWindow()
+    {
+        Background = Color.Brush(Color.WindowBackground);
+    }
 
     protected void OnPropertyChanged([CallerMemberName] string name = "")
     {

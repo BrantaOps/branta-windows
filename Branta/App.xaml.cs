@@ -21,11 +21,12 @@ public partial class App
     {
         var installerVerificationViewModel = new InstallerVerificationViewModel(_notificationCenter, _resourceDictionary);
         var walletVerificationViewModel = new WalletVerificationViewModel(_notificationCenter, _settings, _resourceDictionary);
+        var clipboardGuardianViewModel = new ClipboardGuardianViewModel(_notificationCenter, _settings);
 
         MainWindow = new MainWindow(_notificationCenter, _settings, walletVerificationViewModel)
         {
             WindowStartupLocation = WindowStartupLocation.CenterScreen,
-            DataContext = new MainViewModel(installerVerificationViewModel, walletVerificationViewModel, _notificationCenter, _resourceDictionary, _settings)
+            DataContext = new MainViewModel(installerVerificationViewModel, walletVerificationViewModel, clipboardGuardianViewModel, _notificationCenter, _resourceDictionary, _settings)
         };
         MainWindow.Show();
 

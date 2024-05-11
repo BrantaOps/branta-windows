@@ -45,8 +45,8 @@
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"
                                           MinWidth="240" />
-                        <ColumnDefinition Width="155" />
-                        <ColumnDefinition Width="155" />
+                        <ColumnDefinition Width="145" />
+                        <ColumnDefinition Width="135" />
                     </Grid.ColumnDefinitions>
 
                     <Border Grid.Column="0"
@@ -85,14 +85,14 @@
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="*"
                                                           MinWidth="240" />
-                                        <ColumnDefinition Width="155" />
-                                        <ColumnDefinition Width="155" />
+                                        <ColumnDefinition Width="145" />
+                                        <ColumnDefinition Width="135" />
                                     </Grid.ColumnDefinitions>
                                     <StackPanel VerticalAlignment="Center"
                                                 HorizontalAlignment="Center">
                                         <Button Style="{DynamicResource SecondaryButton}"
                                                 FontSize="16"
-                                                Padding="10,4"
+                                                Padding="10,2"
                                                 Tag="{Binding}"
                                                 Click="OnClick_Status">
                                             <TextBlock>
@@ -117,7 +117,7 @@
                                         <Button Content="{DynamicResource NetworkActivityText}"
                                                 Style="{DynamicResource SecondaryButton}"
                                                 FontSize="16"
-                                                Padding="10,4"
+                                                Padding="10,2"
                                                 Tag="{Binding}"
                                                 IsEnabled="{Binding IsNetworkActivityEnabled}"
                                                 Click="OnClick_NetworkActivityDetails" />
@@ -127,7 +127,7 @@
                                     <Trigger Property="ItemsControl.AlternationIndex"
                                              Value="1">
                                         <Setter Property="Background"
-                                                Value="#4c4c4c"
+                                                Value="#262626"
                                                 TargetName="FooBar" />
                                     </Trigger>
                                 </DataTemplate.Triggers>

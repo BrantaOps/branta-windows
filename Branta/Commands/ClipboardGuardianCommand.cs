@@ -1,4 +1,6 @@
 ﻿using Branta.Classes;
+using Branta.Models;
+using Branta.ViewModels;
 using System.Diagnostics;
 using System.IO;
 using System.Reflection;
@@ -9,6 +11,7 @@ namespace Branta.Commands;
 
 public partial class ClipboardGuardianCommand : BaseCommand
 {
+    private readonly ClipboardGuardianViewModel _viewModel;
     private readonly NotificationCenter _notificationCenter;
     private readonly Settings _settings;
 
@@ -18,87 +21,116 @@ public partial class ClipboardGuardianCommand : BaseCommand
     private string LastClipboardContent { get; set; }
     private HashSet<string> Bip39Words { get; set; }
 
-    public ClipboardGuardianCommand(NotificationCenter notificationCenter, Settings settings)
+    public ClipboardGuardianCommand(ClipboardGuardianViewModel viewModel, NotificationCenter notificationCenter, Settings settings)
     {
+        _viewModel = viewModel;
         _notificationCenter = notificationCenter;
         _settings = settings;
     }
 
     public override void Execute(object parameter)
     {
-        var notification = Process();
+        string clipBoardContent = Application.Current.Dispatcher.Invoke(() =>
+        {
+            return Clipboard.GetText().Trim();
+        });
 
-        if (notification == null)
+        if (clipBoardContent == LastClipboardContent)
         {
             return;
         }
 
-        _notificationCenter.Notify(notification);
-    }
-
-    private Notification Process()
-    {
-        string clipBoardContent = null;
-
-        Application.Current.Dispatcher.Invoke(() => { clipBoardContent = Clipboard.GetText(); });
-
-        if (LastClipboardContent == clipBoardContent || clipBoardContent == null)
-        {
-            return null;
-        }
-
         LastClipboardContent = clipBoardContent;
 
-        if (_settings.ClipboardGuardian.BitcoinAddressesEnabled && CheckForBitcoinAddress(clipBoardContent))
+        var clipboardItem = Process(clipBoardContent) ?? new ClipboardItem();
+
+        _viewModel.ClipboardItem = new ClipboardItemViewModel(clipboardItem);
+
+        if (clipboardItem?.Notification != null)
         {
-            return new Notification
+            _notificationCenter.Notify(clipboardItem.Notification);
+        }
+    }
+
+    private ClipboardItem Process(string clipBoardContent)
+    {
+        if (CheckForBitcoinAddress(clipBoardContent))
+        {
+            return new ClipboardItem
             {
-                Title = "New Address in Clipboard.",
-                Message = "Bitcoin detected."
+                Name = "Bitcoin Address",
+                Value = clipBoardContent,
+                Notification = _settings.ClipboardGuardian.BitcoinAddressesEnabled ? new Notification()
+                {
+                    Title = "New Address in Clipboard.",
+                    Message = "Bitcoin detected.",
+                } : null
             };
         }
 
-        if (_settings.ClipboardGuardian.SeedPhraseEnabled && CheckForSeedPhrase(clipBoardContent))
+        if (CheckForSeedPhrase(clipBoardContent))
         {
-            return new Notification
+            return new ClipboardItem
             {
-                Title = "Seed Phrase in clipboard detected.",
-                Message = "Never share your seed phrase with anyone. Your seed phrase IS your money."
+                Name = "Seed Phrase Detected",
+                Notification = _settings.ClipboardGuardian.SeedPhraseEnabled ? new Notification()
+                {
+                    Title = "Seed Phrase in clipboard detected.",
+                    Message = "Never share your seed phrase with anyone. Your seed phrase IS your money."
+                } : null
             };
         }
 
-        if (_settings.ClipboardGuardian.ExtendedPublicKeyEnabled && CheckForXPub(clipBoardContent))
+        if (CheckForXPub(clipBoardContent))
         {
-            return new Notification
+            return new ClipboardItem
             {
-                Title = "Bitcoin Extended Public Key in Clipboard.",
-                Message = "Sharing your XPUB can lead to loss of privacy."
+                Name = "Bitcoin Public Key Detected",
+                Value = clipBoardContent,
+                Notification = _settings.ClipboardGuardian.ExtendedPublicKeyEnabled ? new Notification()
+                {
+                    Title = "Bitcoin Extended Public Key in Clipboard.",
+                    Message = "Sharing your XPUB can lead to loss of privacy."
+                } : null
             };
         }
 
-        if (_settings.ClipboardGuardian.PrivateKeyEnabled && CheckForXPrv(clipBoardContent))
+        if (CheckForXPrv(clipBoardContent))
         {
-            return new Notification
+            return new ClipboardItem
             {
-                Title = "Bitcoin Private Key in Clipboard.",
-                Message = "Never share your private key with others."
+                Name = "Bitcoin Private Key Detected",
+                Notification = _settings.ClipboardGuardian.PrivateKeyEnabled ? new Notification()
+                {
+                    Title = "Bitcoin Private Key in Clipboard.",
+                    Message = "Never share your private key with others."
+                } : null
             };
         }
 
-        if (_settings.ClipboardGuardian.NostrPublicKeyEnabled && CheckForNPub(clipBoardContent))
+        if (CheckForNPub(clipBoardContent))
         {
-            return new Notification
+            return new ClipboardItem
             {
-                Title = "New Nostr Public Key in Clipboard."
+                Name = "Nostr Public Key Detected",
+                Value = clipBoardContent,
+                Notification = _settings.ClipboardGuardian.NostrPublicKeyEnabled ? new Notification()
+                {
+                    Title = "New Nostr Public Key in Clipboard."
+                } : null
             };
         }
 
-        if (_settings.ClipboardGuardian.NostrPrivateKeyEnabled && CheckForNPrv(clipBoardContent))
+        if (CheckForNPrv(clipBoardContent))
         {
-            return new Notification
+            return new ClipboardItem
             {
-                Title = "New Nostr Private Key in Clipboard.",
-                Message = "Never share your private key with others."
+                Name = "Nostr Private Key Detected",
+                Notification = _settings.ClipboardGuardian.NostrPrivateKeyEnabled ? new Notification()
+                {
+                    Title = "New Nostr Private Key in Clipboard.",
+                    Message = "Never share your private key with others."
+                } : null
             };
         }
 

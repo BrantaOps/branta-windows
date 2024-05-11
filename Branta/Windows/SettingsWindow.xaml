@@ -8,7 +8,6 @@
                 Title="Settings"
                 Height="530"
                 Width="600"
-                Background="#444"
                 Icon="pack://application:,,,/Assets/black_circle.png"
                 WindowStyle="None"
                 MouseLeftButtonDown="MainWindow_OnMouseLeftButtonDown">
@@ -18,7 +17,7 @@
                       CaptionHeight="0"
                       ResizeBorderThickness="8"></WindowChrome>
     </WindowChrome.WindowChrome>
-    <Border BorderBrush="#666"
+    <Border BorderBrush="#303030"
             BorderThickness="1"
             CornerRadius="7">
         <Grid>
