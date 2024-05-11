@@ -10,7 +10,7 @@
             Drop="VerifyInstaller_Drop"
             AllowDrop="True"
             Margin="0,15,0,0"
-            Background="Transparent">
+            Background="#353130">
         <Border.BorderBrush>
             <DrawingBrush Viewport="0,0,12,12"
                           ViewportUnits="Absolute"

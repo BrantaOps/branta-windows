@@ -22,6 +22,6 @@ public class NotificationCenter
 
     public void Notify(Notification notification)
     {
-        _notifyIcon.ShowBalloonTip(notification.Timeout, notification.Title, notification.Message, notification.Icon);
+        _notifyIcon.ShowBalloonTip(notification.Timeout, notification.Title, notification.Message ?? " ", notification.Icon);
     }
 }

@@ -8,7 +8,6 @@
                 Title="Branta"
                 Height="350"
                 Width="650"
-                Background="#444"
                 Icon="pack://application:,,,/Assets/black_circle.png"
                 ResizeMode="NoResize"
                 WindowStyle="None"
@@ -34,7 +33,7 @@
         </Style>
     </Window.Resources>
 
-    <Border BorderBrush="#666"
+    <Border BorderBrush="#303030"
             BorderThickness="1"
             CornerRadius="7">
         <Grid>

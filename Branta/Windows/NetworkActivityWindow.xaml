@@ -8,7 +8,6 @@
                 Title="Branta"
                 Height="600"
                 Width="450"
-                Background="#444"
                 Icon="pack://application:,,,/Assets/black_circle.png"
                 ResizeMode="NoResize"
                 WindowStyle="None"
@@ -20,7 +19,7 @@
         </WindowChrome>
     </WindowChrome.WindowChrome>
 
-    <Border BorderBrush="#666"
+    <Border BorderBrush="#303030"
             BorderThickness="1"
             CornerRadius="7">
         <Grid>
