@@ -59,6 +59,12 @@ Run from Source
 dotnet run
 ```
 
+## Releases
+
+To Create the MSI installer Build the Branta.Setup project in Release
+
+Note: For the installer to work the ProductCode and ProductVersion in `Branta.Setup.vdproj` must be updated.
+
 ## Donate
 
 Branta is free open source software. If you can, consider donating on [Geyser](https://geyser.fund/project/branta). All funds go towards improving and automating security for your stack.
