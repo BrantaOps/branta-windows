@@ -26,7 +26,7 @@
    - Verify Wallets automatically upon launch
  - ⚡️ Drag & Drop PGP Verification for Installers
 
-![Branta Screenshot](https://github.com/BrantaOps/branta-windows/assets/110685100/b4fbf829-aeab-4ad8-b6d9-dec072f6993e)
+![Branta Screenshot](https://github.com/BrantaOps/branta-windows/assets/110685100/71b885ea-e077-44d2-9ae5-d03bd3e666a8)
 
 
 
@@ -58,6 +58,12 @@ Run from Source
 ```
 dotnet run
 ```
+
+## Releases
+
+To Create the MSI installer Build the Branta.Setup project in Release
+
+Note: For the installer to work the ProductCode and ProductVersion in `Branta.Setup.vdproj` must be updated.
 
 ## Donate
 
