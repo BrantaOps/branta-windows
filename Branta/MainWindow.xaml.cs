@@ -26,6 +26,9 @@ public partial class MainWindow
         _settings = settings;
         _walletVerificationViewModel = walletVerificationViewModel;
 
+        MaxHeight = SystemParameters.MaximizedPrimaryScreenHeight;
+        MaxWidth = SystemParameters.MaximizedPrimaryScreenWidth;
+
         try
         {
             InitializeComponent();
