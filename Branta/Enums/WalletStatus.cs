@@ -14,4 +14,5 @@ public class WalletStatus(string name, string languageDictionaryName, string ico
     public static WalletStatus NotVerified = new("Not Verified", "NotVerifiedMessage");
     public static WalletStatus VersionNotSupported = new("Version Not Supported", "VersionNotSupportedMessage");
     public static WalletStatus NotFound = new("Not Found", "NotFoundMessage");
+    public static WalletStatus Installing = new("Installing", "InstallingMessage");
 }

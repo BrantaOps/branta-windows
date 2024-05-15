@@ -17,6 +17,8 @@ public abstract partial class BaseWallet(string name, string exeName = null)
 
     public Dictionary<string, VersionInfo> CheckSums { get; set; }
 
+    public Regex InstallerRegex { get; set; }
+
     private const string RegistryUninstallPath = @"SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\";
 
     public abstract string GetPath();

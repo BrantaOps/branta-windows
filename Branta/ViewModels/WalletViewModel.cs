@@ -17,7 +17,7 @@ public class WalletViewModel : BaseViewModel
 
     public string LastScanned => _wallet.LastScanned.ToString("T");
 
-    public bool IsNetworkActivityEnabled => _wallet.Status != WalletStatus.NotFound;
+    public bool IsNetworkActivityEnabled => _wallet.Status != WalletStatus.NotFound && _wallet.Status != WalletStatus.Installing;
 
     public Wallet Wallet => _wallet;
 

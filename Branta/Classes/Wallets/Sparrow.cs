@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Text.RegularExpressions;
 
 namespace Branta.Classes.Wallets;
 
@@ -7,6 +8,7 @@ public class Sparrow : BaseWallet
     public Sparrow() : base("Sparrow")
     {
         InstallerName = "Sparrow";
+        InstallerRegex = new Regex(@"Sparrow-(\d+\.\d+\.\d+)");
     }
 
     public override string GetPath()

@@ -60,6 +60,11 @@ public class VerifyWalletsCommand : BaseCommand
 
     public static (string, WalletStatus) Verify(BaseWallet walletType)
     {
+        if (walletType.InstallerRegex != null && Process.GetProcesses().Select(p => p.ProcessName).Any(walletType.InstallerRegex.IsMatch))
+        {
+            return (null, WalletStatus.Installing);
+        }
+
         var path = walletType.GetPath();
         if (!Directory.Exists(path) || Directory.GetFiles(path).Length == 0)
         {
