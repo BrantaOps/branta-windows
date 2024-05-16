@@ -25,6 +25,7 @@
     <system:String x:Key="NotVerifiedMessage">Branta no pudo verificar a {0}.</system:String>
     <system:String x:Key="VersionNotSupportedMessage">Versión no compatible.</system:String>
     <system:String x:Key="NotFoundMessage">Branta no pudo localizar la instalación de {0}._NL_O bien la billetera no está instalada o está instalada en un directorio diferente desconocido para Branta.</system:String>
+    <system:String x:Key="InstallingMessage">La verificación no se puede ejecutar porque la billetera se está instalando actualmente. Una vez que se complete la instalación, Branta intentará verificar la billetera.</system:String>
 
     <!-- Settings Window -->
     <system:String x:Key="SettingsTitle">Configuración</system:String>
