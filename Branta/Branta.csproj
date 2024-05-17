@@ -26,7 +26,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Page Remove="Resources\StringResources-es.xaml" />
     <Page Remove="Resources\StringResources.xaml" />
   </ItemGroup>
 
@@ -94,12 +93,6 @@
 
   <ItemGroup>
     <Resource Include="Resources\StringResources.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Resource>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Resource Include="Resources\StringResources-es.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Resource>
   </ItemGroup>

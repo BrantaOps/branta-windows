@@ -57,7 +57,7 @@ public class WalletVerificationViewModel : BaseViewModel
 
         LoadCheckSumsCommand = new LoadCheckSumsCommand(this);
         VerifyWalletsCommand = new VerifyWalletsCommand(this, notificationCenter, settings);
-        FocusCommand = new FocusCommand(notificationCenter, settings);
+        FocusCommand = new FocusCommand(notificationCenter, settings, resourceDictionary);
 
         _loadCheckSumsTimer = new Timer(new TimeSpan(0, 30, 0));
         _loadCheckSumsTimer.Elapsed += (object sender, ElapsedEventArgs e) => LoadCheckSumsCommand.Execute(null);
@@ -92,7 +92,7 @@ public class WalletVerificationViewModel : BaseViewModel
         DispatchHelper.BeginInvoke(() =>
         {
             var originalWallet = _wallets.FirstOrDefault(w => w.Name == wallet.Name);
-            var newWallet = new WalletViewModel(wallet);
+            var newWallet = new WalletViewModel(wallet, _resourceDictionary);
 
             if (originalWallet == null)
             {

@@ -4,14 +4,48 @@
 
     <!-- General -->
     <system:String x:Key="Loading">Loading...</system:String>
-
-    <!-- Main Window -->
+    
+    <!-- Notify Icon Menu -->
+    <system:String x:Key="NotifyIcon_Settings">Settings</system:String>
+    <system:String x:Key="NotifyIcon_Quit">Quit</system:String>
+    <system:String x:Key="NotifyIcon_UpdateAvailable">Update Available</system:String>
+    
+    <!-- Wallet Verification View -->
     <system:String x:Key="WalletDetected">Wallet Detected</system:String>
     <system:String x:Key="WalletDetectedPlural">Wallets Detected</system:String>
     <system:String x:Key="WalletColumnHeader">Wallet</system:String>
     <system:String x:Key="LastScannedHeader">Last Scanned</system:String>
     <system:String x:Key="NetworkActivityHeader">Network Activity</system:String>
     <system:String x:Key="NetworkActivityText">View</system:String>
+
+    <!-- Clipboard Guardian View -->
+    <system:String x:Key="Clipboard">Clipboard:</system:String>
+
+    <system:String x:Key="ClipboardGuardian_BitcoinAdressName">Bitcoin Address</system:String>
+    <system:String x:Key="ClipboardGuardian_BitcoinAdressTitle">New Address in Clipboard.</system:String>
+    <system:String x:Key="ClipboardGuardian_BitcoinAdressMessage">Bitcoin Address detected.</system:String>
+
+    <system:String x:Key="ClipboardGuardian_SeedPhraseName">Seed Phrase Detected</system:String>
+    <system:String x:Key="ClipboardGuardian_SeedPhraseTitle">Seed Phrase in clipboard detected.</system:String>
+    <system:String x:Key="ClipboardGuardian_SeedPhraseMessage">Never share your seed phrase with anyone. Your seed phrase IS your money.</system:String>
+
+    <system:String x:Key="ClipboardGuardian_BitcoinPublicKeyName">Bitcoin Public Key Detected</system:String>
+    <system:String x:Key="ClipboardGuardian_BitcoinPublicKeyTitle">Bitcoin Extended Public Key in Clipboard.</system:String>
+    <system:String x:Key="ClipboardGuardian_BitcoinPublicKeyMessage">Sharing your XPUB can lead to loss of privacy.</system:String>
+
+    <system:String x:Key="ClipboardGuardian_BitcoinPrivateKeyName">Bitcoin Private Key Detected</system:String>
+    <system:String x:Key="ClipboardGuardian_BitcoinPrivateKeyTitle">Bitcoin Private Key in Clipboard.</system:String>
+    <system:String x:Key="ClipboardGuardian_BitcoinPrivateKeyMessage">Never share your private key with others.</system:String>
+
+    <system:String x:Key="ClipboardGuardian_NostrPublicKeyName">Nostr Public Key Detected</system:String>
+    <system:String x:Key="ClipboardGuardian_NostrPublicKeyTitle">New Nostr Public Key in Clipboard.</system:String>
+
+    <system:String x:Key="ClipboardGuardian_NostrPrivateKeyName">Nostr Private Key Detected</system:String>
+    <system:String x:Key="ClipboardGuardian_NostrPrivateKeyTitle">New Nostr Private Key in Clipboard.</system:String>
+    <system:String x:Key="ClipboardGuardian_NostrPrivateKeyMessage">Never share your private key with others.</system:String>
+
+    <!-- Installer Verification View -->
+    <system:String x:Key="BrowseFiles">Browse Files</system:String>
     <system:String x:Key="DragAndDropText">Drag .exe files here before installing new wallets to verify authenticity</system:String>
 
     <!-- Help Window -->
@@ -21,10 +55,19 @@
     <system:String x:Key="LearnMoreAt">You can learn more about Branta at</system:String>
 
     <!-- Wallet Details Window -->
+    <system:String x:Key="Verified">Verified</system:String>
     <system:String x:Key="VerifiedMessage">Branta verified {0}.</system:String>
+
+    <system:String x:Key="NotVerified">Not Verified</system:String>
     <system:String x:Key="NotVerifiedMessage">Branta could not verify {0}.</system:String>
+
+    <system:String x:Key="VersionNotSupported">Version Not Supported</system:String>
     <system:String x:Key="VersionNotSupportedMessage">Version not supported.</system:String>
+
+    <system:String x:Key="NotFound">Not Found</system:String>
     <system:String x:Key="NotFoundMessage">Branta could not locate {0} installation._NL_Either the wallet is not installed, or is installed in a different directory unknown to Branta.</system:String>
+
+    <system:String x:Key="Installing">Installing</system:String>
     <system:String x:Key="InstallingMessage">Branta will verify the wallet after installation completes.</system:String>
 
     <!-- Settings Window -->

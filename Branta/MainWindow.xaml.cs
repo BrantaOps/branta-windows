@@ -16,12 +16,13 @@ public partial class MainWindow
 
     private WalletVerificationViewModel _walletVerificationViewModel;
 
-    public MainWindow(NotificationCenter notificationCenter, Settings settings, WalletVerificationViewModel walletVerificationViewModel)
+    public MainWindow(NotificationCenter notificationCenter, Settings settings, ResourceDictionary resourceDictionary,
+                      WalletVerificationViewModel walletVerificationViewModel)
     {
         notificationCenter.NotifyIcon.DoubleClick += OnClick_NotifyIcon;
         notificationCenter.NotifyIcon.ContextMenuStrip = new ContextMenuStrip();
-        notificationCenter.NotifyIcon.ContextMenuStrip.Items.Add("Settings", null, OnClick_Settings);
-        notificationCenter.NotifyIcon.ContextMenuStrip.Items.Add("Quit", null, OnClick_Quit);
+        notificationCenter.NotifyIcon.ContextMenuStrip.Items.Add(resourceDictionary["NotifyIcon_Settings"].ToString(), null, OnClick_Settings);
+        notificationCenter.NotifyIcon.ContextMenuStrip.Items.Add(resourceDictionary["NotifyIcon_Quit"].ToString(), null, OnClick_Quit);
 
         _settings = settings;
         _walletVerificationViewModel = walletVerificationViewModel;
