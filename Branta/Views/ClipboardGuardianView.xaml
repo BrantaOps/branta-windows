@@ -18,7 +18,7 @@
             <TextBlock Foreground="White"
                        FontSize="16"
                        HorizontalAlignment="Center">
-                <Run Text="Clipboard:" />
+                <Run Text="{DynamicResource Clipboard}" />
                 <Run Text="{Binding ClipboardItem.Name, Mode=OneWay}" />
             </TextBlock>
 

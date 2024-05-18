@@ -13,6 +13,7 @@ public partial class ClipboardGuardianCommand : BaseCommand
 {
     private readonly ClipboardGuardianViewModel _viewModel;
     private readonly NotificationCenter _notificationCenter;
+    private readonly ResourceDictionary _resourceDictionary;
     private readonly Settings _settings;
 
     private const int SeedWordMin = 12;
@@ -21,11 +22,13 @@ public partial class ClipboardGuardianCommand : BaseCommand
     private string LastClipboardContent { get; set; }
     private HashSet<string> Bip39Words { get; set; }
 
-    public ClipboardGuardianCommand(ClipboardGuardianViewModel viewModel, NotificationCenter notificationCenter, Settings settings)
+    public ClipboardGuardianCommand(ClipboardGuardianViewModel viewModel, NotificationCenter notificationCenter,
+        Settings settings,ResourceDictionary resourceDictionary)
     {
         _viewModel = viewModel;
         _notificationCenter = notificationCenter;
         _settings = settings;
+        _resourceDictionary = resourceDictionary;
     }
 
     public override void Execute(object parameter)
@@ -56,82 +59,46 @@ public partial class ClipboardGuardianCommand : BaseCommand
     {
         if (CheckForBitcoinAddress(clipBoardContent))
         {
-            return new ClipboardItem
-            {
-                Name = "Bitcoin Address",
-                Value = clipBoardContent,
-                Notification = _settings.ClipboardGuardian.BitcoinAddressesEnabled ? new Notification()
-                {
-                    Title = "New Address in Clipboard.",
-                    Message = "Bitcoin detected.",
-                } : null
-            };
+            return new ClipboardItem(_settings.ClipboardGuardian.BitcoinAddressesEnabled,
+                                     _resourceDictionary,
+                                     "BitcoinAddress",
+                                     clipBoardContent);
         }
 
         if (CheckForSeedPhrase(clipBoardContent))
         {
-            return new ClipboardItem
-            {
-                Name = "Seed Phrase Detected",
-                Notification = _settings.ClipboardGuardian.SeedPhraseEnabled ? new Notification()
-                {
-                    Title = "Seed Phrase in clipboard detected.",
-                    Message = "Never share your seed phrase with anyone. Your seed phrase IS your money."
-                } : null
-            };
+            return new ClipboardItem(_settings.ClipboardGuardian.SeedPhraseEnabled,
+                                     _resourceDictionary,
+                                     "SeedPhrase");
         }
 
         if (CheckForXPub(clipBoardContent))
         {
-            return new ClipboardItem
-            {
-                Name = "Bitcoin Public Key Detected",
-                Value = clipBoardContent,
-                Notification = _settings.ClipboardGuardian.ExtendedPublicKeyEnabled ? new Notification()
-                {
-                    Title = "Bitcoin Extended Public Key in Clipboard.",
-                    Message = "Sharing your XPUB can lead to loss of privacy."
-                } : null
-            };
+            return new ClipboardItem(_settings.ClipboardGuardian.ExtendedPublicKeyEnabled,
+                                     _resourceDictionary,
+                                     "BitcoinPublicKey");
         }
 
         if (CheckForXPrv(clipBoardContent))
         {
-            return new ClipboardItem
-            {
-                Name = "Bitcoin Private Key Detected",
-                Notification = _settings.ClipboardGuardian.PrivateKeyEnabled ? new Notification()
-                {
-                    Title = "Bitcoin Private Key in Clipboard.",
-                    Message = "Never share your private key with others."
-                } : null
-            };
+            return new ClipboardItem(_settings.ClipboardGuardian.PrivateKeyEnabled,
+                                     _resourceDictionary,
+                                     "BitcoinPrivateKey");
         }
 
         if (CheckForNPub(clipBoardContent))
         {
-            return new ClipboardItem
-            {
-                Name = "Nostr Public Key Detected",
-                Value = clipBoardContent,
-                Notification = _settings.ClipboardGuardian.NostrPublicKeyEnabled ? new Notification()
-                {
-                    Title = "New Nostr Public Key in Clipboard."
-                } : null
-            };
+            return new ClipboardItem(_settings.ClipboardGuardian.NostrPublicKeyEnabled,
+                                     _resourceDictionary,
+                                     "NostrPublicKey");
         }
 
         if (CheckForNPrv(clipBoardContent))
         {
-            return new ClipboardItem
-            {
-                Name = "Nostr Private Key Detected",
-                Notification = _settings.ClipboardGuardian.NostrPrivateKeyEnabled ? new Notification()
-                {
-                    Title = "New Nostr Private Key in Clipboard.",
-                    Message = "Never share your private key with others."
-                } : null
-            };
+
+            return new ClipboardItem(_settings.ClipboardGuardian.NostrPrivateKeyEnabled,
+                                     _resourceDictionary,
+                                     "NostrPrivateKey");
         }
 
         return null;

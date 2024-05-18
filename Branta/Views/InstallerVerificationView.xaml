@@ -32,7 +32,7 @@
 
         <StackPanel HorizontalAlignment="Center"
                     VerticalAlignment="Center">
-            <Button Content="Browse Files"
+            <Button Content="{DynamicResource BrowseFiles}"
                     Command="{Binding BrowseFilesCommand}"
                     Style="{DynamicResource PrimaryButton}"
                     HorizontalAlignment="Center"

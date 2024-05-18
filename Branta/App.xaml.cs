@@ -21,9 +21,9 @@ public partial class App
     {
         var installerVerificationViewModel = new InstallerVerificationViewModel(_notificationCenter, _resourceDictionary);
         var walletVerificationViewModel = new WalletVerificationViewModel(_notificationCenter, _settings, _resourceDictionary);
-        var clipboardGuardianViewModel = new ClipboardGuardianViewModel(_notificationCenter, _settings);
+        var clipboardGuardianViewModel = new ClipboardGuardianViewModel(_notificationCenter, _settings, _resourceDictionary);
 
-        MainWindow = new MainWindow(_notificationCenter, _settings, walletVerificationViewModel)
+        MainWindow = new MainWindow(_notificationCenter, _settings, _resourceDictionary, walletVerificationViewModel)
         {
             WindowStartupLocation = WindowStartupLocation.CenterScreen,
             DataContext = new MainViewModel(installerVerificationViewModel, walletVerificationViewModel, clipboardGuardianViewModel, _notificationCenter, _resourceDictionary, _settings)

@@ -3,6 +3,7 @@ using Branta.Classes.Wallets;
 using Branta.Enums;
 using Branta.Models;
 using System.Diagnostics;
+using System.Windows;
 
 namespace Branta.Commands;
 
@@ -10,13 +11,15 @@ public class FocusCommand : BaseCommand
 {
     private readonly NotificationCenter _notificationCenter;
     private readonly Settings _settings;
+    private readonly ResourceDictionary _resourceDictionary;
 
     private Dictionary<BaseWallet, WalletStatus> _walletTypes;
 
-    public FocusCommand(NotificationCenter notificationCenter, Settings settings)
+    public FocusCommand(NotificationCenter notificationCenter, Settings settings, ResourceDictionary resourceDictionary)
     {
         _notificationCenter = notificationCenter;
         _settings = settings;
+        _resourceDictionary = resourceDictionary;
     }
 
     public override void Execute(object parameter)
@@ -52,7 +55,7 @@ public class FocusCommand : BaseCommand
             {
                 _notificationCenter.Notify(new Notification
                 {
-                    Message = $"{wallet.Name} {wallet.Version} is running. Status: {wallet.Status.Name}"
+                    Message = $"{wallet.Name} {wallet.Version} is running. Status: {wallet.Status.GetName(_resourceDictionary)}"
                 });
 
                 _walletTypes[walletType] = wallet.Status;
