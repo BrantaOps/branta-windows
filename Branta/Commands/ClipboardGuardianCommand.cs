@@ -61,7 +61,7 @@ public partial class ClipboardGuardianCommand : BaseCommand
         {
             return new ClipboardItem(_settings.ClipboardGuardian.BitcoinAddressesEnabled,
                                      _resourceDictionary,
-                                     "BitcoinAdress",
+                                     "BitcoinAddress",
                                      clipBoardContent);
         }
 

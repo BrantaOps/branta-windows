@@ -21,9 +21,9 @@
     <!-- Clipboard Guardian View -->
     <system:String x:Key="Clipboard">Clipboard:</system:String>
 
-    <system:String x:Key="ClipboardGuardian_BitcoinAdressName">Bitcoin Address</system:String>
-    <system:String x:Key="ClipboardGuardian_BitcoinAdressTitle">New Address in Clipboard.</system:String>
-    <system:String x:Key="ClipboardGuardian_BitcoinAdressMessage">Bitcoin Address detected.</system:String>
+    <system:String x:Key="ClipboardGuardian_BitcoinAddressName">Bitcoin Address</system:String>
+    <system:String x:Key="ClipboardGuardian_BitcoinAddressTitle">New Address in Clipboard.</system:String>
+    <system:String x:Key="ClipboardGuardian_BitcoinAddressMessage">Bitcoin Address detected.</system:String>
 
     <system:String x:Key="ClipboardGuardian_SeedPhraseName">Seed Phrase Detected</system:String>
     <system:String x:Key="ClipboardGuardian_SeedPhraseTitle">Seed Phrase in clipboard detected.</system:String>
