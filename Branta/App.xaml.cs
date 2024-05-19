@@ -1,35 +1,54 @@
 ﻿using Branta.Classes;
 using Branta.ViewModels;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using System.Windows;
 
 namespace Branta;
 
 public partial class App
 {
-    private readonly NotificationCenter _notificationCenter;
-    private readonly Settings _settings;
-    private readonly ResourceDictionary _resourceDictionary;
+    private readonly IHost _host;
 
     public App()
     {
-        _notificationCenter = new NotificationCenter();
-        _settings = Settings.Load();
-        _resourceDictionary = BaseWindow.GetLanguageDictionary();
+        _host = Host.CreateDefaultBuilder()
+            .ConfigureServices(services =>
+            {
+                services.AddSingleton<NotificationCenter>();
+                services.AddSingleton(Settings.Load());
+                services.AddSingleton(BaseWindow.GetLanguageDictionary());
+
+                services.AddSingleton<MainViewModel>();
+                services.AddSingleton<InstallerVerificationViewModel>();
+                services.AddSingleton<WalletVerificationViewModel>();
+                services.AddSingleton<ClipboardGuardianViewModel>();
+
+                services.AddSingleton(s =>
+                    new MainWindow(s.GetRequiredService<NotificationCenter>(), s.GetRequiredService<Settings>(),
+                        s.GetRequiredService<ResourceDictionary>(), s.GetRequiredService<WalletVerificationViewModel>())
+                    {
+                        WindowStartupLocation = WindowStartupLocation.CenterScreen,
+                        DataContext = s.GetRequiredService<MainViewModel>()
+                    });
+            })
+            .Build();
     }
 
     protected override void OnStartup(StartupEventArgs e)
     {
-        var installerVerificationViewModel = new InstallerVerificationViewModel(_notificationCenter, _resourceDictionary);
-        var walletVerificationViewModel = new WalletVerificationViewModel(_notificationCenter, _settings, _resourceDictionary);
-        var clipboardGuardianViewModel = new ClipboardGuardianViewModel(_notificationCenter, _settings, _resourceDictionary);
+        _host.Start();
 
-        MainWindow = new MainWindow(_notificationCenter, _settings, _resourceDictionary, walletVerificationViewModel)
-        {
-            WindowStartupLocation = WindowStartupLocation.CenterScreen,
-            DataContext = new MainViewModel(installerVerificationViewModel, walletVerificationViewModel, clipboardGuardianViewModel, _notificationCenter, _resourceDictionary, _settings)
-        };
+        MainWindow = _host.Services.GetRequiredService<MainWindow>();
         MainWindow.Show();
 
         base.OnStartup(e);
+    }
+
+    protected override void OnExit(ExitEventArgs e)
+    {
+        _host.Dispose();
+
+        base.OnExit(e);
     }
 }
