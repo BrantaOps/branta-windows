@@ -48,7 +48,7 @@ public abstract partial class BaseWallet(string name, string exeName = null)
     [GeneratedRegex(@"(\d+\.\d+\.\d+)")]
     private static partial Regex VersionRegex();
 
-    public static List<BaseWallet> GetSupportedWallets(CheckSums checkSums = null)
+    public static List<BaseWallet> GetWalletTypes(CheckSums checkSums = null)
     {
         return new List<BaseWallet>
         {

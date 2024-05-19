@@ -1,48 +1,24 @@
-﻿using Branta.Classes;
-using Branta.Classes.Wallets;
+﻿using Branta.Stores;
 using Branta.ViewModels;
 
 namespace Branta.Commands;
 
 public class LoadCheckSumsCommand : BaseAsyncCommand
 {
-    private readonly BrantaClient _brantaClient = new BrantaClient();
     private readonly WalletVerificationViewModel _viewModel;
+    private readonly CheckSumStore _checkSumStore;
 
-    private const string CheckSumsPath = "CheckSums.yaml";
-
-    public LoadCheckSumsCommand(WalletVerificationViewModel viewModel)
+    public LoadCheckSumsCommand(WalletVerificationViewModel viewModel, CheckSumStore checkSumStore)
     {
         _viewModel = viewModel;
+        _checkSumStore = checkSumStore;
     }
 
     public override async Task ExecuteAsync(object parameter)
     {
-        var checkSums = await LoadCheckSumsAsync();
+        await _checkSumStore.LoadAsync();
 
-        _viewModel.WalletTypes = BaseWallet.GetSupportedWallets(checkSums);
         _viewModel.IsLoading = false;
+        _viewModel.WalletTypes = _checkSumStore.WalletTypes;
     }
-
-    private async Task<CheckSums> LoadCheckSumsAsync()
-    {
-        var serverCheckSums = await _brantaClient.GetCheckSumsAsync();
-
-        if (serverCheckSums != null)
-        {
-            await FileStorage.SaveAsync(CheckSumsPath, serverCheckSums);
-
-            return YamlLoader.Load<CheckSums>(serverCheckSums);
-        }
-
-        var cacheCheckSums = await FileStorage.LoadAsync(CheckSumsPath);
-
-        if (cacheCheckSums != null)
-        {
-            return YamlLoader.Load<CheckSums>(cacheCheckSums);
-        }
-
-        return YamlLoader.LoadCheckSums();
-    }
-
 }

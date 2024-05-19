@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using System.Windows.Threading;
 
 namespace Branta.ViewModels;
@@ -9,8 +10,8 @@ public class BaseViewModel : INotifyPropertyChanged
 
     public Dispatcher DispatchHelper => System.Windows.Application.Current.Dispatcher;
 
-    protected void OnPropertyChanged(string properyName)
+    protected void OnPropertyChanged([CallerMemberName] string propertyName = "")
     {
-        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(properyName));
+        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 }

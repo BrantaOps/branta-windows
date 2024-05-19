@@ -1,9 +1,9 @@
-﻿using Branta.Classes;
-using Branta.Enums;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Input;
+using Branta.Classes;
+using Branta.Enums;
 
-namespace Branta.Views;
+namespace Branta.Windows;
 
 public partial class HelpWindow
 {

@@ -1,26 +1,23 @@
 ﻿using Branta.Models;
-using System.Windows;
 
-namespace Branta.Views;
+namespace Branta.Windows;
 
 public partial class WalletDetailWindow
 {
-    private readonly ResourceDictionary _dictionary;
-
     public WalletDetailWindow(Wallet wallet)
     {
         InitializeComponent();
 
-        _dictionary = SetLanguageDictionary();
+        var dictionary = SetLanguageDictionary();
 
         TbWallet.Text = $"{wallet.Name} {wallet.Version}";
 
-        if (!_dictionary.Contains(wallet.Status.LanguageDictionaryName))
+        if (!dictionary.Contains(wallet.Status.LanguageDictionaryName))
         {
             return;
         }
 
-        var content = string.Format(_dictionary[wallet.Status.LanguageDictionaryName].ToString(), wallet.Name);
+        var content = string.Format(dictionary[wallet.Status.LanguageDictionaryName]?.ToString() ?? string.Empty, wallet.Name);
 
         IcMessages.ItemsSource = content.Split("_NL_").ToList();
     }

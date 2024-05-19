@@ -3,9 +3,8 @@ using Branta.Classes.Wallets;
 using Branta.Commands;
 using Branta.Models;
 using System.Collections.ObjectModel;
-using System.Collections.Specialized;
-using System.Timers;
 using System.Windows;
+using Branta.Stores;
 using Timer = System.Timers.Timer;
 
 namespace Branta.ViewModels;
@@ -37,38 +36,36 @@ public class WalletVerificationViewModel : BaseViewModel
     }
 
     private bool _isLoading = true;
+
     public bool IsLoading
     {
-        get
-        {
-            return _isLoading;
-        }
+        get => _isLoading;
         set
         {
             _isLoading = value;
-            OnPropertyChanged(nameof(IsLoading));
+            OnPropertyChanged();
         }
     }
 
-    public WalletVerificationViewModel(NotificationCenter notificationCenter, Settings settings, ResourceDictionary resourceDictionary)
+    public WalletVerificationViewModel(NotificationCenter notificationCenter, Settings settings,
+        ResourceDictionary resourceDictionary, CheckSumStore checkSumStore)
     {
         _resourceDictionary = resourceDictionary;
-        _wallets.CollectionChanged += (object _, NotifyCollectionChangedEventArgs _) => OnPropertyChanged(nameof(WalletsDetected));
+        _wallets.CollectionChanged += (_, _) => OnPropertyChanged(nameof(WalletsDetected));
 
-        LoadCheckSumsCommand = new LoadCheckSumsCommand(this);
+        LoadCheckSumsCommand = new LoadCheckSumsCommand(this, checkSumStore);
         VerifyWalletsCommand = new VerifyWalletsCommand(this, notificationCenter, settings);
         FocusCommand = new FocusCommand(notificationCenter, settings, resourceDictionary);
 
         _loadCheckSumsTimer = new Timer(new TimeSpan(0, 30, 0));
-        _loadCheckSumsTimer.Elapsed += (object sender, ElapsedEventArgs e) => LoadCheckSumsCommand.Execute(null);
+        _loadCheckSumsTimer.Elapsed += (_, _) => LoadCheckSumsCommand.Execute(null);
         _loadCheckSumsTimer.Start();
 
         SetTimer(settings.WalletVerification.WalletVerifyEvery);
 
         _focusTimer = new Timer(new TimeSpan(0, 0, 2));
-        _focusTimer.Elapsed += (object sender, ElapsedEventArgs e) => FocusCommand.Execute(null);
+        _focusTimer.Elapsed += (_, _) => FocusCommand.Execute(null);
         _focusTimer.Start();
-
 
         Task.Run(async () =>
         {
@@ -83,7 +80,7 @@ public class WalletVerificationViewModel : BaseViewModel
         _verifyWalletsTimer?.Dispose();
 
         _verifyWalletsTimer = new Timer(interval);
-        _verifyWalletsTimer.Elapsed += (object sender, ElapsedEventArgs e) => VerifyWalletsCommand.Execute(null);
+        _verifyWalletsTimer.Elapsed += (_, _) => VerifyWalletsCommand.Execute(null);
         _verifyWalletsTimer.Start();
     }
 
@@ -104,10 +101,5 @@ public class WalletVerificationViewModel : BaseViewModel
                 _wallets[index] = newWallet;
             }
         });
-    }
-
-    public void ClearWallets()
-    {
-        DispatchHelper.BeginInvoke(() => _wallets.Clear());
     }
 }
