@@ -87,7 +87,7 @@
     <system:String x:Key="WalletStatusChangeEnabledText">Notify Status Upon Status Change</system:String>
 
     <system:String x:Key="LastUpdatedTitle">Last Sync</system:String>
-    <system:String x:Key="RefreshNow">RefreshNow</system:String>
+    <system:String x:Key="RefreshNow">Refresh Now</system:String>
 
     <!-- Network Activity Window -->
     <system:String x:Key="Connections">Connections</system:String>
