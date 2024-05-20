@@ -3,12 +3,10 @@
 public abstract class BaseAsyncCommand : BaseCommand
 {
     private bool _isExecuting;
+
     private bool IsExecuting
     {
-        get
-        {
-            return _isExecuting;
-        }
+        get => _isExecuting;
         set
         {
             _isExecuting = value;

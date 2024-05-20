@@ -1,4 +1,5 @@
 ﻿using Branta.Classes;
+using Branta.Stores;
 using Branta.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -37,19 +38,20 @@ public partial class App
                 services.AddSingleton<NotificationCenter>();
                 services.AddSingleton(Settings.Load());
                 services.AddSingleton(BaseWindow.GetLanguageDictionary());
+                services.AddSingleton<CheckSumStore>();
 
                 services.AddSingleton<MainViewModel>();
                 services.AddSingleton<InstallerVerificationViewModel>();
                 services.AddSingleton<WalletVerificationViewModel>();
                 services.AddSingleton<ClipboardGuardianViewModel>();
 
-                services.AddSingleton(s =>
-                    new MainWindow(s.GetRequiredService<NotificationCenter>(), s.GetRequiredService<Settings>(),
-                        s.GetRequiredService<ResourceDictionary>(), s.GetRequiredService<WalletVerificationViewModel>())
-                    {
-                        WindowStartupLocation = WindowStartupLocation.CenterScreen,
-                        DataContext = s.GetRequiredService<MainViewModel>()
-                    });
+                services.AddSingleton(s => new MainWindow(s.GetRequiredService<NotificationCenter>(),
+                    s.GetRequiredService<Settings>(), s.GetRequiredService<ResourceDictionary>(),
+                    s.GetRequiredService<WalletVerificationViewModel>(), s.GetRequiredService<CheckSumStore>())
+                {
+                    WindowStartupLocation = WindowStartupLocation.CenterScreen,
+                    DataContext = s.GetRequiredService<MainViewModel>()
+                });
             })
             .Build();
     }

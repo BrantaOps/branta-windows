@@ -1,6 +1,5 @@
 ﻿using Branta.Classes;
 using Branta.Commands;
-using System.Timers;
 using System.Windows;
 using System.Windows.Input;
 using Timer = System.Timers.Timer;
@@ -32,7 +31,7 @@ public class MainViewModel
         UpdateAppCommand = new UpdateAppCommand(notificationCenter, resourceDictionary);
 
         _updateAppTimer = new Timer(new TimeSpan(24, 0, 0));
-        _updateAppTimer.Elapsed += (object sender, ElapsedEventArgs e) => UpdateAppCommand.Execute(null);
+        _updateAppTimer.Elapsed += (_, _) => UpdateAppCommand.Execute(null);
         _updateAppTimer.Start();
 
         UpdateAppCommand.Execute(null);

@@ -1,23 +1,24 @@
 ﻿using Branta.Classes;
 using Branta.ViewModels;
-using Branta.Views;
+using Branta.Windows;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Windows;
 using System.Windows.Forms;
 using System.Windows.Input;
+using Branta.Stores;
 using Application = System.Windows.Application;
 
 namespace Branta;
 
 public partial class MainWindow
 {
-    private Settings _settings;
-
-    private WalletVerificationViewModel _walletVerificationViewModel;
+    private readonly Settings _settings;
+    private readonly WalletVerificationViewModel _walletVerificationViewModel;
+    private readonly CheckSumStore _checkSumStore;
 
     public MainWindow(NotificationCenter notificationCenter, Settings settings, ResourceDictionary resourceDictionary,
-                      WalletVerificationViewModel walletVerificationViewModel)
+        WalletVerificationViewModel walletVerificationViewModel, CheckSumStore checkSumStore)
     {
         notificationCenter.NotifyIcon.DoubleClick += OnClick_NotifyIcon;
         notificationCenter.NotifyIcon.ContextMenuStrip = new ContextMenuStrip();
@@ -26,6 +27,7 @@ public partial class MainWindow
 
         _settings = settings;
         _walletVerificationViewModel = walletVerificationViewModel;
+        _checkSumStore = checkSumStore;
 
         MaxHeight = SystemParameters.MaximizedPrimaryScreenHeight;
         MaxWidth = SystemParameters.MaximizedPrimaryScreenWidth;
@@ -75,7 +77,7 @@ public partial class MainWindow
 
     private void OnClick_Settings(object sender, EventArgs e)
     {
-        var settingsWindow = new SettingsWindow(_settings);
+        var settingsWindow = new SettingsWindow(_settings, _checkSumStore, _walletVerificationViewModel);
 
         settingsWindow.ShowDialog();
 

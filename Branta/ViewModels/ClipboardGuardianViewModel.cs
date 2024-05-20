@@ -14,14 +14,11 @@ public class ClipboardGuardianViewModel : BaseViewModel
     private ClipboardItemViewModel _clipboardItem;
     public ClipboardItemViewModel ClipboardItem
     {
-        get
-        {
-            return _clipboardItem;
-        }
+        get => _clipboardItem;
         set
         {
             _clipboardItem = value;
-            OnPropertyChanged(nameof(ClipboardItem));
+            OnPropertyChanged();
         }
     }
 

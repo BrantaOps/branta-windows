@@ -1,10 +1,10 @@
-﻿using Branta.Exceptions;
-using Branta.Models;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Windows;
+using Branta.Exceptions;
+using Branta.Models;
 
-namespace Branta.Views;
+namespace Branta.Windows;
 
 public partial class NetworkActivityWindow
 {

@@ -86,6 +86,9 @@
     <system:String x:Key="LaunchingWalletEnabledText">Notify Status Upon Launching Wallet</system:String>
     <system:String x:Key="WalletStatusChangeEnabledText">Notify Status Upon Status Change</system:String>
 
+    <system:String x:Key="LastUpdatedTitle">Last Sync</system:String>
+    <system:String x:Key="RefreshNow">Refresh Now</system:String>
+
     <!-- Network Activity Window -->
     <system:String x:Key="Connections">Connections</system:String>
     <system:String x:Key="InsufficientPrivileges">Admin rights required for this feature.</system:String>

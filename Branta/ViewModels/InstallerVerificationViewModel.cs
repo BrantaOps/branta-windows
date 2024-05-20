@@ -19,14 +19,11 @@ public class InstallerVerificationViewModel : BaseViewModel
     private bool _isLoading = true;
     public bool IsLoading
     {
-        get
-        {
-            return _isLoading;
-        }
+        get => _isLoading;
         set
         {
             _isLoading = value;
-            OnPropertyChanged(nameof(IsLoading));
+            OnPropertyChanged();
         }
     }
 
