@@ -4,6 +4,7 @@
 
     <!-- General -->
     <system:String x:Key="Loading">Loading...</system:String>
+    <system:String x:Key="Help">Help</system:String>
     
     <!-- Notify Icon Menu -->
     <system:String x:Key="NotifyIcon_Settings">Settings</system:String>
@@ -47,12 +48,6 @@
     <!-- Installer Verification View -->
     <system:String x:Key="BrowseFiles">Browse Files</system:String>
     <system:String x:Key="DragAndDropText">Drag .exe files here before installing new wallets to verify authenticity</system:String>
-
-    <!-- Help Window -->
-    <system:String x:Key="How">How does Branta verify my Wallets?</system:String>
-    <system:String x:Key="HowDetails">Branta runs the SHA-256 algorithm on your wallet, then matches against the PGP verified SHA-256. If the hashes match, its very likely you have an authentic wallet. If they do not match, you should consider reinstalling the wallet from the developers website.</system:String>
-    <system:String x:Key="LearnMore">How do I learn more?</system:String>
-    <system:String x:Key="LearnMoreAt">You can learn more about Branta at</system:String>
 
     <!-- Wallet Details Window -->
     <system:String x:Key="Verified">Verified</system:String>

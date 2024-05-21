@@ -27,6 +27,7 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
             <StackPanel Orientation="Horizontal"
@@ -145,6 +146,15 @@
                 </StackPanel>
             </ScrollViewer>
 
+            <Button Grid.Row="4"
+                    Content="{DynamicResource Help}"
+                    Style="{StaticResource SecondaryButton}"
+                    Command="{Binding HelpCommand}"
+                    Foreground="#bbb"
+                    HorizontalAlignment="Center"
+                    Margin="10"
+                    Padding="7,2"
+                    FontSize="16" />
         </Grid>
     </Border>
 </src:BaseWindow>

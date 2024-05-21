@@ -65,12 +65,15 @@
                                          DataContext="{Binding ClipboardGuardianViewModel}" />
             <views:InstallerVerificationView Grid.Row="4"
                                              DataContext="{Binding InstallerVerificationViewModel}" />
-            <Image Grid.Row="5"
-                   Source="pack://application:,,,/Assets/help.png"
-                   Width="24"
-                   Margin="10"
-                   Cursor="Hand"
-                   MouseDown="OnClick_Help" />
+            <Button Grid.Row="5"
+                    Content="{DynamicResource Help}"
+                    Style="{StaticResource SecondaryButton}"
+                    Command="{Binding HelpCommand}"
+                    Foreground="#bbb"
+                    HorizontalAlignment="Center"
+                    Margin="10"
+                    Padding="7,2"
+                    FontSize="16" />
         </Grid>
     </Border>
 </src:BaseWindow>

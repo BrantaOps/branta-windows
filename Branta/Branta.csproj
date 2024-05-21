@@ -20,7 +20,6 @@
     <None Remove="Assets\fullscreen.png" />
     <None Remove="Assets\fullscreen_exit.png" />
     <None Remove="Assets\goldwhitecropped.png" />
-    <None Remove="Assets\help.png" />
     <None Remove="Assets\InstallerHashes.yaml" />
     <None Remove="Assets\minimize.png" />
   </ItemGroup>
@@ -58,9 +57,6 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Assets\goldwhitecropped.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Assets\help.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Assets\minimize.png">
