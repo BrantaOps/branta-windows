@@ -1,4 +1,5 @@
-﻿using Branta.Classes;
+﻿using System.Windows.Input;
+using Branta.Classes;
 using Branta.Commands;
 using Branta.Stores;
 
@@ -117,6 +118,7 @@ public class SettingsViewModel : BaseViewModel
     }
 
     public LoadCheckSumsCommand LoadCheckSumsCommand { get; }
+    public ICommand HelpCommand { get; }
 
     public SettingsViewModel(Settings settings, CheckSumStore checkSumStore, WalletVerificationViewModel walletVerificationViewModel)
     {
@@ -124,6 +126,7 @@ public class SettingsViewModel : BaseViewModel
         checkSumStore.LastUpdatedEvent += date => LastUpdated = date;
 
         LoadCheckSumsCommand = new LoadCheckSumsCommand(walletVerificationViewModel, checkSumStore);
+        HelpCommand = new HelpCommand();
 
         BitcoinAddressesEnabled = settings.ClipboardGuardian.BitcoinAddressesEnabled;
         SeedPhraseEnabled = settings.ClipboardGuardian.SeedPhraseEnabled;

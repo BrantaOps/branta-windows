@@ -15,6 +15,7 @@ public class MainViewModel
     public ClipboardGuardianViewModel ClipboardGuardianViewModel { get; set; }
 
     public ICommand UpdateAppCommand { get; }
+    public ICommand HelpCommand { get; }
 
     public MainViewModel(
         InstallerVerificationViewModel installerVerificationViewModel,
@@ -29,6 +30,7 @@ public class MainViewModel
         ClipboardGuardianViewModel = clipboardGuardianViewModel;
 
         UpdateAppCommand = new UpdateAppCommand(notificationCenter, resourceDictionary);
+        HelpCommand = new HelpCommand();
 
         _updateAppTimer = new Timer(new TimeSpan(24, 0, 0));
         _updateAppTimer.Elapsed += (_, _) => UpdateAppCommand.Execute(null);
