@@ -9,6 +9,8 @@ public class ClipboardItem
 
     public string Value { get; set; }
 
+    public bool IsDefault { get; set; }
+
     public Notification Notification { get; set; }
 
     public ClipboardItem()
@@ -19,6 +21,7 @@ public class ClipboardItem
     {
         Name = resourceDictionary[$"ClipboardGuardian_{resourceKey}Name"]?.ToString();
         Value = value;
+        IsDefault = false;
         Notification = enabled ? new Notification()
         {
             Title = resourceDictionary[$"ClipboardGuardian_{resourceKey}Title"]?.ToString(),
