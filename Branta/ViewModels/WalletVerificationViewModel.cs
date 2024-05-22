@@ -26,15 +26,6 @@ public class WalletVerificationViewModel : BaseViewModel
 
     public IEnumerable<WalletViewModel> Wallets => _wallets;
 
-    public string WalletsDetected
-    {
-        get
-        {
-            var resourceName = _wallets.Count == 1 ? "WalletDetected" : "WalletDetectedPlural";
-            return _wallets.Count + " " + _resourceDictionary[resourceName] + ".";
-        }
-    }
-
     private bool _isLoading = true;
 
     public bool IsLoading
@@ -51,7 +42,6 @@ public class WalletVerificationViewModel : BaseViewModel
         ResourceDictionary resourceDictionary, CheckSumStore checkSumStore)
     {
         _resourceDictionary = resourceDictionary;
-        _wallets.CollectionChanged += (_, _) => OnPropertyChanged(nameof(WalletsDetected));
 
         LoadCheckSumsCommand = new LoadCheckSumsCommand(this, checkSumStore);
         VerifyWalletsCommand = new VerifyWalletsCommand(this, notificationCenter, settings);
