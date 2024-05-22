@@ -44,7 +44,7 @@ public partial class ClipboardGuardianCommand : BaseCommand
 
         var clipboardItem = Process(clipBoardContent) ?? new ClipboardItem
         {
-            Value = "No Bitcoin/Nostr content detected.",
+            Value = _resourceDictionary["ClipboardGuardian_None"]?.ToString(),
             IsDefault = true
         };
 
