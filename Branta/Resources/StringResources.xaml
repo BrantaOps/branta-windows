@@ -12,8 +12,6 @@
     <system:String x:Key="NotifyIcon_UpdateAvailable">Update Available</system:String>
     
     <!-- Wallet Verification View -->
-    <system:String x:Key="WalletDetected">Wallet Detected</system:String>
-    <system:String x:Key="WalletDetectedPlural">Wallets Detected</system:String>
     <system:String x:Key="WalletColumnHeader">Wallet</system:String>
     <system:String x:Key="LastScannedHeader">Last Scanned</system:String>
     <system:String x:Key="NetworkActivityHeader">Network Activity</system:String>

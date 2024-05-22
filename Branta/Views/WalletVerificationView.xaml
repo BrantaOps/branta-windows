@@ -15,23 +15,16 @@
 
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="45" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <TextBlock Text="{Binding WalletsDetected}"
-                   Visibility="{Binding IsLoading, Converter={StaticResource InverseBooleanToVisibilityConverter}}"
-                   Foreground="white"
-                   FontSize="16"
-                   VerticalAlignment="Center"
-                   HorizontalAlignment="Center" />
-        <TextBlock Grid.Row="1"
+        <TextBlock Grid.Row="0"
                    Text="{DynamicResource Loading}"
                    Visibility="{Binding IsLoading, Converter={StaticResource BooleanToVisibilityConverter}}"
                    Foreground="#bbb"
                    FontSize="18"
                    VerticalAlignment="Center"
                    HorizontalAlignment="Center"></TextBlock>
-        <Grid Grid.Row="1">
+        <Grid Grid.Row="0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="35" />
                 <RowDefinition Height="*" />
