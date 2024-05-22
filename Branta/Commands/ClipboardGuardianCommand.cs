@@ -33,10 +33,7 @@ public partial class ClipboardGuardianCommand : BaseCommand
 
     public override void Execute(object parameter)
     {
-        string clipBoardContent = Application.Current.Dispatcher.Invoke(() =>
-        {
-            return Clipboard.GetText().Trim();
-        });
+        var clipBoardContent = Application.Current.Dispatcher.Invoke(() => Clipboard.GetText().Trim());
 
         if (clipBoardContent == LastClipboardContent)
         {
@@ -45,9 +42,13 @@ public partial class ClipboardGuardianCommand : BaseCommand
 
         LastClipboardContent = clipBoardContent;
 
-        var clipboardItem = Process(clipBoardContent) ?? new ClipboardItem();
+        var clipboardItem = Process(clipBoardContent) ?? new ClipboardItem
+        {
+            Value = "No Bitcoin/Nostr content detected.",
+            IsDefault = true
+        };
 
-        _viewModel.ClipboardItem = new ClipboardItemViewModel(clipboardItem);
+        _viewModel.ClipboardItem = new ClipboardItemViewModel(clipboardItem, _resourceDictionary);
 
         if (clipboardItem?.Notification != null)
         {

@@ -20,7 +20,7 @@
     <system:String x:Key="NetworkActivityText">View</system:String>
 
     <!-- Clipboard Guardian View -->
-    <system:String x:Key="Clipboard">Clipboard:</system:String>
+    <system:String x:Key="Clipboard">Clipboard</system:String>
 
     <system:String x:Key="ClipboardGuardian_BitcoinAddressName">Bitcoin Address</system:String>
     <system:String x:Key="ClipboardGuardian_BitcoinAddressTitle">New Address in Clipboard.</system:String>
