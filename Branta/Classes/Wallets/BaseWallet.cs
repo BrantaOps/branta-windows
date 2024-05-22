@@ -45,6 +45,16 @@ public abstract partial class BaseWallet(string name, string exeName = null)
         return null;
     }
 
+    public (Version, Version) GetNewestAndOldestSupportedVersion()
+    {
+        var versions = CheckSums
+            .Select(c => new Version(c.Key))
+            .OrderByDescending(v => v)
+            .ToList();
+
+        return (versions.First(), versions.Last());
+    }
+
     [GeneratedRegex(@"(\d+\.\d+\.\d+)")]
     private static partial Regex VersionRegex();
 

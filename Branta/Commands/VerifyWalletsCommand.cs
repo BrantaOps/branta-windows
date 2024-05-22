@@ -34,7 +34,7 @@ public class VerifyWalletsCommand : BaseCommand
         {
             var (version, walletStatus) = Verify(walletType);
 
-            var wallet = new Wallet()
+            var wallet = new Wallet
             {
                 Name = walletType.Name,
                 Version = version,
@@ -60,28 +60,48 @@ public class VerifyWalletsCommand : BaseCommand
 
     public static (string, WalletStatus) Verify(BaseWallet walletType)
     {
-        if (walletType.InstallerRegex != null && Process.GetProcesses().Select(p => p.ProcessName).Any(walletType.InstallerRegex.IsMatch))
-        {
-            return (null, WalletStatus.Installing);
-        }
-
-        var path = walletType.GetPath();
-        if (!Directory.Exists(path) || Directory.GetFiles(path).Length == 0)
-        {
-            return (null, WalletStatus.NotFound);
-        }
-
-        var version = walletType.GetVersion();
-
-        var versionInfo = version != null ? walletType.CheckSums.GetValueOrDefault(version) : null;
-
-        if (versionInfo == null)
-        {
-            return (version, WalletStatus.VersionNotSupported);
-        }
-
+        string version = null;
         try
         {
+            if (walletType.InstallerRegex != null && Process.GetProcesses().Select(p => p.ProcessName).Any(walletType.InstallerRegex.IsMatch))
+            {
+                return (null, WalletStatus.Installing);
+            }
+
+            var path = walletType.GetPath();
+            if (!Directory.Exists(path) || Directory.GetFiles(path).Length == 0)
+            {
+                return (null, WalletStatus.NotFound);
+            }
+
+            version = walletType.GetVersion();
+
+            if (version == null)
+            {
+                return (null, WalletStatus.VersionNotSupported);
+            }
+
+            var versionInfo = walletType.CheckSums.GetValueOrDefault(version);
+
+            if (versionInfo == null)
+            {
+                var (newestVersion, oldestVersion) = walletType.GetNewestAndOldestSupportedVersion();
+
+                var currentVersion = new Version(version);
+
+                if (currentVersion > newestVersion)
+                {
+                    return (version, WalletStatus.VersionTooNew);
+                }
+
+                if (currentVersion < oldestVersion)
+                {
+                    return (version, WalletStatus.VersionTooOld);
+                }
+
+                return (version, WalletStatus.VersionNotSupported);
+            }
+
             string hash = null;
             string expectedHash = null;
 
@@ -102,7 +122,7 @@ public class VerifyWalletsCommand : BaseCommand
         }
         catch
         {
-            return (version, WalletStatus.NotVerified);
+            return (version, WalletStatus.BrantaError);
         }
     }
 
