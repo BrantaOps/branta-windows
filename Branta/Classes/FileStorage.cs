@@ -19,12 +19,14 @@ public static class FileStorage
 
     public static async Task<string> LoadAsync(string path)
     {
+        path = GetFullPath(path);
+
         if (!File.Exists(path))
         {
             return null;
         }
 
-        return await File.ReadAllTextAsync(GetFullPath(path));
+        return await File.ReadAllTextAsync(path);
     }
 
     private static string GetFullPath(string path)

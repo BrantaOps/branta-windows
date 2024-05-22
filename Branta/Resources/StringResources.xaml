@@ -55,6 +55,12 @@
     <system:String x:Key="NotVerified">Not Verified</system:String>
     <system:String x:Key="NotVerifiedMessage">Branta could not verify {0}.</system:String>
 
+    <system:String x:Key="VersionTooNew">Version Too New</system:String>
+    <system:String x:Key="VersionTooNewMessage">Installed version is too new. Try Refreshing the Hashes from Last Sync in the settings screen.</system:String>
+
+    <system:String x:Key="VersionTooOld">Version Too Old</system:String>
+    <system:String x:Key="VersionTooMessage">Installed version is too old. Please update you wallet to the latest version.</system:String>
+
     <system:String x:Key="VersionNotSupported">Version Not Supported</system:String>
     <system:String x:Key="VersionNotSupportedMessage">Version not supported.</system:String>
 
@@ -63,6 +69,9 @@
 
     <system:String x:Key="Installing">Installing</system:String>
     <system:String x:Key="InstallingMessage">Branta will verify the wallet after installation completes.</system:String>
+
+    <system:String x:Key="BrantaError">Runtime Error</system:String>
+    <system:String x:Key="BrantaErrorMessage">An Exception was thrown during wallet verification.</system:String>
 
     <!-- Settings Window -->
     <system:String x:Key="SettingsTitle">Settings</system:String>

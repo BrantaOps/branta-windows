@@ -14,12 +14,15 @@ public class WalletStatus(string name, string languageDictionaryName, string ico
 
     public static WalletStatus Verified = new("Verified", "VerifiedMessage", "✓", Enums.Color.Gold);
     public static WalletStatus NotVerified = new("NotVerified", "NotVerifiedMessage");
+    public static WalletStatus VersionTooNew = new("VersionTooNew", "VersionTooNewMessage");
+    public static WalletStatus VersionTooOld = new("VersionTooOld", "VersionTooOldMessage");
     public static WalletStatus VersionNotSupported = new("VersionNotSupported", "VersionNotSupportedMessage");
     public static WalletStatus NotFound = new("NotFound", "NotFoundMessage");
     public static WalletStatus Installing = new("Installing", "InstallingMessage");
+    public static WalletStatus BrantaError = new("BrantaError", "BrantaErrorMessage");
 
     public string GetName(ResourceDictionary resourceDictionary)
     {
-        return resourceDictionary[Name].ToString();
+        return resourceDictionary[Name]?.ToString();
     }
 }
