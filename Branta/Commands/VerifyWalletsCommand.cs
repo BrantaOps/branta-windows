@@ -13,24 +13,24 @@ namespace Branta.Commands;
 
 public class VerifyWalletsCommand : BaseCommand
 {
-    private readonly WalletVerificationViewModel _viewModel;
     private readonly NotificationCenter _notificationCenter;
     private readonly Settings _settings;
 
-    public VerifyWalletsCommand(WalletVerificationViewModel viewModel, NotificationCenter notificationCenter, Settings settings)
+    public VerifyWalletsCommand(NotificationCenter notificationCenter, Settings settings)
     {
-        _viewModel = viewModel;
         _notificationCenter = notificationCenter;
         _settings = settings;
     }
 
     public override void Execute(object parameter)
     {
-        var previousWalletStatus = _viewModel.Wallets
+        var viewModel = (WalletVerificationViewModel)parameter;
+
+        var previousWalletStatus = viewModel.Wallets
             .DistinctBy(w => w.Name)
             .ToDictionary(w => w.Name, w => w.Status);
 
-        foreach (var walletType in _viewModel.WalletTypes)
+        foreach (var walletType in viewModel.WalletTypes)
         {
             var (version, walletStatus) = Verify(walletType);
 
@@ -42,7 +42,7 @@ public class VerifyWalletsCommand : BaseCommand
                 Status = walletStatus
             };
 
-            _viewModel.AddWallet(wallet);
+            viewModel.AddWallet(wallet);
 
             if (wallet.Status != WalletStatus.Verified &&
                 wallet.Status != WalletStatus.NotFound &&

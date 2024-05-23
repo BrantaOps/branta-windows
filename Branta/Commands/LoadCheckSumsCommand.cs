@@ -5,20 +5,20 @@ namespace Branta.Commands;
 
 public class LoadCheckSumsCommand : BaseAsyncCommand
 {
-    private readonly WalletVerificationViewModel _viewModel;
     private readonly CheckSumStore _checkSumStore;
 
-    public LoadCheckSumsCommand(WalletVerificationViewModel viewModel, CheckSumStore checkSumStore)
+    public LoadCheckSumsCommand(CheckSumStore checkSumStore)
     {
-        _viewModel = viewModel;
         _checkSumStore = checkSumStore;
     }
 
     public override async Task ExecuteAsync(object parameter)
     {
+        var viewModel = (WalletVerificationViewModel)parameter;
+
         await _checkSumStore.LoadAsync();
 
-        _viewModel.IsLoading = false;
-        _viewModel.WalletTypes = _checkSumStore.WalletTypes;
+        viewModel.IsLoading = false;
+        viewModel.WalletTypes = _checkSumStore.WalletTypes;
     }
 }

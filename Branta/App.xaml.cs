@@ -7,6 +7,7 @@ using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows;
+using Branta.Commands;
 
 namespace Branta;
 
@@ -76,6 +77,11 @@ public partial class App
                 services.AddSingleton(Settings.Load());
                 services.AddSingleton(BaseWindow.GetLanguageDictionary());
                 services.AddSingleton<CheckSumStore>();
+
+                services.AddSingleton<ClipboardGuardianCommand>();
+                services.AddSingleton<FocusCommand>();
+                services.AddSingleton<LoadCheckSumsCommand>();
+                services.AddSingleton<VerifyWalletsCommand>();
 
                 services.AddSingleton<MainViewModel>();
                 services.AddSingleton<InstallerVerificationViewModel>();

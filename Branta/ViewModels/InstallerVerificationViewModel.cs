@@ -1,6 +1,5 @@
 ﻿using Branta.Classes;
 using Branta.Commands;
-using System.Timers;
 using System.Windows;
 using System.Windows.Forms;
 using System.Windows.Input;
@@ -17,6 +16,7 @@ public class InstallerVerificationViewModel : BaseViewModel
     private Dictionary<string, string> _installerHashes;
 
     private bool _isLoading = true;
+
     public bool IsLoading
     {
         get => _isLoading;
@@ -36,15 +36,15 @@ public class InstallerVerificationViewModel : BaseViewModel
         _notificationCenter = notificationCenter;
         _resourceDictionary = resourceDictionary;
 
+        LoadInstallerHashesCommand = new LoadInstallerHashesCommand();
+        LoadInstallerHashesCommand.Execute(this);
+
         _timer = new Timer(new TimeSpan(0, 30, 0));
-        _timer.Elapsed += (object sender, ElapsedEventArgs e) => LoadInstallerHashesCommand.Execute(null);
+        _timer.Elapsed += (_, _) => LoadInstallerHashesCommand.Execute(this);
         _timer.Start();
 
-        LoadInstallerHashesCommand = new LoadInstallerHashesCommand(this);
         BrowseFilesCommand = new BrowseFilesCommand(ProcessFiles);
         DropFilesCommand = new DropFilesCommand(ProcessFiles);
-
-        LoadInstallerHashesCommand.Execute(null);
     }
 
     public void ProcessFiles(List<string> files)
@@ -53,7 +53,7 @@ public class InstallerVerificationViewModel : BaseViewModel
         {
             _notificationCenter.Notify(new Notification
             {
-                Message = "Installer hashes are still loading.",
+                Message = _resourceDictionary["InstallerHashesLoading"]?.ToString(),
                 Icon = ToolTipIcon.Info
             });
             return;
@@ -65,15 +65,17 @@ public class InstallerVerificationViewModel : BaseViewModel
                            _installerHashes.GetValueOrDefault(Helper.CalculateSha512(file)) ??
                            _installerHashes.GetValueOrDefault(Helper.CalculateSha512(file, base64Encoding: true));
 
-            _notificationCenter.Notify(filename != null ? new Notification()
-            {
-                Message = (string)_resourceDictionary["InstallerValid"],
-                Icon = ToolTipIcon.None
-            } : new Notification()
-            {
-                Message = (string)_resourceDictionary["InstallerInvalid"],
-                Icon = ToolTipIcon.Error
-            });
+            _notificationCenter.Notify(filename != null
+                ? new Notification
+                {
+                    Message = (string)_resourceDictionary["InstallerValid"],
+                    Icon = ToolTipIcon.None
+                }
+                : new Notification
+                {
+                    Message = (string)_resourceDictionary["InstallerInvalid"],
+                    Icon = ToolTipIcon.Error
+                });
         }
     }
 

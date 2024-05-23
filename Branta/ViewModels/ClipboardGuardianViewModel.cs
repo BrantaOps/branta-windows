@@ -1,7 +1,4 @@
-﻿using Branta.Classes;
-using Branta.Commands;
-using System.Timers;
-using System.Windows;
+﻿using Branta.Commands;
 using System.Windows.Input;
 using Timer = System.Timers.Timer;
 
@@ -24,12 +21,12 @@ public class ClipboardGuardianViewModel : BaseViewModel
 
     public ICommand ClipboardGuardianCommand { get; }
 
-    public ClipboardGuardianViewModel(NotificationCenter notificationCenter, Settings settings, ResourceDictionary resourceDictionary)
+    public ClipboardGuardianViewModel(ClipboardGuardianCommand clipboardGuardianCommand)
     {
-        ClipboardGuardianCommand = new ClipboardGuardianCommand(this, notificationCenter, settings, resourceDictionary);
+        ClipboardGuardianCommand = clipboardGuardianCommand;
 
         _clipboardGuardianTimer = new Timer(new TimeSpan(0, 0, 1));
-        _clipboardGuardianTimer.Elapsed += (object sender, ElapsedEventArgs e) => ClipboardGuardianCommand.Execute(null);
+        _clipboardGuardianTimer.Elapsed += (_, _) => ClipboardGuardianCommand.Execute(this);
         _clipboardGuardianTimer.Start();
     }
 }

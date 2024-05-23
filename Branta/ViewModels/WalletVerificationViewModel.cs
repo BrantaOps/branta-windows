@@ -2,9 +2,9 @@
 using Branta.Classes.Wallets;
 using Branta.Commands;
 using Branta.Models;
+using Branta.Stores;
 using System.Collections.ObjectModel;
 using System.Windows;
-using Branta.Stores;
 using Timer = System.Timers.Timer;
 
 namespace Branta.ViewModels;
@@ -38,14 +38,14 @@ public class WalletVerificationViewModel : BaseViewModel
         }
     }
 
-    public WalletVerificationViewModel(NotificationCenter notificationCenter, Settings settings,
-        ResourceDictionary resourceDictionary, CheckSumStore checkSumStore)
+    public WalletVerificationViewModel(Settings settings, ResourceDictionary resourceDictionary,
+        FocusCommand focusCommand, LoadCheckSumsCommand loadCheckSumsCommand, VerifyWalletsCommand verifyWalletsCommand)
     {
         _resourceDictionary = resourceDictionary;
 
-        LoadCheckSumsCommand = new LoadCheckSumsCommand(this, checkSumStore);
-        VerifyWalletsCommand = new VerifyWalletsCommand(this, notificationCenter, settings);
-        FocusCommand = new FocusCommand(notificationCenter, settings, resourceDictionary);
+        FocusCommand = focusCommand;
+        LoadCheckSumsCommand = loadCheckSumsCommand;
+        VerifyWalletsCommand = verifyWalletsCommand;
 
         _loadCheckSumsTimer = new Timer(new TimeSpan(0, 30, 0));
         _loadCheckSumsTimer.Elapsed += (_, _) => LoadCheckSumsCommand.Execute(null);
@@ -59,8 +59,8 @@ public class WalletVerificationViewModel : BaseViewModel
 
         Task.Run(async () =>
         {
-            await LoadCheckSumsCommand.ExecuteAsync(null);
-            VerifyWalletsCommand.Execute(null);
+            await LoadCheckSumsCommand.ExecuteAsync(this);
+            VerifyWalletsCommand.Execute(this);
             FocusCommand.SetWallets(WalletTypes);
         });
     }
@@ -70,7 +70,7 @@ public class WalletVerificationViewModel : BaseViewModel
         _verifyWalletsTimer?.Dispose();
 
         _verifyWalletsTimer = new Timer(interval);
-        _verifyWalletsTimer.Elapsed += (_, _) => VerifyWalletsCommand.Execute(null);
+        _verifyWalletsTimer.Elapsed += (_, _) => VerifyWalletsCommand.Execute(this);
         _verifyWalletsTimer.Start();
     }
 

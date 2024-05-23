@@ -138,6 +138,7 @@
                                 Content="{DynamicResource RefreshNow}"
                                 Style="{DynamicResource PrimaryButton}"
                                 Command="{Binding LoadCheckSumsCommand}"
+                                CommandParameter="{Binding WalletVerificationViewModel}"
                                 HorizontalAlignment="Right"
                                 Padding="7,2,7,2"
                                 Margin="0,0,0,10" />

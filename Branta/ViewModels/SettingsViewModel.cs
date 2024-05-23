@@ -120,12 +120,16 @@ public class SettingsViewModel : BaseViewModel
     public LoadCheckSumsCommand LoadCheckSumsCommand { get; }
     public ICommand HelpCommand { get; }
 
+    public WalletVerificationViewModel WalletVerificationViewModel { get; }
+
     public SettingsViewModel(Settings settings, CheckSumStore checkSumStore, WalletVerificationViewModel walletVerificationViewModel)
     {
         LastUpdated = checkSumStore.LastUpdated;
         checkSumStore.LastUpdatedEvent += date => LastUpdated = date;
 
-        LoadCheckSumsCommand = new LoadCheckSumsCommand(walletVerificationViewModel, checkSumStore);
+        WalletVerificationViewModel = walletVerificationViewModel;
+
+        LoadCheckSumsCommand = new LoadCheckSumsCommand(checkSumStore);
         HelpCommand = new HelpCommand();
 
         BitcoinAddressesEnabled = settings.ClipboardGuardian.BitcoinAddressesEnabled;

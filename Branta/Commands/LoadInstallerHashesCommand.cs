@@ -5,22 +5,18 @@ namespace Branta.Commands;
 
 public class LoadInstallerHashesCommand : BaseAsyncCommand
 {
-    private readonly BrantaClient _brantaClient = new BrantaClient();
-    private readonly InstallerVerificationViewModel _viewModel;
+    private readonly BrantaClient _brantaClient = new();
 
     private const string InstallerHashPath = "InstallerHash.yaml";
 
-    public LoadInstallerHashesCommand(InstallerVerificationViewModel viewModel)
-    {
-        _viewModel = viewModel;
-    }
-
     public override async Task ExecuteAsync(object parameter)
     {
+        var viewModel = (InstallerVerificationViewModel)parameter;
+
         var installerHashes = await LoadInstallerHashesAsync();
 
-        _viewModel.SetInstallerHashes(installerHashes);
-        _viewModel.IsLoading = false;
+        viewModel.SetInstallerHashes(installerHashes);
+        viewModel.IsLoading = false;
     }
 
     public async Task<Dictionary<string, string>> LoadInstallerHashesAsync()
@@ -43,5 +39,4 @@ public class LoadInstallerHashesCommand : BaseAsyncCommand
 
         return YamlLoader.LoadInstallerHashes();
     }
-
 }
