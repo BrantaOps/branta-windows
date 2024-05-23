@@ -31,7 +31,7 @@ public partial class MainWindow
         MaxHeight = SystemParameters.MaximizedPrimaryScreenHeight;
         MaxWidth = SystemParameters.MaximizedPrimaryScreenWidth;
 
-        notificationCenter.NotifyIcon.DoubleClick += OnClick_NotifyIcon;
+        notificationCenter.NotifyIcon.Click += OnClick_NotifyIcon;
         notificationCenter.NotifyIcon.ContextMenuStrip = new ContextMenuStrip();
         notificationCenter.NotifyIcon.ContextMenuStrip.Items.Add(resourceDictionary["NotifyIcon_Settings"].ToString(), null, OnClick_Settings);
         notificationCenter.NotifyIcon.ContextMenuStrip.Items.Add(resourceDictionary["NotifyIcon_Quit"].ToString(), null, OnClick_Quit);
@@ -99,9 +99,5 @@ public partial class MainWindow
         }
 
         _settings.Update(settings);
-    }
-
-    private void OnClick_Help(object sender, MouseButtonEventArgs e)
-    {
     }
 }
