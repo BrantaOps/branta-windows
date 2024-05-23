@@ -26,47 +26,8 @@ public partial class App
     [return: MarshalAs(UnmanagedType.Bool)]
     private static extern bool SetForegroundWindow(IntPtr hWnd);
 
-    private delegate bool EnumWindowsProc(IntPtr hWnd, IntPtr lParam);
-
-    [DllImport("user32.dll")]
-    [return: MarshalAs(UnmanagedType.Bool)]
-    private static extern bool EnumWindows(EnumWindowsProc lpEnumFunc, IntPtr lParam);
-
-    [DllImport("user32.dll", SetLastError = true)]
-    private static extern int GetWindowText(IntPtr hWnd, StringBuilder lpString, int nMaxCount);
-
-    [DllImport("user32.dll", SetLastError = true)]
-    private static extern uint GetWindowThreadProcessId(IntPtr hWnd, out uint lpdwProcessId);
-
     [DllImport("user32.dll")]
     private static extern bool ShowWindowAsync(IntPtr hWnd, int nCmdShow);
-
-    private static IntPtr FindWindowByTitle(string title)
-    {
-        var foundHandle = IntPtr.Zero;
-
-        EnumWindows((hWnd, lParam) =>
-        {
-            var windowText = new StringBuilder(256);
-            GetWindowText(hWnd, windowText, windowText.Capacity);
-
-            if (windowText.ToString() == title)
-            {
-                GetWindowThreadProcessId(hWnd, out var processId);
-                var process = Process.GetProcessById((int)processId);
-
-                if (process.MainModule!.ModuleName == "Branta.exe")
-                {
-                    foundHandle = hWnd;
-                    return false;
-                }
-            }
-
-            return true;
-        }, IntPtr.Zero);
-
-        return foundHandle;
-    }
 
     public App()
     {
@@ -105,15 +66,15 @@ public partial class App
 
         try
         {
-            if (GetRunningProcess() != null)
-            {
-                var existingWindowHandle = FindWindowByTitle("Branta");
+            var runningProcess = GetRunningProcess();
 
-                if (existingWindowHandle != IntPtr.Zero)
+            if (runningProcess != null)
+            {
+                if (runningProcess.MainWindowHandle != IntPtr.Zero)
                 {
-                    ShowWindowAsync(existingWindowHandle, SW_RESTORE);
-                    SetForegroundWindow(existingWindowHandle);
-                    SendMessage(existingWindowHandle, WM_SHOWWINDOW, IntPtr.Zero, new IntPtr(SW_PARENTOPENING));
+                    ShowWindowAsync(runningProcess.MainWindowHandle, SW_RESTORE);
+                    SetForegroundWindow(runningProcess.MainWindowHandle);
+                    SendMessage(runningProcess.MainWindowHandle, WM_SHOWWINDOW, IntPtr.Zero, new IntPtr(SW_PARENTOPENING));
 
                     Current.Shutdown();
                     return;
@@ -144,7 +105,7 @@ public partial class App
 
         return Process
             .GetProcesses()
-            .FirstOrDefault(p => p.Id == currentProcess.Id &&
-                                 p.ProcessName.Equals(currentProcess.ProcessName, StringComparison.Ordinal));
+            .FirstOrDefault(p => p.Id != currentProcess.Id &&
+                        p.ProcessName.Equals(currentProcess.ProcessName, StringComparison.Ordinal));
     }
 }
