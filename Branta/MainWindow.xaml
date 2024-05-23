@@ -32,6 +32,7 @@
                 <RowDefinition Height="80" />
                 <RowDefinition Height="140" />
                 <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
             <StackPanel Orientation="Horizontal"
                         HorizontalAlignment="Right">
@@ -75,6 +76,13 @@
                     Margin="10"
                     Padding="7,2"
                     FontSize="16" />
+
+            <TextBlock Grid.Row="6"
+                       Name="TbVersion"
+                       Text="0.0.1"
+                       Foreground="#888"
+                       HorizontalAlignment="Center"
+                       Margin="0,0,0,5" />
         </Grid>
     </Border>
 </src:BaseWindow>
