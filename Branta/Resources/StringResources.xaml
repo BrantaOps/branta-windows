@@ -53,11 +53,7 @@
     <system:String x:Key="VerifiedMessage">Branta verified the validity of {0}.</system:String>
 
     <system:String x:Key="NotVerified">Not Verified</system:String>
-    <system:String x:Key="NotVerifiedMessage">
-No Match Found. This could be for a number of reasons. Read more below.
-
-https://www.branta.pro/docs
-</system:String>
+    <system:String x:Key="NotVerifiedMessage">No Match Found. This could be for a number of reasons. Read more below._NL_https://www.branta.pro/docs</system:String>
 
     <system:String x:Key="VersionTooNew">Version Too New</system:String>
     <system:String x:Key="VersionTooNewMessage">Installed version is too new. Try Refreshing the Hashes from Last Sync in the settings screen.</system:String>
