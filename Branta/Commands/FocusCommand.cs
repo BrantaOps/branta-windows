@@ -4,6 +4,7 @@ using Branta.Enums;
 using Branta.Models;
 using System.Diagnostics;
 using System.Windows;
+using Microsoft.Extensions.Logging;
 
 namespace Branta.Commands;
 
@@ -14,12 +15,14 @@ public class FocusCommand : BaseCommand
     private readonly ResourceDictionary _resourceDictionary;
 
     private Dictionary<BaseWallet, WalletStatus> _walletTypes;
+    private readonly ILogger<FocusCommand> _logger;
 
-    public FocusCommand(NotificationCenter notificationCenter, Settings settings, ResourceDictionary resourceDictionary)
+    public FocusCommand(NotificationCenter notificationCenter, Settings settings, ResourceDictionary resourceDictionary, ILogger<FocusCommand> logger)
     {
         _notificationCenter = notificationCenter;
         _settings = settings;
         _resourceDictionary = resourceDictionary;
+        _logger = logger;
     }
 
     public override void Execute(object parameter)
@@ -42,7 +45,7 @@ public class FocusCommand : BaseCommand
                 continue;
             }
 
-            var (version, walletStatus) = VerifyWalletsCommand.Verify(walletType);
+            var (version, walletStatus) = VerifyWalletsCommand.Verify(walletType, _logger);
 
             var wallet = new Wallet()
             {

@@ -1,12 +1,18 @@
 ﻿using Branta.Classes;
+using Branta.Commands;
 using Branta.Stores;
 using Branta.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
+using Serilog;
+using Serilog.Core;
+using Serilog.Events;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Windows;
-using Branta.Commands;
+using Branta.Windows;
+using ILogger = Microsoft.Extensions.Logging.ILogger;
 
 namespace Branta;
 
@@ -31,6 +37,21 @@ public partial class App
     public App()
     {
         _host = Host.CreateDefaultBuilder()
+            .UseSerilog((host, loggerConfiguration) =>
+            {
+                var levelSwitch = new LoggingLevelSwitch
+                {
+                    MinimumLevel = Debugger.IsAttached ? LogEventLevel.Debug : LogEventLevel.Error
+                };
+
+                var outputTemplate =
+                    "[{Timestamp:HH:mm:ss} {Level:u3}] [{MachineName}] [{SourceContext}] {Message:lj}{NewLine}{Exception}";
+
+                loggerConfiguration.WriteTo
+                    .File(FileStorage.GetBrantaDataPath("logs", "log_.txt"), rollingInterval: RollingInterval.Day, outputTemplate: outputTemplate)
+                    .WriteTo.Debug(outputTemplate: outputTemplate)
+                    .MinimumLevel.ControlledBy(levelSwitch);
+            })
             .ConfigureServices(services =>
             {
                 services.AddSingleton<NotificationCenter>();
@@ -44,6 +65,8 @@ public partial class App
                 services.AddSingleton<UpdateAppCommand>();
                 services.AddSingleton<VerifyWalletsCommand>();
 
+                services.AddSingleton<NetworkActivityWindow>();
+
                 services.AddSingleton<MainViewModel>();
                 services.AddSingleton<InstallerVerificationViewModel>();
                 services.AddSingleton<WalletVerificationViewModel>();
@@ -51,7 +74,8 @@ public partial class App
 
                 services.AddSingleton(s => new MainWindow(s.GetRequiredService<NotificationCenter>(),
                     s.GetRequiredService<Settings>(), s.GetRequiredService<ResourceDictionary>(),
-                    s.GetRequiredService<WalletVerificationViewModel>(), s.GetRequiredService<CheckSumStore>())
+                    s.GetRequiredService<WalletVerificationViewModel>(), s.GetRequiredService<CheckSumStore>(),
+                    s.GetRequiredService<ILogger<MainWindow>>())
                 {
                     WindowStartupLocation = WindowStartupLocation.CenterScreen,
                     DataContext = s.GetRequiredService<MainViewModel>()
@@ -74,7 +98,8 @@ public partial class App
                 {
                     ShowWindowAsync(runningProcess.MainWindowHandle, SW_RESTORE);
                     SetForegroundWindow(runningProcess.MainWindowHandle);
-                    SendMessage(runningProcess.MainWindowHandle, WM_SHOWWINDOW, IntPtr.Zero, new IntPtr(SW_PARENTOPENING));
+                    SendMessage(runningProcess.MainWindowHandle, WM_SHOWWINDOW, IntPtr.Zero,
+                        new IntPtr(SW_PARENTOPENING));
 
                     Current.Shutdown();
                     return;
@@ -106,6 +131,6 @@ public partial class App
         return Process
             .GetProcesses()
             .FirstOrDefault(p => p.Id != currentProcess.Id &&
-                        p.ProcessName.Equals(currentProcess.ProcessName, StringComparison.Ordinal));
+                                 p.ProcessName.Equals(currentProcess.ProcessName, StringComparison.Ordinal));
     }
 }

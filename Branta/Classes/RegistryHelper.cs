@@ -1,11 +1,12 @@
 ﻿using Microsoft.Win32;
 using System.Diagnostics;
+using Microsoft.Extensions.Logging;
 
 namespace Branta.Classes;
 
 public class RegistryHelper
 {
-    public static string GetValue(string subKeyName, string valueName)
+    public static string GetValue(string subKeyName, string valueName, ILogger logger)
     {
         try
         {
@@ -20,13 +21,13 @@ public class RegistryHelper
         }
         catch (Exception ex)
         {
-            Trace.WriteLine($"Error accessing registry: {ex.Message}");
+            logger.LogError($"Error accessing registry: {ex.Message}");
         }
 
         return null;
     }
 
-    public static string FindDisplayName(string uninstallKeyPath, string softwareName)
+    public static string FindDisplayName(string uninstallKeyPath, string softwareName, ILogger logger)
     {
         try
         {
@@ -47,7 +48,7 @@ public class RegistryHelper
         }
         catch (Exception ex)
         {
-            Trace.WriteLine($"Error accessing registry: {ex.Message}");
+            logger.LogError($"Error accessing registry: {ex.Message}");
         }
 
         return null;

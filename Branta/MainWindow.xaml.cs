@@ -4,10 +4,10 @@ using Branta.Stores;
 using Branta.ViewModels;
 using Branta.Windows;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.Windows;
 using System.Windows.Forms;
 using System.Windows.Input;
+using Microsoft.Extensions.Logging;
 using Application = System.Windows.Application;
 using MouseEventArgs = System.Windows.Forms.MouseEventArgs;
 
@@ -23,7 +23,7 @@ public partial class MainWindow
     private ICommand HelpCommand { get; }
 
     public MainWindow(NotificationCenter notificationCenter, Settings settings, ResourceDictionary resourceDictionary,
-        WalletVerificationViewModel walletVerificationViewModel, CheckSumStore checkSumStore)
+        WalletVerificationViewModel walletVerificationViewModel, CheckSumStore checkSumStore, ILogger<MainWindow> logger)
     {
         HelpCommand = new HelpCommand();
 
@@ -59,9 +59,9 @@ public partial class MainWindow
         }
         catch (Exception ex)
         {
-            Trace.Listeners.Add(new TextWriterTraceListener("log.txt"));
-            Trace.WriteLine(ex);
-            Trace.Flush();
+            logger.LogError(ex.Message);
+            System.Windows.MessageBox.Show("Branta Failed to Start.", "Branta Exception");
+            Application.Current.Shutdown();
         }
     }
 

@@ -8,9 +8,9 @@ public static class FileStorage
     {
         try
         {
-            var file = new FileInfo(GetFullPath(path));
+            var file = new FileInfo(GetBrantaDataPath(path));
             file.Directory?.Create();
-            await File.WriteAllTextAsync(GetFullPath(path), content);
+            await File.WriteAllTextAsync(GetBrantaDataPath(path), content);
         }
         catch
         {
@@ -19,7 +19,7 @@ public static class FileStorage
 
     public static async Task<string> LoadAsync(string path)
     {
-        path = GetFullPath(path);
+        path = GetBrantaDataPath(path);
 
         if (!File.Exists(path))
         {
@@ -29,8 +29,8 @@ public static class FileStorage
         return await File.ReadAllTextAsync(path);
     }
 
-    private static string GetFullPath(string path)
+    public static string GetBrantaDataPath(params string[] path)
     {
-        return Path.Join(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Branta", path);
+        return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Branta", Path.Combine(path));
     }
 }
