@@ -6,8 +6,9 @@
                 xmlns:src="clr-namespace:Branta.Classes"
                 mc:Ignorable="d"
                 Title="Settings"
-                Height="530"
+                Height="640"
                 Width="600"
+                MinHeight="300"
                 Icon="pack://application:,,,/Assets/black_circle.png"
                 WindowStyle="None"
                 MouseLeftButtonDown="MainWindow_OnMouseLeftButtonDown">

@@ -5,7 +5,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
-using System.Text;
 using System.Windows;
 using Branta.Commands;
 
@@ -42,6 +41,7 @@ public partial class App
                 services.AddSingleton<ClipboardGuardianCommand>();
                 services.AddSingleton<FocusCommand>();
                 services.AddSingleton<LoadCheckSumsCommand>();
+                services.AddSingleton<UpdateAppCommand>();
                 services.AddSingleton<VerifyWalletsCommand>();
 
                 services.AddSingleton<MainViewModel>();

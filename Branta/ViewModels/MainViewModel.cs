@@ -1,6 +1,4 @@
-﻿using Branta.Classes;
-using Branta.Commands;
-using System.Windows;
+﻿using Branta.Commands;
 using System.Windows.Input;
 using Timer = System.Timers.Timer;
 
@@ -21,15 +19,13 @@ public class MainViewModel
         InstallerVerificationViewModel installerVerificationViewModel,
         WalletVerificationViewModel walletVerificationViewModel,
         ClipboardGuardianViewModel clipboardGuardianViewModel,
-        NotificationCenter notificationCenter,
-        ResourceDictionary resourceDictionary,
-        Settings settings)
+        UpdateAppCommand updateAppCommand)
     {
         InstallerVerificationViewModel = installerVerificationViewModel;
         WalletVerificationViewModel = walletVerificationViewModel;
         ClipboardGuardianViewModel = clipboardGuardianViewModel;
 
-        UpdateAppCommand = new UpdateAppCommand(notificationCenter, resourceDictionary);
+        UpdateAppCommand = updateAppCommand;
         HelpCommand = new HelpCommand();
 
         _updateAppTimer = new Timer(new TimeSpan(24, 0, 0));

@@ -9,6 +9,7 @@ using System.Windows;
 using System.Windows.Forms;
 using System.Windows.Input;
 using Application = System.Windows.Application;
+using MouseEventArgs = System.Windows.Forms.MouseEventArgs;
 
 namespace Branta;
 
@@ -17,6 +18,8 @@ public partial class MainWindow
     private readonly Settings _settings;
     private readonly WalletVerificationViewModel _walletVerificationViewModel;
     private readonly CheckSumStore _checkSumStore;
+    private readonly NotificationCenter _notificationCenter;
+
     private ICommand HelpCommand { get; }
 
     public MainWindow(NotificationCenter notificationCenter, Settings settings, ResourceDictionary resourceDictionary,
@@ -31,11 +34,13 @@ public partial class MainWindow
         MaxHeight = SystemParameters.MaximizedPrimaryScreenHeight;
         MaxWidth = SystemParameters.MaximizedPrimaryScreenWidth;
 
-        notificationCenter.NotifyIcon.Click += OnClick_NotifyIcon;
-        notificationCenter.NotifyIcon.ContextMenuStrip = new ContextMenuStrip();
-        notificationCenter.NotifyIcon.ContextMenuStrip.Items.Add(resourceDictionary["NotifyIcon_Settings"].ToString(), null, OnClick_Settings);
-        notificationCenter.NotifyIcon.ContextMenuStrip.Items.Add(resourceDictionary["NotifyIcon_Quit"].ToString(), null, OnClick_Quit);
-        notificationCenter.NotifyIcon.ContextMenuStrip.Items.Add(resourceDictionary["Help"].ToString(), null, OnClick_Help);
+        _notificationCenter = notificationCenter;
+
+        _notificationCenter.NotifyIcon.MouseClick += OnClick_NotifyIcon;
+        _notificationCenter.NotifyIcon.ContextMenuStrip = new ContextMenuStrip();
+        _notificationCenter.NotifyIcon.ContextMenuStrip.Items.Add(resourceDictionary["NotifyIcon_Settings"].ToString(), null, OnClick_Settings);
+        _notificationCenter.NotifyIcon.ContextMenuStrip.Items.Add(resourceDictionary["NotifyIcon_Quit"].ToString(), null, OnClick_Quit);
+        _notificationCenter.NotifyIcon.ContextMenuStrip.Items.Add(resourceDictionary["Help"].ToString(), null, OnClick_Help);
 
         try
         {
@@ -68,11 +73,19 @@ public partial class MainWindow
     }
 
 
-    private void OnClick_NotifyIcon(object sender, EventArgs e)
+    private void OnClick_NotifyIcon(object sender, MouseEventArgs e)
     {
-        WindowState = WindowState.Normal;
-        Activate();
-        Show();
+        switch (e.Button)
+        {
+            case MouseButtons.Left:
+                WindowState = WindowState.Normal;
+                Activate();
+                Show();
+                break;
+            case MouseButtons.Right:
+                _notificationCenter.NotifyIcon.ContextMenuStrip?.Show();
+                break;
+        }
     }
 
     private void OnClick_Quit(object sender, EventArgs e)
