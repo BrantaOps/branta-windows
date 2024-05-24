@@ -7,6 +7,7 @@ using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Windows;
 using Branta.Commands;
+using Microsoft.Extensions.Configuration;
 
 namespace Branta;
 
@@ -33,9 +34,17 @@ public partial class App
         _host = Host.CreateDefaultBuilder()
             .ConfigureServices(services =>
             {
+                var config = new ConfigurationBuilder()
+                    .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
+                    .AddJsonFile("Properties/appsettings.json").Build();
+                var section = config.GetSection("AppSettings");
+                var appSettings = section.Get<AppSettings>();
+                services.AddSingleton(appSettings);
+
                 services.AddSingleton<NotificationCenter>();
                 services.AddSingleton(Settings.Load());
                 services.AddSingleton(BaseWindow.GetLanguageDictionary());
+
                 services.AddSingleton<CheckSumStore>();
 
                 services.AddSingleton<ClipboardGuardianCommand>();
@@ -51,7 +60,8 @@ public partial class App
 
                 services.AddSingleton(s => new MainWindow(s.GetRequiredService<NotificationCenter>(),
                     s.GetRequiredService<Settings>(), s.GetRequiredService<ResourceDictionary>(),
-                    s.GetRequiredService<WalletVerificationViewModel>(), s.GetRequiredService<CheckSumStore>())
+                    s.GetRequiredService<WalletVerificationViewModel>(), s.GetRequiredService<CheckSumStore>(),
+                    s.GetRequiredService<AppSettings>())
                 {
                     WindowStartupLocation = WindowStartupLocation.CenterScreen,
                     DataContext = s.GetRequiredService<MainViewModel>()
