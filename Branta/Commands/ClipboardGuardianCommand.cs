@@ -6,6 +6,7 @@ using System.IO;
 using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Windows;
+using Microsoft.Extensions.Logging;
 
 namespace Branta.Commands;
 
@@ -14,6 +15,7 @@ public partial class ClipboardGuardianCommand : BaseCommand
     private readonly NotificationCenter _notificationCenter;
     private readonly ResourceDictionary _resourceDictionary;
     private readonly Settings _settings;
+    private readonly ILogger<ClipboardGuardianCommand> _logger;
 
     private const int SeedWordMin = 12;
     private const int SeedWordMax = 24;
@@ -22,11 +24,12 @@ public partial class ClipboardGuardianCommand : BaseCommand
     private HashSet<string> Bip39Words { get; set; }
 
     public ClipboardGuardianCommand(NotificationCenter notificationCenter, Settings settings,
-        ResourceDictionary resourceDictionary)
+        ResourceDictionary resourceDictionary, ILogger<ClipboardGuardianCommand> logger)
     {
         _notificationCenter = notificationCenter;
         _settings = settings;
         _resourceDictionary = resourceDictionary;
+        _logger = logger;
     }
 
     public override void Execute(object parameter)
@@ -157,9 +160,7 @@ public partial class ClipboardGuardianCommand : BaseCommand
             }
             catch (Exception ex)
             {
-                Trace.Listeners.Add(new TextWriterTraceListener("log.txt"));
-                Trace.WriteLine(ex);
-                Trace.Flush();
+                _logger?.LogInformation(ex.Message);
             }
         }
 

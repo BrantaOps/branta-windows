@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.IO;
 using System.Text.RegularExpressions;
+using Microsoft.Extensions.Logging;
 
 namespace Branta.Classes.Wallets;
 
@@ -23,7 +24,7 @@ public abstract partial class BaseWallet(string name, string exeName = null)
 
     public abstract string GetPath();
 
-    public string GetVersion()
+    public string GetVersion(ILogger logger)
     {
         var fileVersionInfo = FileVersionInfo.GetVersionInfo(Path.Join(GetPath(), $"{ExeName}.exe"));
 
@@ -33,16 +34,11 @@ public abstract partial class BaseWallet(string name, string exeName = null)
             return match.Success ? match.Groups[1].Value : null;
         }
 
-        var subKeyName = RegistryHelper.FindDisplayName(RegistryUninstallPath, Name)
+        var subKeyName = RegistryHelper.FindDisplayName(RegistryUninstallPath, Name, logger)
             .Replace("HKEY_LOCAL_MACHINE\\", "");
-        Trace.WriteLine(subKeyName);
+        logger.LogInformation(subKeyName);
 
-        if (subKeyName != null)
-        {
-            return RegistryHelper.GetValue(subKeyName, "DisplayVersion");
-        }
-
-        return null;
+        return RegistryHelper.GetValue(subKeyName, "DisplayVersion", logger);
     }
 
     public (Version, Version) GetNewestAndOldestSupportedVersion()

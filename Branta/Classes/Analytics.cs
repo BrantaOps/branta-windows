@@ -5,12 +5,12 @@ namespace Branta.Classes;
 
 public static class Analytics
 {
-    public static void Init()
+    public static void Init(AppSettings appSettings)
     {
         var cc = new CountlyConfig
         {
-            serverUrl = "https://branta-0dc12e4ffb389.flex.countly.com",
-            appKey = "ccc4eb59a850e5f3bdf640b8d36284c3bce03f12",
+            serverUrl = appSettings.Countly.Url,
+            appKey = appSettings.Countly.ApiKey,
             appVersion = Helper.GetBrantaVersionWithoutCommitHash()
         };
 

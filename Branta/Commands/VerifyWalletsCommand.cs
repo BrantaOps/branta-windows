@@ -8,6 +8,7 @@ using System.IO;
 using System.Security.Cryptography;
 using System.Text;
 using System.Windows.Forms;
+using Microsoft.Extensions.Logging;
 
 namespace Branta.Commands;
 
@@ -15,11 +16,13 @@ public class VerifyWalletsCommand : BaseCommand
 {
     private readonly NotificationCenter _notificationCenter;
     private readonly Settings _settings;
+    private readonly ILogger<VerifyWalletsCommand> _logger;
 
-    public VerifyWalletsCommand(NotificationCenter notificationCenter, Settings settings)
+    public VerifyWalletsCommand(NotificationCenter notificationCenter, Settings settings, ILogger<VerifyWalletsCommand> logger)
     {
         _notificationCenter = notificationCenter;
         _settings = settings;
+        _logger = logger;
     }
 
     public override void Execute(object parameter)
@@ -32,7 +35,7 @@ public class VerifyWalletsCommand : BaseCommand
 
         foreach (var walletType in viewModel.WalletTypes)
         {
-            var (version, walletStatus) = Verify(walletType);
+            var (version, walletStatus) = Verify(walletType, _logger);
 
             var wallet = new Wallet
             {
@@ -58,7 +61,7 @@ public class VerifyWalletsCommand : BaseCommand
         }
     }
 
-    public static (string, WalletStatus) Verify(BaseWallet walletType)
+    public static (string, WalletStatus) Verify(BaseWallet walletType, ILogger logger)
     {
         string version = null;
         try
@@ -74,7 +77,7 @@ public class VerifyWalletsCommand : BaseCommand
                 return (null, WalletStatus.NotFound);
             }
 
-            version = walletType.GetVersion();
+            version = walletType.GetVersion(logger);
 
             if (version == null)
             {
@@ -116,7 +119,7 @@ public class VerifyWalletsCommand : BaseCommand
                 return (version, WalletStatus.VersionNotSupported);
             }
 
-            Trace.WriteLine($"Wallet [{walletType.Name}] Expected: {expectedHash}; Actual: {hash}");
+            logger.LogInformation($"Wallet [{walletType.Name}] Expected: {expectedHash}; Actual: {hash}");
 
             return (version, hash == expectedHash ? WalletStatus.Verified : WalletStatus.NotVerified);
         }
