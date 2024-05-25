@@ -18,7 +18,7 @@ public class ClipboardGuardianTest
     [TestCase("abandon ability able about above absent absorb abstract absurd abuse access account accuse achieve acid acoustic acquire across act action actor actress actual adapt add", false)]
     public void CheckForSeedPhrase_Should(string clipboardContent, bool isValid)
     {
-        var clipboardGuardian = new ClipboardGuardianCommand(null, null, null);
+        var clipboardGuardian = new ClipboardGuardianCommand(null, null, null, null);
 
         Assert.That(isValid, Is.EqualTo(clipboardGuardian.CheckForSeedPhrase(clipboardContent)));
     }
