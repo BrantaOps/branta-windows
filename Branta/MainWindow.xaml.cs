@@ -23,7 +23,8 @@ public partial class MainWindow
     private ICommand HelpCommand { get; }
 
     public MainWindow(NotificationCenter notificationCenter, Settings settings, ResourceDictionary resourceDictionary,
-        WalletVerificationViewModel walletVerificationViewModel, CheckSumStore checkSumStore, ILogger<MainWindow> logger)
+        WalletVerificationViewModel walletVerificationViewModel, CheckSumStore checkSumStore, AppSettings appSettings,
+        ILogger<MainWindow> logger)
     {
         HelpCommand = new HelpCommand();
 
@@ -47,7 +48,7 @@ public partial class MainWindow
             InitializeComponent();
 
             SetLanguageDictionary();
-            Analytics.Init();
+            Analytics.Init(appSettings);
             SetResizeImage(ImageScreenSize);
 
             var args = Environment.GetCommandLineArgs();

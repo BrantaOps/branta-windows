@@ -2,6 +2,8 @@
 using Branta.Commands;
 using Branta.Stores;
 using Branta.ViewModels;
+using Branta.Windows;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -11,8 +13,6 @@ using Serilog.Events;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Windows;
-using Branta.Windows;
-using ILogger = Microsoft.Extensions.Logging.ILogger;
 
 namespace Branta;
 
@@ -48,15 +48,24 @@ public partial class App
                     "[{Timestamp:HH:mm:ss} {Level:u3}] [{MachineName}] [{SourceContext}] {Message:lj}{NewLine}{Exception}";
 
                 loggerConfiguration.WriteTo
-                    .File(FileStorage.GetBrantaDataPath("logs", "log_.txt"), rollingInterval: RollingInterval.Day, outputTemplate: outputTemplate)
+                    .File(FileStorage.GetBrantaDataPath("logs", "log_.txt"), rollingInterval: RollingInterval.Day,
+                        outputTemplate: outputTemplate)
                     .WriteTo.Debug(outputTemplate: outputTemplate)
                     .MinimumLevel.ControlledBy(levelSwitch);
             })
             .ConfigureServices(services =>
             {
+                var config = new ConfigurationBuilder()
+                    .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
+                    .AddJsonFile("Properties/appsettings.json").Build();
+                var section = config.GetSection("AppSettings");
+                var appSettings = section.Get<AppSettings>();
+                services.AddSingleton(appSettings);
+
                 services.AddSingleton<NotificationCenter>();
                 services.AddSingleton(Settings.Load());
                 services.AddSingleton(BaseWindow.GetLanguageDictionary());
+
                 services.AddSingleton<CheckSumStore>();
 
                 services.AddSingleton<ClipboardGuardianCommand>();
@@ -75,7 +84,7 @@ public partial class App
                 services.AddSingleton(s => new MainWindow(s.GetRequiredService<NotificationCenter>(),
                     s.GetRequiredService<Settings>(), s.GetRequiredService<ResourceDictionary>(),
                     s.GetRequiredService<WalletVerificationViewModel>(), s.GetRequiredService<CheckSumStore>(),
-                    s.GetRequiredService<ILogger<MainWindow>>())
+                    s.GetRequiredService<AppSettings>(), s.GetRequiredService<ILogger<MainWindow>>())
                 {
                     WindowStartupLocation = WindowStartupLocation.CenterScreen,
                     DataContext = s.GetRequiredService<MainViewModel>()
