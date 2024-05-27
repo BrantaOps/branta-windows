@@ -1,8 +1,8 @@
 ﻿using Branta.Enums;
+using Microsoft.Extensions.Logging;
 using System.Diagnostics;
 using System.IO;
 using System.Text.RegularExpressions;
-using Microsoft.Extensions.Logging;
 
 namespace Branta.Classes.Wallets;
 
@@ -11,8 +11,6 @@ public abstract partial class BaseWallet(string name, string exeName = null)
     public string Name { get; } = name;
 
     public string ExeName { get; } = exeName ?? name;
-
-    public string InstallerName { get; set; }
 
     public HashType InstallerHashType { get; set; } = HashType.Sha256;
 
@@ -58,26 +56,14 @@ public abstract partial class BaseWallet(string name, string exeName = null)
     {
         return new List<BaseWallet>
         {
-            // new BlockStreamGreen
-            // {
-            //     CheckSums = checkSums?.BlockstreamGreen
-            // },
-            // new Ledger
-            // {
-            //     CheckSums = checkSums?.Ledger
-            // },
+            new BitcoinCore
+            {
+                CheckSums = checkSums?.BitcoinCore
+            },
             new Sparrow
             {
                 CheckSums = checkSums?.Sparrow
             },
-            // new Trezor
-            // {
-            //     CheckSums = checkSums?.Trezor
-            // },
-            // new Wasabi
-            // {
-            //     CheckSums = checkSums?.Wasabi
-            // }
         };
     }
 }
