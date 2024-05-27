@@ -9,3 +9,5 @@ Debug/
 
 Branta/Properties/PublishProfiles/win-x64.pubxml.user
 /Branta/Branta.csproj.user
+
+Branta/Properties/appsettings.Secrets.json
