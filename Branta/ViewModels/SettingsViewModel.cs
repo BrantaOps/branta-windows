@@ -118,18 +118,23 @@ public class SettingsViewModel : BaseViewModel
     }
 
     public LoadCheckSumsCommand LoadCheckSumsCommand { get; }
+    public LoadInstallerHashesCommand LoadInstallerHashesCommand { get; }
     public ICommand HelpCommand { get; }
 
     public WalletVerificationViewModel WalletVerificationViewModel { get; }
+    public InstallerVerificationViewModel InstallerVerificationViewModel { get; }
 
-    public SettingsViewModel(Settings settings, CheckSumStore checkSumStore, WalletVerificationViewModel walletVerificationViewModel)
+    public SettingsViewModel(Settings settings, CheckSumStore checkSumStore, InstallerHashStore installerHashStore, WalletVerificationViewModel walletVerificationViewModel, InstallerVerificationViewModel installerVerificationViewModel)
     {
-        LastUpdated = checkSumStore.LastUpdated;
+        LastUpdated = installerHashStore.LastUpdated > checkSumStore.LastUpdated ? checkSumStore.LastUpdated : installerHashStore.LastUpdated;
         checkSumStore.LastUpdatedEvent += date => LastUpdated = date;
+        installerHashStore.LastUpdatedEvent += date => LastUpdated = date;
 
         WalletVerificationViewModel = walletVerificationViewModel;
+        InstallerVerificationViewModel = installerVerificationViewModel;
 
         LoadCheckSumsCommand = new LoadCheckSumsCommand(checkSumStore);
+        LoadInstallerHashesCommand = new LoadInstallerHashesCommand(installerHashStore);
         HelpCommand = new HelpCommand();
 
         BitcoinAddressesEnabled = settings.ClipboardGuardian.BitcoinAddressesEnabled;

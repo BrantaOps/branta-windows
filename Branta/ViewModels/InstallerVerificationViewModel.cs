@@ -31,12 +31,12 @@ public class InstallerVerificationViewModel : BaseViewModel
     public ICommand BrowseFilesCommand { get; }
     public ICommand DropFilesCommand { get; }
 
-    public InstallerVerificationViewModel(NotificationCenter notificationCenter, ResourceDictionary resourceDictionary)
+    public InstallerVerificationViewModel(NotificationCenter notificationCenter, ResourceDictionary resourceDictionary, LoadInstallerHashesCommand loadInstallerHashesCommand)
     {
         _notificationCenter = notificationCenter;
         _resourceDictionary = resourceDictionary;
 
-        LoadInstallerHashesCommand = new LoadInstallerHashesCommand();
+        LoadInstallerHashesCommand = loadInstallerHashesCommand;
         LoadInstallerHashesCommand.Execute(this);
 
         _timer = new Timer(new TimeSpan(0, 30, 0));

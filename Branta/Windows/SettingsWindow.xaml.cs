@@ -1,4 +1,5 @@
-﻿using System.Windows.Controls;
+﻿using System.Windows;
+using System.Windows.Controls;
 using Branta.Classes;
 using Branta.Stores;
 using Branta.ViewModels;
@@ -9,11 +10,11 @@ public partial class SettingsWindow
 {
     private readonly SettingsViewModel _viewModel;
 
-    public SettingsWindow(Settings settings, CheckSumStore checkSumStore, WalletVerificationViewModel walletVerificationViewModel)
+    public SettingsWindow(Settings settings, CheckSumStore checkSumStore, InstallerHashStore installerHashStore, WalletVerificationViewModel walletVerificationViewModel, InstallerVerificationViewModel installerVerificationViewModel)
     {
         InitializeComponent();
 
-        _viewModel = new SettingsViewModel(settings, checkSumStore, walletVerificationViewModel);
+        _viewModel = new SettingsViewModel(settings, checkSumStore, installerHashStore, walletVerificationViewModel, installerVerificationViewModel);
         DataContext = _viewModel;
 
         SetLanguageDictionary();
@@ -52,5 +53,11 @@ public partial class SettingsWindow
     public Settings GetSettings()
     {
         return _viewModel.GetSettings();
+    }
+
+    private void OnClick_Refresh(object sender, RoutedEventArgs e)
+    {
+        _viewModel.LoadCheckSumsCommand.Execute(_viewModel.WalletVerificationViewModel);
+        _viewModel.LoadInstallerHashesCommand.Execute(_viewModel.InstallerVerificationViewModel);
     }
 }

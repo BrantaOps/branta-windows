@@ -17,20 +17,24 @@ public partial class MainWindow
 {
     private readonly Settings _settings;
     private readonly WalletVerificationViewModel _walletVerificationViewModel;
+    private readonly InstallerVerificationViewModel _installerVerificationViewModel;
     private readonly CheckSumStore _checkSumStore;
     private readonly NotificationCenter _notificationCenter;
+    private readonly InstallerHashStore _installerHashStore;
 
     private ICommand HelpCommand { get; }
 
     public MainWindow(NotificationCenter notificationCenter, Settings settings, ResourceDictionary resourceDictionary,
-        WalletVerificationViewModel walletVerificationViewModel, CheckSumStore checkSumStore, AppSettings appSettings,
-        ILogger<MainWindow> logger)
+        WalletVerificationViewModel walletVerificationViewModel, CheckSumStore checkSumStore, InstallerHashStore installerHashStore,
+        InstallerVerificationViewModel installerVerificationViewModel, AppSettings appSettings, ILogger<MainWindow> logger)
     {
         HelpCommand = new HelpCommand();
 
         _settings = settings;
         _walletVerificationViewModel = walletVerificationViewModel;
+        _installerVerificationViewModel = installerVerificationViewModel;
         _checkSumStore = checkSumStore;
+        _installerHashStore = installerHashStore;
 
         MaxHeight = SystemParameters.MaximizedPrimaryScreenHeight;
         MaxWidth = SystemParameters.MaximizedPrimaryScreenWidth;
@@ -101,7 +105,7 @@ public partial class MainWindow
 
     private void OnClick_Settings(object sender, EventArgs e)
     {
-        var settingsWindow = new SettingsWindow(_settings, _checkSumStore, _walletVerificationViewModel);
+        var settingsWindow = new SettingsWindow(_settings, _checkSumStore, _installerHashStore, _walletVerificationViewModel, _installerVerificationViewModel);
 
         settingsWindow.ShowDialog();
 

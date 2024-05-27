@@ -67,10 +67,12 @@ public partial class App
                 services.AddSingleton(BaseWindow.GetLanguageDictionary());
 
                 services.AddSingleton<CheckSumStore>();
+                services.AddSingleton<InstallerHashStore>();
 
                 services.AddSingleton<ClipboardGuardianCommand>();
                 services.AddSingleton<FocusCommand>();
                 services.AddSingleton<LoadCheckSumsCommand>();
+                services.AddSingleton<LoadInstallerHashesCommand>();
                 services.AddSingleton<UpdateAppCommand>();
                 services.AddSingleton<VerifyWalletsCommand>();
 
@@ -84,6 +86,7 @@ public partial class App
                 services.AddSingleton(s => new MainWindow(s.GetRequiredService<NotificationCenter>(),
                     s.GetRequiredService<Settings>(), s.GetRequiredService<ResourceDictionary>(),
                     s.GetRequiredService<WalletVerificationViewModel>(), s.GetRequiredService<CheckSumStore>(),
+                    s.GetRequiredService<InstallerHashStore>(), s.GetRequiredService<InstallerVerificationViewModel>(),
                     s.GetRequiredService<AppSettings>(), s.GetRequiredService<ILogger<MainWindow>>())
                 {
                     WindowStartupLocation = WindowStartupLocation.CenterScreen,

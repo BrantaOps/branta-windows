@@ -2,7 +2,6 @@
 using Branta.Classes.Wallets;
 using Branta.Commands;
 using Branta.Models;
-using Branta.Stores;
 using System.Collections.ObjectModel;
 using System.Windows;
 using Timer = System.Timers.Timer;
@@ -48,7 +47,7 @@ public class WalletVerificationViewModel : BaseViewModel
         VerifyWalletsCommand = verifyWalletsCommand;
 
         _loadCheckSumsTimer = new Timer(new TimeSpan(0, 30, 0));
-        _loadCheckSumsTimer.Elapsed += (_, _) => LoadCheckSumsCommand.Execute(null);
+        _loadCheckSumsTimer.Elapsed += (_, _) => LoadCheckSumsCommand.Execute(this);
         _loadCheckSumsTimer.Start();
 
         SetTimer(settings.WalletVerification.WalletVerifyEvery);

@@ -1,42 +1,26 @@
 ﻿using Branta.Classes;
+using Branta.Stores;
 using Branta.ViewModels;
 
 namespace Branta.Commands;
 
 public class LoadInstallerHashesCommand : BaseAsyncCommand
 {
+    private readonly InstallerHashStore _installerHashStore;
     private readonly BrantaClient _brantaClient = new();
 
-    private const string InstallerHashPath = "InstallerHash.yaml";
+    public LoadInstallerHashesCommand(InstallerHashStore installerHashStore)
+    {
+        _installerHashStore = installerHashStore;
+    }
 
     public override async Task ExecuteAsync(object parameter)
     {
         var viewModel = (InstallerVerificationViewModel)parameter;
 
-        var installerHashes = await LoadInstallerHashesAsync();
+        await _installerHashStore.LoadAsync();
 
-        viewModel.SetInstallerHashes(installerHashes);
+        viewModel.SetInstallerHashes(_installerHashStore.InstallerHashes);
         viewModel.IsLoading = false;
-    }
-
-    public async Task<Dictionary<string, string>> LoadInstallerHashesAsync()
-    {
-        var serverHashes = await _brantaClient.GetInstallerHashesAsync();
-
-        if (serverHashes != null)
-        {
-            await FileStorage.SaveAsync(InstallerHashPath, serverHashes);
-
-            return YamlLoader.Load<Dictionary<string, string>>(serverHashes);
-        }
-
-        var cacheHashes = await FileStorage.LoadAsync(InstallerHashPath);
-
-        if (cacheHashes != null)
-        {
-            return YamlLoader.Load<Dictionary<string, string>>(cacheHashes);
-        }
-
-        return YamlLoader.LoadInstallerHashes();
     }
 }
