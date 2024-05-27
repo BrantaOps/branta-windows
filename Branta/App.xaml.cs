@@ -57,7 +57,9 @@ public partial class App
             {
                 var config = new ConfigurationBuilder()
                     .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
-                    .AddJsonFile("Properties/appsettings.json").Build();
+                    .AddJsonFile("Properties/appsettings.json")
+                    .AddJsonFile("Properties/appsettings.Secrets.json")
+                    .Build();
                 var section = config.GetSection("AppSettings");
                 var appSettings = section.Get<AppSettings>();
                 services.AddSingleton(appSettings);
