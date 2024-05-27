@@ -7,7 +7,6 @@ public class Sparrow : BaseWallet
 {
     public Sparrow() : base("Sparrow")
     {
-        InstallerName = "Sparrow";
         InstallerRegex = new Regex(@"Sparrow-(\d+\.\d+\.\d+)");
     }
 
