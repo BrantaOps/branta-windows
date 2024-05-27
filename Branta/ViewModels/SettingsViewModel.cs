@@ -149,10 +149,6 @@ public class SettingsViewModel : BaseViewModel
         WalletStatusChangeEnabled = settings.WalletVerification.WalletStatusChangeEnabled;
     }
 
-    public void OnRefreshRun()
-    {
-    }
-
     public Settings GetSettings()
     {
         return new Settings
