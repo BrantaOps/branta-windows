@@ -25,7 +25,7 @@ public class ClipboardGuardianViewModel : BaseViewModel
     {
         ClipboardGuardianCommand = clipboardGuardianCommand;
 
-        _clipboardGuardianTimer = new Timer(new TimeSpan(0, 0, 1));
+        _clipboardGuardianTimer = new Timer(new TimeSpan(0, 0, 0, 0, milliseconds: 500));
         _clipboardGuardianTimer.Elapsed += (_, _) => ClipboardGuardianCommand.Execute(this);
         _clipboardGuardianTimer.Start();
     }
