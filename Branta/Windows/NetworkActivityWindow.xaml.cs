@@ -65,10 +65,15 @@ public partial class NetworkActivityWindow
 
     private void WatchNetworkTraffic(Wallet wallet, CancellationToken cancellationToken)
     {
+        var processIds = Process.GetProcesses()
+            .Where(p => p.ProcessName.Contains(wallet.Name))
+            .Select(p => p.Id)
+            .ToList();
+
         var psi = new ProcessStartInfo
         {
             FileName = "netstat",
-            Arguments = "-b -o",
+            Arguments = "-o",
             RedirectStandardOutput = true,
             UseShellExecute = false,
             CreateNoWindow = true
@@ -79,8 +84,6 @@ public partial class NetworkActivityWindow
             StartInfo = psi
         };
         _process.Start();
-
-        var isWalletProcess = false;
 
         while (!_process.StandardOutput.EndOfStream)
         {
@@ -103,13 +106,14 @@ public partial class NetworkActivityWindow
 
             Trace.WriteLine(line);
 
-            if (!line.Trim().StartsWith("TCP"))
+            if (!line.TrimStart().StartsWith("TCP"))
             {
-                isWalletProcess = line.Contains($"{wallet.Name}.exe");
                 continue;
             }
 
-            if (isWalletProcess)
+            var processId = System.Text.RegularExpressions.Regex.Split(line, @"\s+").Last();
+
+            if (!string.IsNullOrEmpty(processId) && processIds.Contains(int.Parse(processId)))
             {
                 UpdateDisplay(line);
             }
