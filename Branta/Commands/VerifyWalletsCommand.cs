@@ -3,12 +3,13 @@ using Branta.Classes.Wallets;
 using Branta.Enums;
 using Branta.Models;
 using Branta.ViewModels;
+using Microsoft.Extensions.Logging;
 using System.Diagnostics;
 using System.IO;
 using System.Security.Cryptography;
 using System.Text;
+using System.Windows;
 using System.Windows.Forms;
-using Microsoft.Extensions.Logging;
 
 namespace Branta.Commands;
 
@@ -16,12 +17,15 @@ public class VerifyWalletsCommand : BaseCommand
 {
     private readonly NotificationCenter _notificationCenter;
     private readonly Settings _settings;
+    private readonly ResourceDictionary _resourceDictionary;
     private readonly ILogger<VerifyWalletsCommand> _logger;
 
-    public VerifyWalletsCommand(NotificationCenter notificationCenter, Settings settings, ILogger<VerifyWalletsCommand> logger)
+    public VerifyWalletsCommand(NotificationCenter notificationCenter, Settings settings,
+        ResourceDictionary resourceDictionary, ILogger<VerifyWalletsCommand> logger)
     {
         _notificationCenter = notificationCenter;
         _settings = settings;
+        _resourceDictionary = resourceDictionary;
         _logger = logger;
     }
 
@@ -48,17 +52,29 @@ public class VerifyWalletsCommand : BaseCommand
 
             viewModel.AddWallet(wallet);
 
-            if (wallet.Status != WalletStatus.Verified &&
-                wallet.Status != WalletStatus.NotFound &&
-                previousWalletStatus.GetValueOrDefault(walletType.Name, WalletStatus.Verified) == WalletStatus.Verified &&
-                _settings.WalletVerification.WalletStatusChangeEnabled)
+            if (!_settings.WalletVerification.WalletStatusChangeEnabled)
             {
-                _notificationCenter.Notify(new Notification
-                {
-                    Message = $"{walletType.Name} failed verification.",
-                    Icon = ToolTipIcon.Warning
-                });
+                continue;
             }
+
+            var previousStatus = previousWalletStatus.GetValueOrDefault(walletType.Name);
+
+            if (previousStatus == null &&
+                (wallet.Status == WalletStatus.Verified || wallet.Status == WalletStatus.NotFound))
+            {
+                continue;
+            }
+
+            if (previousStatus == wallet.Status)
+            {
+                continue;
+            }
+
+            _notificationCenter.Notify(new Notification
+            {
+                Message = $"{walletType.Name}: {wallet.Status.GetName(_resourceDictionary)}",
+                Icon = ToolTipIcon.None
+            });
         }
     }
 
@@ -67,7 +83,8 @@ public class VerifyWalletsCommand : BaseCommand
         string version = null;
         try
         {
-            if (walletType.InstallerRegex != null && Process.GetProcesses().Select(p => p.ProcessName).Any(walletType.InstallerRegex.IsMatch))
+            if (walletType.InstallerRegex != null && Process.GetProcesses().Select(p => p.ProcessName)
+                    .Any(walletType.InstallerRegex.IsMatch))
             {
                 return (null, WalletStatus.Installing);
             }
