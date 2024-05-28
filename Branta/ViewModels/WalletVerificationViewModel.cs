@@ -15,7 +15,7 @@ public class WalletVerificationViewModel : BaseViewModel
     private readonly Timer _loadCheckSumsTimer;
     private readonly Timer _focusTimer;
 
-    public List<BaseWallet> WalletTypes = new();
+    public List<BaseWalletType> WalletTypes = new();
 
     private Timer _verifyWalletsTimer;
 

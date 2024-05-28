@@ -78,7 +78,7 @@ public class VerifyWalletsCommand : BaseCommand
         }
     }
 
-    public static (string, WalletStatus) Verify(BaseWallet walletType, ILogger logger)
+    public static (string, WalletStatus) Verify(BaseWalletType walletType, ILogger logger)
     {
         string version = null;
         try

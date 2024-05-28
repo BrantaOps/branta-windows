@@ -14,7 +14,7 @@ public class FocusCommand : BaseCommand
     private readonly Settings _settings;
     private readonly ResourceDictionary _resourceDictionary;
 
-    private Dictionary<BaseWallet, WalletStatus> _walletTypes;
+    private Dictionary<BaseWalletType, WalletStatus> _walletTypes;
     private readonly ILogger<FocusCommand> _logger;
 
     public FocusCommand(NotificationCenter notificationCenter, Settings settings, ResourceDictionary resourceDictionary, ILogger<FocusCommand> logger)
@@ -67,7 +67,7 @@ public class FocusCommand : BaseCommand
         }
     }
 
-    public void SetWallets(List<BaseWallet> wallets)
+    public void SetWallets(List<BaseWalletType> wallets)
     {
         _walletTypes = wallets.ToDictionary(w => w, _ => (WalletStatus)null);
     }
