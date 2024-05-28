@@ -209,15 +209,15 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Branta"
-        "ProductCode" = "8:{9D970993-5E93-4F41-8027-27699AD20321}"
-        "PackageCode" = "8:{D058DF5D-4E4D-4710-9E82-0F4347514264}"
+        "ProductCode" = "8:{FD774488-6387-4C59-96CE-8E488176F1B5}"
+        "PackageCode" = "8:{B09BD290-339F-416D-A15D-21CB8E3D8D20}"
         "UpgradeCode" = "8:{03B6A13A-5A11-43E0-AB8A-AD6F1DD68098}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:0.0.1"
+        "ProductVersion" = "8:0.0.2"
         "Manufacturer" = "8:Branta Ops"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"
@@ -348,7 +348,7 @@
             {
             "Name" = "8:Branta"
             "Arguments" = "8:headless"
-            "Description" = "8:"
+            "Description" = "8:Branta"
             "ShowCmd" = "3:1"
             "IconIndex" = "3:0"
             "Transitive" = "11:FALSE"
@@ -759,7 +759,7 @@
         {
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_2F58850C6BB84440AAC8BFC3A0E1A7AF"
             {
-            "SourcePath" = "8:..\\Branta\\obj\\Debug\\net8.0-windows\\apphost.exe"
+            "SourcePath" = "8:..\\Branta\\obj\\Release\\net8.0-windows\\win-x64\\apphost.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_DAD6389736FE40DB8C1ED7FA52432AA4"

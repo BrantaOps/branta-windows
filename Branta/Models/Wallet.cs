@@ -11,4 +11,6 @@ public class Wallet
     public DateTime LastScanned { get; set; }
 
     public WalletStatus Status { get; set; }
+
+    public string ExeName { get; set; }
 }

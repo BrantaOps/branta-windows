@@ -47,11 +47,12 @@ public class FocusCommand : BaseCommand
 
             var (version, walletStatus) = VerifyWalletsCommand.Verify(walletType, _logger);
 
-            var wallet = new Wallet()
+            var wallet = new Wallet
             {
                 Name = walletType.Name,
                 Version = version,
-                Status = walletStatus
+                Status = walletStatus,
+                ExeName = walletType.ExeName,
             };
 
             if (wallet.Status != _walletTypes.GetValueOrDefault(walletType))

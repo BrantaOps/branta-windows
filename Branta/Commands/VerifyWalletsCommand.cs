@@ -42,7 +42,8 @@ public class VerifyWalletsCommand : BaseCommand
                 Name = walletType.Name,
                 Version = version,
                 LastScanned = DateTime.Now,
-                Status = walletStatus
+                Status = walletStatus,
+                ExeName = walletType.ExeName
             };
 
             viewModel.AddWallet(wallet);

@@ -66,7 +66,7 @@ public partial class NetworkActivityWindow
     private void WatchNetworkTraffic(Wallet wallet, CancellationToken cancellationToken)
     {
         var processIds = Process.GetProcesses()
-            .Where(p => p.ProcessName.Contains(wallet.Name))
+            .Where(p => p.ProcessName.Contains(wallet.ExeName))
             .Select(p => p.Id)
             .ToList();
 
