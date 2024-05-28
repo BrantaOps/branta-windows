@@ -51,6 +51,8 @@ public partial class MainWindow
         {
             InitializeComponent();
 
+            TbVersion.Text = Helper.GetBrantaVersionWithoutCommitHash();
+
             SetLanguageDictionary();
             Analytics.Init(appSettings);
             SetResizeImage(ImageScreenSize);
