@@ -1,30 +1,9 @@
-﻿using Branta.ViewModels;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using System.Collections.ObjectModel;
-using System.Windows.Forms;
-using System.Windows.Media.Imaging;
+﻿using System.Windows.Media.Imaging;
 
 namespace Branta.Classes;
 
 public static class BrantaExtensions
 {
-    public static void ShowBalloonTip(this NotifyIcon notifyIcon, Notification notification)
-    {
-        notifyIcon.ShowBalloonTip(notification.Timeout, notification.Title, notification.Message, notification.Icon);
-    }
-
-    public static ObservableCollection<T> Set<T>(this ObservableCollection<T> items, List<T> newItems)
-    {
-        items.Clear();
-        foreach (var item in newItems)
-        {
-            items.Add(item);
-        }
-
-        return items;
-    }
-
     public static void SetSource(this System.Windows.Controls.Image image, string path)
     {
         var bitmapImage = new BitmapImage();

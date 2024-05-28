@@ -1,5 +1,5 @@
-﻿using System.Windows;
-using Branta.Models;
+﻿using Branta.Models;
+using System.Windows;
 
 namespace Branta.ViewModels;
 
@@ -8,7 +8,8 @@ public class ClipboardItemViewModel : BaseViewModel
     private readonly ClipboardItem _clipboardItem;
     private readonly ResourceDictionary _resourceDictionary;
 
-    public string DisplayName => _resourceDictionary["Clipboard"] + (!string.IsNullOrEmpty(Name) ? $": {Name}" : null);
+    public string DisplayName => _resourceDictionary["Clipboard"] +
+                                 (!string.IsNullOrEmpty(_clipboardItem.Name) ? $": {_clipboardItem.Name}" : null);
 
     public string Name => _clipboardItem.Name;
 

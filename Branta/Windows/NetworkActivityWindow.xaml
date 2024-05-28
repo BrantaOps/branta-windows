@@ -116,7 +116,7 @@
                                                    HorizontalAlignment="Center" />
                                         <TextBox Grid.Column="1"
                                                    Style="{StaticResource ReadOnlyTextBox}"
-                                                   Text="{Binding IPAddress}"
+                                                   Text="{Binding IpAddress}"
                                                    Foreground="White"
                                                    FontSize="16"
                                                    VerticalAlignment="Center"

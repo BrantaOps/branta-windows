@@ -22,6 +22,11 @@ public class DropFilesCommand : BaseCommand
 
         var files = (string[])dragEventArgs.Data.GetData(DataFormats.FileDrop);
 
+        if (files == null)
+        {
+            return;
+        }
+
         _action.Invoke(files.ToList());
     }
 }

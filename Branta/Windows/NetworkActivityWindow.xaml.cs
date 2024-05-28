@@ -51,7 +51,7 @@ public partial class NetworkActivityWindow
         Dispatcher.Invoke(() => NetworkActivities.Add(new NetworkActivityItem
         {
             ProcessId = info[4],
-            IPAddress = info[1],
+            IpAddress = info[1],
         }));
     }
 

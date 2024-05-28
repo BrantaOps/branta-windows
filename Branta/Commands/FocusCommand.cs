@@ -2,9 +2,9 @@
 using Branta.Classes.Wallets;
 using Branta.Enums;
 using Branta.Models;
+using Microsoft.Extensions.Logging;
 using System.Diagnostics;
 using System.Windows;
-using Microsoft.Extensions.Logging;
 
 namespace Branta.Commands;
 
@@ -17,7 +17,8 @@ public class FocusCommand : BaseCommand
     private Dictionary<BaseWalletType, WalletStatus> _walletTypes;
     private readonly ILogger<FocusCommand> _logger;
 
-    public FocusCommand(NotificationCenter notificationCenter, Settings settings, ResourceDictionary resourceDictionary, ILogger<FocusCommand> logger)
+    public FocusCommand(NotificationCenter notificationCenter, Settings settings, ResourceDictionary resourceDictionary,
+        ILogger<FocusCommand> logger)
     {
         _notificationCenter = notificationCenter;
         _settings = settings;
@@ -47,6 +48,11 @@ public class FocusCommand : BaseCommand
 
             var (version, walletStatus) = VerifyWalletsCommand.Verify(walletType, _logger);
 
+            if (walletStatus == _walletTypes.GetValueOrDefault(walletType))
+            {
+                continue;
+            }
+
             var wallet = new Wallet
             {
                 Name = walletType.Name,
@@ -55,15 +61,13 @@ public class FocusCommand : BaseCommand
                 ExeName = walletType.ExeName,
             };
 
-            if (wallet.Status != _walletTypes.GetValueOrDefault(walletType))
+            _notificationCenter.Notify(new Notification
             {
-                _notificationCenter.Notify(new Notification
-                {
-                    Message = $"{wallet.Name} {wallet.Version} is running. Status: {wallet.Status.GetName(_resourceDictionary)}"
-                });
+                Message = string.Format(_resourceDictionary["FocusMessage"]?.ToString() ?? "", wallet.Name,
+                    wallet.Version, wallet.Status.GetName(_resourceDictionary))
+            });
 
-                _walletTypes[walletType] = wallet.Status;
-            }
+            _walletTypes[walletType] = wallet.Status;
         }
     }
 

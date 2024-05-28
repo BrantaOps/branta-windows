@@ -8,25 +8,28 @@ public static class FileStorage
     {
         try
         {
-            var file = new FileInfo(GetBrantaDataPath(path));
+            var fullPath = GetBrantaDataPath(path);
+
+            var file = new FileInfo(fullPath);
             file.Directory?.Create();
-            await File.WriteAllTextAsync(GetBrantaDataPath(path), content);
+            await File.WriteAllTextAsync(fullPath, content);
         }
         catch
         {
+            // ignored
         }
     }
 
     public static async Task<string> LoadAsync(string path)
     {
-        path = GetBrantaDataPath(path);
+        var fullPath = GetBrantaDataPath(path);
 
-        if (!File.Exists(path))
+        if (!File.Exists(fullPath))
         {
             return null;
         }
 
-        return await File.ReadAllTextAsync(path);
+        return await File.ReadAllTextAsync(fullPath);
     }
 
     public static string GetBrantaDataPath(params string[] path)

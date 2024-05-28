@@ -1,6 +1,5 @@
-﻿using Microsoft.Win32;
-using System.Diagnostics;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
+using Microsoft.Win32;
 
 namespace Branta.Classes;
 

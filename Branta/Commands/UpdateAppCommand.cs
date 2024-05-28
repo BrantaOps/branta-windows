@@ -35,7 +35,7 @@ public class UpdateAppCommand : BaseAsyncCommand
             _notificationCenter.Notify(new Notification
             {
                 Icon = ToolTipIcon.Info,
-                Message = string.Format(_resourceDictionary["UpdateApp"]?.ToString(), latestVersion)
+                Message = string.Format(_resourceDictionary["UpdateApp"]?.ToString() ?? "", latestVersion)
             });
 
             if (_isUpdateAvailableShow == false)

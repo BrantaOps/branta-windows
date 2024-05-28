@@ -1,12 +1,11 @@
 ﻿using Branta.Classes;
 using Branta.Models;
 using Branta.ViewModels;
-using System.Diagnostics;
+using Microsoft.Extensions.Logging;
 using System.IO;
 using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Windows;
-using Microsoft.Extensions.Logging;
 
 namespace Branta.Commands;
 
@@ -147,21 +146,7 @@ public partial class ClipboardGuardianCommand : BaseCommand
 
         if (Bip39Words == null)
         {
-            try
-            {
-                var assembly = Assembly.GetExecutingAssembly();
-                const string resourceName = "Branta.Assets.bip39wordlist.txt";
-
-                using var stream = assembly.GetManifestResourceStream(resourceName);
-                using var reader = new StreamReader(stream!);
-
-                var words = reader.ReadToEnd();
-                Bip39Words = words.Split(Environment.NewLine).ToHashSet();
-            }
-            catch (Exception ex)
-            {
-                _logger?.LogInformation(ex.Message);
-            }
+            LoadBip39Words();
         }
 
         return !userSeedWords.Select(w => w.ToLower()).Except(Bip39Words!).Any();
@@ -187,6 +172,25 @@ public partial class ClipboardGuardianCommand : BaseCommand
     public static bool CheckForNPrv(string value)
     {
         return NPrvAddressRegex().IsMatch(value);
+    }
+
+    private void LoadBip39Words()
+    {
+        try
+        {
+            var assembly = Assembly.GetExecutingAssembly();
+            const string resourceName = "Branta.Assets.bip39wordlist.txt";
+
+            using var stream = assembly.GetManifestResourceStream(resourceName);
+            using var reader = new StreamReader(stream!);
+
+            var words = reader.ReadToEnd();
+            Bip39Words = words.Split(Environment.NewLine).ToHashSet();
+        }
+        catch (Exception ex)
+        {
+            _logger?.LogInformation(ex.Message);
+        }
     }
 
     [GeneratedRegex("^[13][a-km-zA-HJ-NP-Z1-9]{25,34}$")]

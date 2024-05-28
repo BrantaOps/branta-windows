@@ -1,5 +1,4 @@
-﻿using Branta.Enums;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 using System.Diagnostics;
 using System.IO;
 using System.Text.RegularExpressions;
@@ -11,8 +10,6 @@ public abstract partial class BaseWalletType(string name, string exeName = null)
     public string Name { get; } = name;
 
     public string ExeName { get; } = exeName ?? name;
-
-    public HashType InstallerHashType { get; set; } = HashType.Sha256;
 
     public Dictionary<string, VersionInfo> CheckSums { get; set; }
 
