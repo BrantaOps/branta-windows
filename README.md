@@ -32,6 +32,7 @@
 
 #### Supported Wallets
  - ⚡️ Sparrow
+ - ⚡️ Bitcoin Core
  - More coming soon...
 
 
