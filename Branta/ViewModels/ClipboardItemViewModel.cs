@@ -1,14 +1,15 @@
-﻿using System.Windows;
-using Branta.Models;
+﻿using Branta.Models;
+using Branta.Stores;
 
 namespace Branta.ViewModels;
 
 public class ClipboardItemViewModel : BaseViewModel
 {
     private readonly ClipboardItem _clipboardItem;
-    private readonly ResourceDictionary _resourceDictionary;
+    private readonly LanguageStore _languageStore;
 
-    public string DisplayName => _resourceDictionary["Clipboard"] + (!string.IsNullOrEmpty(Name) ? $": {Name}" : null);
+    public string DisplayName => _languageStore.Get("Clipboard") +
+                                 (!string.IsNullOrEmpty(_clipboardItem.Name) ? $": {_clipboardItem.Name}" : null);
 
     public string Name => _clipboardItem.Name;
 
@@ -16,9 +17,9 @@ public class ClipboardItemViewModel : BaseViewModel
 
     public bool IsDefault => _clipboardItem.IsDefault;
 
-    public ClipboardItemViewModel(ClipboardItem clipboardItem, ResourceDictionary resourceDictionary)
+    public ClipboardItemViewModel(ClipboardItem clipboardItem, LanguageStore languageStore)
     {
         _clipboardItem = clipboardItem;
-        _resourceDictionary = resourceDictionary;
+        _languageStore = languageStore;
     }
 }

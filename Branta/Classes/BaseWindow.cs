@@ -1,7 +1,6 @@
-﻿using System.ComponentModel;
-using System.Runtime.CompilerServices;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Input;
+using Branta.Stores;
 using Color = Branta.Enums.Color;
 
 namespace Branta.Classes;
@@ -10,17 +9,9 @@ public class BaseWindow : Window
 {
     private System.Windows.Controls.Image _resizeImage;
 
-    public event PropertyChangedEventHandler PropertyChanged;
-
     public BaseWindow()
     {
         Background = Color.Brush(Color.WindowBackground);
-    }
-
-    protected void OnPropertyChanged([CallerMemberName] string name = "")
-    {
-        var handler = PropertyChanged;
-        handler?.Invoke(this, new PropertyChangedEventArgs(name));
     }
 
     public void SetResizeImage(System.Windows.Controls.Image resizeImage)
@@ -66,29 +57,8 @@ public class BaseWindow : Window
         Close();
     }
 
-    protected ResourceDictionary SetLanguageDictionary()
+    protected void SetLanguageDictionary(LanguageStore languageStore)
     {
-        var resourceDictionary = GetLanguageDictionary();
-
-        Resources.MergedDictionaries.Add(resourceDictionary);
-
-        return resourceDictionary;
-    }
-
-    public static ResourceDictionary GetLanguageDictionary()
-    {
-        var resourceDictionary = new ResourceDictionary();
-
-        switch (Thread.CurrentThread.CurrentCulture.ToString())
-        {
-            case "en-US":
-                resourceDictionary.Source = new Uri("Resources\\StringResources.xaml", UriKind.Relative);
-                break;
-            default:
-                resourceDictionary.Source = new Uri("Resources\\StringResources.xaml", UriKind.Relative);
-                break;
-        }
-
-        return resourceDictionary;
+        Resources.MergedDictionaries.Add(languageStore.ResourceDictionary);
     }
 }

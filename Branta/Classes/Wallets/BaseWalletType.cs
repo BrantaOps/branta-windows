@@ -1,18 +1,15 @@
-﻿using Branta.Enums;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 using System.Diagnostics;
 using System.IO;
 using System.Text.RegularExpressions;
 
 namespace Branta.Classes.Wallets;
 
-public abstract partial class BaseWallet(string name, string exeName = null)
+public abstract partial class BaseWalletType(string name, string exeName = null)
 {
     public string Name { get; } = name;
 
     public string ExeName { get; } = exeName ?? name;
-
-    public HashType InstallerHashType { get; set; } = HashType.Sha256;
 
     public Dictionary<string, VersionInfo> CheckSums { get; set; }
 
@@ -52,9 +49,9 @@ public abstract partial class BaseWallet(string name, string exeName = null)
     [GeneratedRegex(@"(\d+\.\d+\.\d+)")]
     private static partial Regex VersionRegex();
 
-    public static List<BaseWallet> GetWalletTypes(CheckSums checkSums = null)
+    public static List<BaseWalletType> GetWalletTypes(CheckSums checkSums = null)
     {
-        return new List<BaseWallet>
+        return new List<BaseWalletType>
         {
             new BitcoinCore
             {

@@ -3,7 +3,7 @@ using System.Text.RegularExpressions;
 
 namespace Branta.Classes.Wallets;
 
-public class BitcoinCore : BaseWallet
+public class BitcoinCore : BaseWalletType
 {
     public BitcoinCore() : base("Bitcoin Core", "bitcoin-qt")
     {

@@ -2,8 +2,8 @@
 using Branta.Classes.Wallets;
 using Branta.Commands;
 using Branta.Models;
+using Branta.Stores;
 using System.Collections.ObjectModel;
-using System.Windows;
 using Timer = System.Timers.Timer;
 
 namespace Branta.ViewModels;
@@ -11,11 +11,11 @@ namespace Branta.ViewModels;
 public class WalletVerificationViewModel : BaseViewModel
 {
     private readonly ObservableCollection<WalletViewModel> _wallets = new();
-    private readonly ResourceDictionary _resourceDictionary;
+    private readonly LanguageStore _languageStore;
     private readonly Timer _loadCheckSumsTimer;
     private readonly Timer _focusTimer;
 
-    public List<BaseWallet> WalletTypes = new();
+    public List<BaseWalletType> WalletTypes = new();
 
     private Timer _verifyWalletsTimer;
 
@@ -37,10 +37,10 @@ public class WalletVerificationViewModel : BaseViewModel
         }
     }
 
-    public WalletVerificationViewModel(Settings settings, ResourceDictionary resourceDictionary,
+    public WalletVerificationViewModel(Settings settings, LanguageStore languageStore,
         FocusCommand focusCommand, LoadCheckSumsCommand loadCheckSumsCommand, VerifyWalletsCommand verifyWalletsCommand)
     {
-        _resourceDictionary = resourceDictionary;
+        _languageStore = languageStore;
 
         FocusCommand = focusCommand;
         LoadCheckSumsCommand = loadCheckSumsCommand;
@@ -78,7 +78,7 @@ public class WalletVerificationViewModel : BaseViewModel
         DispatchHelper.BeginInvoke(() =>
         {
             var originalWallet = _wallets.FirstOrDefault(w => w.Name == wallet.Name);
-            var newWallet = new WalletViewModel(wallet, _resourceDictionary);
+            var newWallet = new WalletViewModel(wallet, _languageStore);
 
             if (originalWallet == null)
             {

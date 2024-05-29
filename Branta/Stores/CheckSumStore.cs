@@ -5,7 +5,7 @@ namespace Branta.Stores;
 
 public class CheckSumStore
 {
-    public List<BaseWallet> WalletTypes { get; private set; }
+    public List<BaseWalletType> WalletTypes { get; private set; }
     public DateTime? LastUpdated { get; private set; }
 
     public Action<DateTime?> LastUpdatedEvent;
@@ -25,7 +25,7 @@ public class CheckSumStore
         LastUpdated = DateTime.Now;
         LastUpdatedEvent?.Invoke(LastUpdated);
 
-        WalletTypes = BaseWallet.GetWalletTypes(checkSums);
+        WalletTypes = BaseWalletType.GetWalletTypes(checkSums);
     }
     
     private async Task<CheckSums> LoadHelperAsync()

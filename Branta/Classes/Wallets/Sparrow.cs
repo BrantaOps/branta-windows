@@ -3,7 +3,7 @@ using System.Text.RegularExpressions;
 
 namespace Branta.Classes.Wallets;
 
-public class Sparrow : BaseWallet
+public class Sparrow : BaseWalletType
 {
     public Sparrow() : base("Sparrow")
     {

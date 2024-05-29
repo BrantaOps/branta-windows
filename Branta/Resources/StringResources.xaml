@@ -105,5 +105,7 @@
 
     <!-- Other Notifications -->
     <system:String x:Key="UpdateApp">Branta version {0} is available.</system:String>
+    <system:String x:Key="FocusMessage">{0} {1} is Running. Status: {2}.</system:String>
+
 
 </ResourceDictionary> 

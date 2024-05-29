@@ -66,7 +66,7 @@ public partial class App
 
                 services.AddSingleton<NotificationCenter>();
                 services.AddSingleton(Settings.Load());
-                services.AddSingleton(BaseWindow.GetLanguageDictionary());
+                services.AddSingleton(LanguageStore.Load());
 
                 services.AddSingleton<CheckSumStore>();
                 services.AddSingleton<InstallerHashStore>();
@@ -86,7 +86,7 @@ public partial class App
                 services.AddSingleton<ClipboardGuardianViewModel>();
 
                 services.AddSingleton(s => new MainWindow(s.GetRequiredService<NotificationCenter>(),
-                    s.GetRequiredService<Settings>(), s.GetRequiredService<ResourceDictionary>(),
+                    s.GetRequiredService<Settings>(), s.GetRequiredService<LanguageStore>(),
                     s.GetRequiredService<WalletVerificationViewModel>(), s.GetRequiredService<CheckSumStore>(),
                     s.GetRequiredService<InstallerHashStore>(), s.GetRequiredService<InstallerVerificationViewModel>(),
                     s.GetRequiredService<AppSettings>(), s.GetRequiredService<ILogger<MainWindow>>())
