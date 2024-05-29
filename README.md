@@ -27,8 +27,7 @@
  - ⚡️ Drag & Drop PGP Verification for Installers
 
 
-
-![Branta Screenshot](https://github.com/BrantaOps/branta-windows/assets/110685100/7158b0ad-66b2-4725-bf6d-06c307056c1c)
+![Branta Screenshot](https://github.com/BrantaOps/branta-windows/assets/110685100/b2548673-3f08-46c5-8f10-428e0394e16f)
 
 
 #### Supported Wallets
