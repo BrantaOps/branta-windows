@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Windows;
 using Branta.Exceptions;
 using Branta.Models;
+using Branta.Stores;
 
 namespace Branta.Windows;
 
@@ -15,11 +16,11 @@ public partial class NetworkActivityWindow
     private Process _process;
     private readonly CancellationTokenSource _cancellationTokenSource = new();
 
-    public NetworkActivityWindow(Wallet wallet)
+    public NetworkActivityWindow(Wallet wallet, LanguageStore languageStore)
     {
         InitializeComponent();
         DataContext = this;
-        SetLanguageDictionary();
+        SetLanguageDictionary(languageStore);
 
         Wallet = wallet;
 

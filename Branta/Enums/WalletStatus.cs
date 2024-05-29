@@ -1,4 +1,4 @@
-﻿using System.Windows;
+﻿using Branta.Stores;
 
 namespace Branta.Enums;
 
@@ -21,8 +21,8 @@ public class WalletStatus(string name, string languageDictionaryName, string ico
     public static WalletStatus Installing = new("Installing", "InstallingMessage");
     public static WalletStatus BrantaError = new("BrantaError", "BrantaErrorMessage");
 
-    public string GetName(ResourceDictionary resourceDictionary)
+    public string GetName(LanguageStore languageStore)
     {
-        return resourceDictionary[Name]?.ToString();
+        return languageStore.Get(Name);
     }
 }

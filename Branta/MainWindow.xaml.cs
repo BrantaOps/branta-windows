@@ -3,11 +3,11 @@ using Branta.Commands;
 using Branta.Stores;
 using Branta.ViewModels;
 using Branta.Windows;
+using Microsoft.Extensions.Logging;
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Forms;
 using System.Windows.Input;
-using Microsoft.Extensions.Logging;
 using Application = System.Windows.Application;
 using MouseEventArgs = System.Windows.Forms.MouseEventArgs;
 
@@ -16,6 +16,7 @@ namespace Branta;
 public partial class MainWindow
 {
     private readonly Settings _settings;
+    private readonly LanguageStore _languageStore;
     private readonly WalletVerificationViewModel _walletVerificationViewModel;
     private readonly InstallerVerificationViewModel _installerVerificationViewModel;
     private readonly CheckSumStore _checkSumStore;
@@ -24,13 +25,14 @@ public partial class MainWindow
 
     private ICommand HelpCommand { get; }
 
-    public MainWindow(NotificationCenter notificationCenter, Settings settings, ResourceDictionary resourceDictionary,
+    public MainWindow(NotificationCenter notificationCenter, Settings settings, LanguageStore languageStore,
         WalletVerificationViewModel walletVerificationViewModel, CheckSumStore checkSumStore, InstallerHashStore installerHashStore,
         InstallerVerificationViewModel installerVerificationViewModel, AppSettings appSettings, ILogger<MainWindow> logger)
     {
         HelpCommand = new HelpCommand();
 
         _settings = settings;
+        _languageStore = languageStore;
         _walletVerificationViewModel = walletVerificationViewModel;
         _installerVerificationViewModel = installerVerificationViewModel;
         _checkSumStore = checkSumStore;
@@ -43,9 +45,9 @@ public partial class MainWindow
 
         _notificationCenter.NotifyIcon.MouseClick += OnClick_NotifyIcon;
         _notificationCenter.NotifyIcon.ContextMenuStrip = new ContextMenuStrip();
-        _notificationCenter.NotifyIcon.ContextMenuStrip.Items.Add(resourceDictionary["NotifyIcon_Settings"].ToString(), null, OnClick_Settings);
-        _notificationCenter.NotifyIcon.ContextMenuStrip.Items.Add(resourceDictionary["NotifyIcon_Quit"].ToString(), null, OnClick_Quit);
-        _notificationCenter.NotifyIcon.ContextMenuStrip.Items.Add(resourceDictionary["Help"].ToString(), null, OnClick_Help);
+        _notificationCenter.NotifyIcon.ContextMenuStrip.Items.Add(languageStore.Get("NotifyIcon_Settings"), null, OnClick_Settings);
+        _notificationCenter.NotifyIcon.ContextMenuStrip.Items.Add(languageStore.Get("NotifyIcon_Quit"), null, OnClick_Quit);
+        _notificationCenter.NotifyIcon.ContextMenuStrip.Items.Add(languageStore.Get("Help"), null, OnClick_Help);
 
         try
         {
@@ -53,7 +55,7 @@ public partial class MainWindow
 
             TbVersion.Text = Helper.GetBrantaVersionWithoutCommitHash();
 
-            SetLanguageDictionary();
+            SetLanguageDictionary(languageStore);
             Analytics.Init(appSettings);
             SetResizeImage(ImageScreenSize);
 
@@ -107,7 +109,7 @@ public partial class MainWindow
 
     private void OnClick_Settings(object sender, EventArgs e)
     {
-        var settingsWindow = new SettingsWindow(_settings, _checkSumStore, _installerHashStore, _walletVerificationViewModel, _installerVerificationViewModel);
+        var settingsWindow = new SettingsWindow(_settings, _checkSumStore, _installerHashStore, _walletVerificationViewModel, _installerVerificationViewModel, _languageStore);
 
         settingsWindow.ShowDialog();
 

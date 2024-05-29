@@ -1,8 +1,8 @@
-﻿using System.Windows;
-using System.Windows.Controls;
-using Branta.Classes;
+﻿using Branta.Classes;
 using Branta.Stores;
 using Branta.ViewModels;
+using System.Windows;
+using System.Windows.Controls;
 
 namespace Branta.Windows;
 
@@ -10,14 +10,14 @@ public partial class SettingsWindow
 {
     private readonly SettingsViewModel _viewModel;
 
-    public SettingsWindow(Settings settings, CheckSumStore checkSumStore, InstallerHashStore installerHashStore, WalletVerificationViewModel walletVerificationViewModel, InstallerVerificationViewModel installerVerificationViewModel)
+    public SettingsWindow(Settings settings, CheckSumStore checkSumStore, InstallerHashStore installerHashStore, WalletVerificationViewModel walletVerificationViewModel, InstallerVerificationViewModel installerVerificationViewModel, LanguageStore languageStore)
     {
         InitializeComponent();
 
         _viewModel = new SettingsViewModel(settings, checkSumStore, installerHashStore, walletVerificationViewModel, installerVerificationViewModel);
         DataContext = _viewModel;
 
-        SetLanguageDictionary();
+        SetLanguageDictionary(languageStore);
 
         var verifyEveryOptions = new List<TimeSpan>
         {

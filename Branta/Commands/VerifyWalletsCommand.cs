@@ -2,13 +2,13 @@
 using Branta.Classes.Wallets;
 using Branta.Enums;
 using Branta.Models;
+using Branta.Stores;
 using Branta.ViewModels;
 using Microsoft.Extensions.Logging;
 using System.Diagnostics;
 using System.IO;
 using System.Security.Cryptography;
 using System.Text;
-using System.Windows;
 using System.Windows.Forms;
 
 namespace Branta.Commands;
@@ -17,15 +17,15 @@ public class VerifyWalletsCommand : BaseCommand
 {
     private readonly NotificationCenter _notificationCenter;
     private readonly Settings _settings;
-    private readonly ResourceDictionary _resourceDictionary;
+    private readonly LanguageStore _languageStore;
     private readonly ILogger<VerifyWalletsCommand> _logger;
 
     public VerifyWalletsCommand(NotificationCenter notificationCenter, Settings settings,
-        ResourceDictionary resourceDictionary, ILogger<VerifyWalletsCommand> logger)
+        LanguageStore languageStore, ILogger<VerifyWalletsCommand> logger)
     {
         _notificationCenter = notificationCenter;
         _settings = settings;
-        _resourceDictionary = resourceDictionary;
+        _languageStore = languageStore;
         _logger = logger;
     }
 
@@ -72,7 +72,7 @@ public class VerifyWalletsCommand : BaseCommand
 
             _notificationCenter.Notify(new Notification
             {
-                Message = $"{walletType.Name}: {wallet.Status.GetName(_resourceDictionary)}",
+                Message = $"{walletType.Name}: {wallet.Status.GetName(_languageStore)}",
                 Icon = ToolTipIcon.None
             });
         }

@@ -1,7 +1,7 @@
 ﻿using Branta.ViewModels;
+using Branta.Windows;
 using System.Windows;
 using System.Windows.Controls;
-using Branta.Windows;
 
 namespace Branta.Views;
 
@@ -17,7 +17,7 @@ public partial class WalletVerificationView : UserControl
         var button = (Button)sender;
         var wallet = (WalletViewModel)button.Tag;
 
-        var walletDetailWindow = new WalletDetailWindow(wallet.Wallet)
+        var walletDetailWindow = new WalletDetailWindow(wallet.Wallet, wallet.LanguageStore)
         {
             Owner = Window.GetWindow(this),
             WindowStartupLocation = WindowStartupLocation.CenterOwner
@@ -31,7 +31,7 @@ public partial class WalletVerificationView : UserControl
         var button = (Button)sender;
         var wallet = (WalletViewModel)button.Tag;
 
-        var networkActivityWindow = new NetworkActivityWindow(wallet.Wallet)
+        var networkActivityWindow = new NetworkActivityWindow(wallet.Wallet, wallet.LanguageStore)
         {
             Owner = Window.GetWindow(this),
             WindowStartupLocation = WindowStartupLocation.CenterOwner

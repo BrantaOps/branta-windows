@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Input;
+using Branta.Stores;
 using Color = Branta.Enums.Color;
 
 namespace Branta.Classes;
@@ -56,26 +57,8 @@ public class BaseWindow : Window
         Close();
     }
 
-    protected ResourceDictionary SetLanguageDictionary()
+    protected void SetLanguageDictionary(LanguageStore languageStore)
     {
-        var resourceDictionary = GetLanguageDictionary();
-
-        Resources.MergedDictionaries.Add(resourceDictionary);
-
-        return resourceDictionary;
-    }
-
-    public static ResourceDictionary GetLanguageDictionary()
-    {
-        var resourceDictionary = new ResourceDictionary
-        {
-            Source = Thread.CurrentThread.CurrentCulture.ToString() switch
-            {
-                "en-US" => new Uri("Resources\\StringResources.xaml", UriKind.Relative),
-                _ => new Uri("Resources\\StringResources.xaml", UriKind.Relative),
-            }
-        };
-
-        return resourceDictionary;
+        Resources.MergedDictionaries.Add(languageStore.ResourceDictionary);
     }
 }

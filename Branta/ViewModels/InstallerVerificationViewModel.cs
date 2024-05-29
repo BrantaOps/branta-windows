@@ -1,6 +1,6 @@
 ﻿using Branta.Classes;
 using Branta.Commands;
-using System.Windows;
+using Branta.Stores;
 using System.Windows.Forms;
 using System.Windows.Input;
 using Timer = System.Timers.Timer;
@@ -10,7 +10,7 @@ namespace Branta.ViewModels;
 public class InstallerVerificationViewModel : BaseViewModel
 {
     private readonly NotificationCenter _notificationCenter;
-    private readonly ResourceDictionary _resourceDictionary;
+    private readonly LanguageStore _languageStore;
     private readonly Timer _timer;
 
     private Dictionary<string, string> _installerHashes;
@@ -31,10 +31,10 @@ public class InstallerVerificationViewModel : BaseViewModel
     public ICommand BrowseFilesCommand { get; }
     public ICommand DropFilesCommand { get; }
 
-    public InstallerVerificationViewModel(NotificationCenter notificationCenter, ResourceDictionary resourceDictionary, LoadInstallerHashesCommand loadInstallerHashesCommand)
+    public InstallerVerificationViewModel(NotificationCenter notificationCenter, LanguageStore languageStore, LoadInstallerHashesCommand loadInstallerHashesCommand)
     {
         _notificationCenter = notificationCenter;
-        _resourceDictionary = resourceDictionary;
+        _languageStore = languageStore;
 
         LoadInstallerHashesCommand = loadInstallerHashesCommand;
         LoadInstallerHashesCommand.Execute(this);
@@ -53,7 +53,7 @@ public class InstallerVerificationViewModel : BaseViewModel
         {
             _notificationCenter.Notify(new Notification
             {
-                Message = _resourceDictionary["InstallerHashesLoading"]?.ToString(),
+                Message = _languageStore.Get("InstallerHashesLoading"),
                 Icon = ToolTipIcon.Info
             });
             return;
@@ -68,12 +68,12 @@ public class InstallerVerificationViewModel : BaseViewModel
             _notificationCenter.Notify(filename != null
                 ? new Notification
                 {
-                    Message = (string)_resourceDictionary["InstallerValid"],
+                    Message = _languageStore.Get("InstallerValid"),
                     Icon = ToolTipIcon.None
                 }
                 : new Notification
                 {
-                    Message = (string)_resourceDictionary["InstallerInvalid"],
+                    Message = _languageStore.Get("InstallerInvalid"),
                     Icon = ToolTipIcon.Error
                 });
         }

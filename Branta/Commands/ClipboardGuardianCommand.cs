@@ -6,13 +6,14 @@ using System.IO;
 using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Windows;
+using Branta.Stores;
 
 namespace Branta.Commands;
 
 public partial class ClipboardGuardianCommand : BaseCommand
 {
     private readonly NotificationCenter _notificationCenter;
-    private readonly ResourceDictionary _resourceDictionary;
+    private readonly LanguageStore _languageStore;
     private readonly Settings _settings;
     private readonly ILogger<ClipboardGuardianCommand> _logger;
 
@@ -23,11 +24,11 @@ public partial class ClipboardGuardianCommand : BaseCommand
     private HashSet<string> Bip39Words { get; set; }
 
     public ClipboardGuardianCommand(NotificationCenter notificationCenter, Settings settings,
-        ResourceDictionary resourceDictionary, ILogger<ClipboardGuardianCommand> logger)
+        LanguageStore languageStore, ILogger<ClipboardGuardianCommand> logger)
     {
         _notificationCenter = notificationCenter;
         _settings = settings;
-        _resourceDictionary = resourceDictionary;
+        _languageStore = languageStore;
         _logger = logger;
     }
 
@@ -46,13 +47,13 @@ public partial class ClipboardGuardianCommand : BaseCommand
 
         var clipboardItem = Process(clipBoardContent) ?? new ClipboardItem
         {
-            Value = _resourceDictionary["ClipboardGuardian_None"]?.ToString(),
+            Value = _languageStore.Get("ClipboardGuardian_None"),
             IsDefault = true
         };
 
-        viewModel.ClipboardItem = new ClipboardItemViewModel(clipboardItem, _resourceDictionary);
+        viewModel.ClipboardItem = new ClipboardItemViewModel(clipboardItem, _languageStore);
 
-        if (clipboardItem?.Notification != null)
+        if (clipboardItem.Notification != null)
         {
             _notificationCenter.Notify(clipboardItem.Notification);
         }
@@ -63,7 +64,7 @@ public partial class ClipboardGuardianCommand : BaseCommand
         if (CheckForBitcoinAddress(clipBoardContent))
         {
             return new ClipboardItem(_settings.ClipboardGuardian.BitcoinAddressesEnabled,
-                _resourceDictionary,
+                _languageStore,
                 "BitcoinAddress",
                 clipBoardContent);
         }
@@ -71,35 +72,35 @@ public partial class ClipboardGuardianCommand : BaseCommand
         if (CheckForSeedPhrase(clipBoardContent))
         {
             return new ClipboardItem(_settings.ClipboardGuardian.SeedPhraseEnabled,
-                _resourceDictionary,
+                _languageStore,
                 "SeedPhrase");
         }
 
         if (CheckForXPub(clipBoardContent))
         {
             return new ClipboardItem(_settings.ClipboardGuardian.ExtendedPublicKeyEnabled,
-                _resourceDictionary,
+                _languageStore,
                 "BitcoinPublicKey");
         }
 
         if (CheckForXPrv(clipBoardContent))
         {
             return new ClipboardItem(_settings.ClipboardGuardian.PrivateKeyEnabled,
-                _resourceDictionary,
+                _languageStore,
                 "BitcoinPrivateKey");
         }
 
         if (CheckForNPub(clipBoardContent))
         {
             return new ClipboardItem(_settings.ClipboardGuardian.NostrPublicKeyEnabled,
-                _resourceDictionary,
+                _languageStore,
                 "NostrPublicKey");
         }
 
         if (CheckForNPrv(clipBoardContent))
         {
             return new ClipboardItem(_settings.ClipboardGuardian.NostrPrivateKeyEnabled,
-                _resourceDictionary,
+                _languageStore,
                 "NostrPrivateKey");
         }
 

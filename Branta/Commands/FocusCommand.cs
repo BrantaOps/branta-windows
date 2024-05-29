@@ -2,9 +2,9 @@
 using Branta.Classes.Wallets;
 using Branta.Enums;
 using Branta.Models;
+using Branta.Stores;
 using Microsoft.Extensions.Logging;
 using System.Diagnostics;
-using System.Windows;
 
 namespace Branta.Commands;
 
@@ -12,17 +12,17 @@ public class FocusCommand : BaseCommand
 {
     private readonly NotificationCenter _notificationCenter;
     private readonly Settings _settings;
-    private readonly ResourceDictionary _resourceDictionary;
+    private readonly LanguageStore _languageStore;
 
     private Dictionary<BaseWalletType, WalletStatus> _walletTypes;
     private readonly ILogger<FocusCommand> _logger;
 
-    public FocusCommand(NotificationCenter notificationCenter, Settings settings, ResourceDictionary resourceDictionary,
+    public FocusCommand(NotificationCenter notificationCenter, Settings settings, LanguageStore languageStore,
         ILogger<FocusCommand> logger)
     {
         _notificationCenter = notificationCenter;
         _settings = settings;
-        _resourceDictionary = resourceDictionary;
+        _languageStore = languageStore;
         _logger = logger;
     }
 
@@ -63,8 +63,8 @@ public class FocusCommand : BaseCommand
 
             _notificationCenter.Notify(new Notification
             {
-                Message = string.Format(_resourceDictionary["FocusMessage"]?.ToString() ?? "", wallet.Name,
-                    wallet.Version, wallet.Status.GetName(_resourceDictionary))
+                Message = _languageStore.Format("FocusMessage", wallet.Name, wallet.Version,
+                    wallet.Status.GetName(_languageStore))
             });
 
             _walletTypes[walletType] = wallet.Status;

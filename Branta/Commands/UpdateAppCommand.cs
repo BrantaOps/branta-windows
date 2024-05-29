@@ -1,5 +1,5 @@
 ﻿using Branta.Classes;
-using System.Windows;
+using Branta.Stores;
 using System.Windows.Forms;
 
 namespace Branta.Commands;
@@ -7,15 +7,15 @@ namespace Branta.Commands;
 public class UpdateAppCommand : BaseAsyncCommand
 {
     private readonly NotificationCenter _notificationCenter;
-    private readonly ResourceDictionary _resourceDictionary;
+    private readonly LanguageStore _languageStore;
     private readonly GitHubClient _gitHubClient;
 
     private bool _isUpdateAvailableShow;
 
-    public UpdateAppCommand(NotificationCenter notificationCenter, ResourceDictionary resourceDictionary)
+    public UpdateAppCommand(NotificationCenter notificationCenter, LanguageStore languageStore)
     {
         _notificationCenter = notificationCenter;
-        _resourceDictionary = resourceDictionary;
+        _languageStore = languageStore;
         _gitHubClient = new GitHubClient();
     }
 
@@ -35,13 +35,13 @@ public class UpdateAppCommand : BaseAsyncCommand
             _notificationCenter.Notify(new Notification
             {
                 Icon = ToolTipIcon.Info,
-                Message = string.Format(_resourceDictionary["UpdateApp"]?.ToString() ?? "", latestVersion)
+                Message = _languageStore.Format("UpdateApp", latestVersion)
             });
 
             if (_isUpdateAvailableShow == false)
             {
-                _notificationCenter.NotifyIcon.ContextMenuStrip?
-                    .Items.Add(_resourceDictionary["NotifyIcon_UpdateAvailable"]?.ToString(), null, OnClick_UpdateAvailable);
+                _notificationCenter.NotifyIcon.ContextMenuStrip?.Items.Add(
+                    _languageStore.Get("NotifyIcon_UpdateAvailable"), null, OnClick_UpdateAvailable);
                 _isUpdateAvailableShow = true;
             }
         }

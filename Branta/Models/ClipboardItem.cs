@@ -1,5 +1,5 @@
 ﻿using Branta.Classes;
-using System.Windows;
+using Branta.Stores;
 
 namespace Branta.Models;
 
@@ -17,15 +17,17 @@ public class ClipboardItem
     {
     }
 
-    public ClipboardItem(bool enabled, ResourceDictionary resourceDictionary, string resourceKey, string value = null)
+    public ClipboardItem(bool enabled, LanguageStore languageStore, string resourceKey, string value = null)
     {
-        Name = resourceDictionary[$"ClipboardGuardian_{resourceKey}Name"]?.ToString();
+        Name = languageStore.Get($"ClipboardGuardian_{resourceKey}Name");
         Value = value;
         IsDefault = false;
-        Notification = enabled ? new Notification()
-        {
-            Title = resourceDictionary[$"ClipboardGuardian_{resourceKey}Title"]?.ToString(),
-            Message = resourceDictionary[$"ClipboardGuardian_{resourceKey}Message"]?.ToString(),
-        } : null;
+        Notification = enabled
+            ? new Notification
+            {
+                Title = languageStore.Get($"ClipboardGuardian_{resourceKey}Title"),
+                Message = languageStore.Get($"ClipboardGuardian_{resourceKey}Message"),
+            }
+            : null;
     }
 }
