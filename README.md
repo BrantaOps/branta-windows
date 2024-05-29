@@ -26,8 +26,9 @@
    - Verify Wallets automatically upon launch
  - ⚡️ Drag & Drop PGP Verification for Installers
 
-![Branta Screenshot](https://github.com/BrantaOps/branta-windows/assets/110685100/71b885ea-e077-44d2-9ae5-d03bd3e666a8)
 
+
+![Branta Screenshot](https://github.com/BrantaOps/branta-windows/assets/110685100/7158b0ad-66b2-4725-bf6d-06c307056c1c)
 
 
 #### Supported Wallets
