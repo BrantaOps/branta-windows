@@ -12,6 +12,7 @@ using Serilog.Core;
 using Serilog.Events;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
+using System.Text;
 using System.Windows;
 
 namespace Branta;
@@ -33,6 +34,21 @@ public partial class App
 
     [DllImport("user32.dll")]
     private static extern bool ShowWindowAsync(IntPtr hWnd, int nCmdShow);
+
+    private delegate bool EnumWindowsProc(IntPtr hWnd, IntPtr lParam);
+
+    [DllImport("user32.dll")]
+    private static extern bool EnumWindows(EnumWindowsProc enumProc, IntPtr lParam);
+
+    [DllImport("user32.dll", SetLastError = true)]
+    private static extern int GetWindowThreadProcessId(IntPtr hWnd, out int lpdwProcessId);
+
+    [DllImport("user32.dll", SetLastError = true)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    private static extern bool IsWindowVisible(IntPtr hWnd);
+
+    [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
+    private static extern int GetWindowText(IntPtr hWnd, StringBuilder lpString, int nMaxCount);
 
     public App()
     {
@@ -100,19 +116,21 @@ public partial class App
 
     protected override void OnStartup(StartupEventArgs e)
     {
-        _host.Start();
-
         try
         {
             var runningProcess = GetRunningProcess();
 
             if (runningProcess != null)
             {
-                if (runningProcess.MainWindowHandle != IntPtr.Zero)
+                var mainWindowHandle = runningProcess.MainWindowHandle != IntPtr.Zero
+                    ? runningProcess.MainWindowHandle
+                    : GetMainWindowHandle(runningProcess.Id);
+
+                if (mainWindowHandle != IntPtr.Zero)
                 {
-                    ShowWindowAsync(runningProcess.MainWindowHandle, SW_RESTORE);
-                    SetForegroundWindow(runningProcess.MainWindowHandle);
-                    SendMessage(runningProcess.MainWindowHandle, WM_SHOWWINDOW, IntPtr.Zero,
+                    ShowWindowAsync(mainWindowHandle, SW_RESTORE);
+                    SetForegroundWindow(mainWindowHandle);
+                    SendMessage(mainWindowHandle, WM_SHOWWINDOW, IntPtr.Zero,
                         new IntPtr(SW_PARENTOPENING));
 
                     Current.Shutdown();
@@ -125,8 +143,14 @@ public partial class App
             // ignored
         }
 
+        _host.Start();
+
         var mainWindow = _host.Services.GetRequiredService<MainWindow>();
-        mainWindow.Show();
+
+        if (!Environment.GetCommandLineArgs().Contains("headless"))
+        {
+            mainWindow.Show();
+        }
 
         base.OnStartup(e);
     }
@@ -146,5 +170,33 @@ public partial class App
             .GetProcesses()
             .FirstOrDefault(p => p.Id != currentProcess.Id &&
                                  p.ProcessName.Equals(currentProcess.ProcessName, StringComparison.Ordinal));
+    }
+
+    private static IntPtr GetMainWindowHandle(int processId)
+    {
+        var mainWindowHandle = IntPtr.Zero;
+
+        var process = Process.GetProcessById((int)processId);
+
+        EnumWindows(delegate (IntPtr hWnd, IntPtr lParam)
+        {
+            GetWindowThreadProcessId(hWnd, out var windowProcessId);
+
+            if (windowProcessId == processId)
+            {
+                var windowText = new StringBuilder(256);
+                GetWindowText(hWnd, windowText, windowText.Capacity);
+
+                if (string.Equals(windowText.ToString(), "Branta", StringComparison.CurrentCultureIgnoreCase))
+                {
+                    mainWindowHandle = hWnd;
+                    return false;
+                }
+            }
+
+            return true;
+        }, IntPtr.Zero);
+
+        return mainWindowHandle;
     }
 }

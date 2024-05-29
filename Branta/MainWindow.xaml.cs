@@ -58,13 +58,6 @@ public partial class MainWindow
             SetLanguageDictionary(languageStore);
             Analytics.Init(appSettings);
             SetResizeImage(ImageScreenSize);
-
-            var args = Environment.GetCommandLineArgs();
-
-            if (args.Contains("headless"))
-            {
-                OnClosing(new CancelEventArgs());
-            }
         }
         catch (Exception ex)
         {
