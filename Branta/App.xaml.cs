@@ -104,13 +104,13 @@ public partial class App
 
                 services.AddTransient<SettingsWindow>();
 
-                services.AddSingleton(s => new MainWindow(s.GetRequiredService<NotificationCenter>(),
-                    s.GetRequiredService<LanguageStore>(), s.GetRequiredService<AppSettings>(),
-                    s.GetRequiredService<OpenSettingsWindowCommand>(), s.GetRequiredService<ILogger<MainWindow>>())
-                {
-                    WindowStartupLocation = WindowStartupLocation.CenterScreen,
-                    DataContext = s.GetRequiredService<MainViewModel>()
-                });
+                services.AddSingleton(s =>
+                    new MainWindow(s.GetRequiredService<LanguageStore>(), s.GetRequiredService<AppSettings>(),
+                        s.GetRequiredService<ILogger<MainWindow>>())
+                    {
+                        WindowStartupLocation = WindowStartupLocation.CenterScreen,
+                        DataContext = s.GetRequiredService<MainViewModel>()
+                    });
             })
             .Build();
     }
@@ -148,6 +148,10 @@ public partial class App
 
         var mainWindow = _host.Services.GetRequiredService<MainWindow>();
 
+        var notificationCenter = _host.Services.GetRequiredService<NotificationCenter>();
+
+        notificationCenter.Setup(mainWindow, _host.Services.GetRequiredService<OpenSettingsWindowCommand>());
+
         if (!Environment.GetCommandLineArgs().Contains("headless"))
         {
             mainWindow.Show();
@@ -179,7 +183,7 @@ public partial class App
 
         var process = Process.GetProcessById((int)processId);
 
-        EnumWindows(delegate (IntPtr hWnd, IntPtr lParam)
+        EnumWindows(delegate(IntPtr hWnd, IntPtr lParam)
         {
             GetWindowThreadProcessId(hWnd, out var windowProcessId);
 
