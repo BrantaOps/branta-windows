@@ -1,8 +1,6 @@
 ﻿using Branta.Classes;
 using Branta.Commands;
 using Branta.Stores;
-using Branta.ViewModels;
-using Branta.Windows;
 using Microsoft.Extensions.Logging;
 using System.ComponentModel;
 using System.Windows;
@@ -15,28 +13,17 @@ namespace Branta;
 
 public partial class MainWindow
 {
-    private readonly Settings _settings;
-    private readonly LanguageStore _languageStore;
-    private readonly WalletVerificationViewModel _walletVerificationViewModel;
-    private readonly InstallerVerificationViewModel _installerVerificationViewModel;
-    private readonly CheckSumStore _checkSumStore;
     private readonly NotificationCenter _notificationCenter;
-    private readonly InstallerHashStore _installerHashStore;
 
     private ICommand HelpCommand { get; }
 
-    public MainWindow(NotificationCenter notificationCenter, Settings settings, LanguageStore languageStore,
-        WalletVerificationViewModel walletVerificationViewModel, CheckSumStore checkSumStore, InstallerHashStore installerHashStore,
-        InstallerVerificationViewModel installerVerificationViewModel, AppSettings appSettings, ILogger<MainWindow> logger)
+    private ICommand OpenSettingsWindowCommand { get; }
+
+    public MainWindow(NotificationCenter notificationCenter, LanguageStore languageStore, AppSettings appSettings,
+        OpenSettingsWindowCommand openSettingsWindowCommand, ILogger<MainWindow> logger)
     {
         HelpCommand = new HelpCommand();
-
-        _settings = settings;
-        _languageStore = languageStore;
-        _walletVerificationViewModel = walletVerificationViewModel;
-        _installerVerificationViewModel = installerVerificationViewModel;
-        _checkSumStore = checkSumStore;
-        _installerHashStore = installerHashStore;
+        OpenSettingsWindowCommand = openSettingsWindowCommand;
 
         MaxHeight = SystemParameters.MaximizedPrimaryScreenHeight;
         MaxWidth = SystemParameters.MaximizedPrimaryScreenWidth;
@@ -102,17 +89,6 @@ public partial class MainWindow
 
     private void OnClick_Settings(object sender, EventArgs e)
     {
-        var settingsWindow = new SettingsWindow(_settings, _checkSumStore, _installerHashStore, _walletVerificationViewModel, _installerVerificationViewModel, _languageStore);
-
-        settingsWindow.ShowDialog();
-
-        var settings = settingsWindow.GetSettings();
-
-        if (settings.WalletVerification.WalletVerifyEvery != _settings.WalletVerification.WalletVerifyEvery)
-        {
-            _walletVerificationViewModel.SetTimer(settings.WalletVerification.WalletVerifyEvery);
-        }
-
-        _settings.Update(settings);
+        OpenSettingsWindowCommand.Execute(null);
     }
 }

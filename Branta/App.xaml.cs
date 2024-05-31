@@ -91,6 +91,7 @@ public partial class App
                 services.AddSingleton<FocusCommand>();
                 services.AddSingleton<LoadCheckSumsCommand>();
                 services.AddSingleton<LoadInstallerHashesCommand>();
+                services.AddSingleton<OpenSettingsWindowCommand>();
                 services.AddSingleton<UpdateAppCommand>();
                 services.AddSingleton<VerifyWalletsCommand>();
 
@@ -101,11 +102,11 @@ public partial class App
                 services.AddSingleton<WalletVerificationViewModel>();
                 services.AddSingleton<ClipboardGuardianViewModel>();
 
+                services.AddTransient<SettingsWindow>();
+
                 services.AddSingleton(s => new MainWindow(s.GetRequiredService<NotificationCenter>(),
-                    s.GetRequiredService<Settings>(), s.GetRequiredService<LanguageStore>(),
-                    s.GetRequiredService<WalletVerificationViewModel>(), s.GetRequiredService<CheckSumStore>(),
-                    s.GetRequiredService<InstallerHashStore>(), s.GetRequiredService<InstallerVerificationViewModel>(),
-                    s.GetRequiredService<AppSettings>(), s.GetRequiredService<ILogger<MainWindow>>())
+                    s.GetRequiredService<LanguageStore>(), s.GetRequiredService<AppSettings>(),
+                    s.GetRequiredService<OpenSettingsWindowCommand>(), s.GetRequiredService<ILogger<MainWindow>>())
                 {
                     WindowStartupLocation = WindowStartupLocation.CenterScreen,
                     DataContext = s.GetRequiredService<MainViewModel>()
