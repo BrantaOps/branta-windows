@@ -10,8 +10,6 @@
 ## Docs
 https://docs.branta.pro/
 
-![.NET Workflow Badge](https://github.com/BrantaOps/branta-windows/actions/workflows/dotnet.yml/badge.svg)
-
 ## Building
 
 Prerequisites 
