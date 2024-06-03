@@ -41,7 +41,7 @@ Note: For the installer to work the ProductCode and ProductVersion in `Branta.Se
 
 ## Donate
 
-Branta is free open source software. If you can, consider donating on [Geyser](https://geyser.fund/project/branta). All funds go towards improving and automating security for your stack.
+Branta is free open source software. If you can, consider donating on [Geyser](https://geyser.fund/project/branta) 🙏
 
 
 ## Feature Requests & Bug Reporting
