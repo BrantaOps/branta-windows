@@ -1,7 +1,14 @@
 bitcoinCore:
     "27.0.0":
         sha256: "6d8e32813ef3911ea6d65c9865915ba1541cb0a5729bcba03ecee27379f78e79"
-        date: 2024-05-27 00:00:00.00
+        date: 2024-04-16T20:16:23.00
+    "25.2.0":
+        sha256: "6eee21684b94a4ddb631f3a85f5023bfd7963817345f6ac7e0cc108ca74b2df8"
+        date: 2024-04-16T19:45:27.00
+    "26.1.0":
+        sha256: "5cb2c51e6ecfc540047e8783723b6fe439e697f42ce5a56d0d9dc3dce7b39614"
+        date: 2024-04-02T14:11:52.00
+
 sparrow:
     "1.9.1":
         sha256: "92ac85c5d3981b9be149efd8d0f9badd4a950925523b9baa2cbb66e9275a1890"
