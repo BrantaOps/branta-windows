@@ -10,44 +10,9 @@
 ## Docs
 https://docs.branta.pro/
 
-## Building
-
-Prerequisites 
- - [.NET 8.0](https://dotnet.microsoft.com/en-us/download/dotnet/8.0)
-
-Clone the repo
-```
-git clone https://github.com/BrantaOps/branta-windows.git
-```
-
-Create a standalone executable
-```
-dotnet publish Branta/Branta.csproj -c Release --self-contained -r win-x64 -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true
-```
-Executable can be found in `Branta\bin\Release\net8.0-windows\win-x64\publish\`
-
-*OR*
-
-Run from Source
-```
-dotnet run
-```
-
-## Releases
-
-To Create the MSI installer Build the Branta.Setup project in Release
-
-Note: For the installer to work the ProductCode and ProductVersion in `Branta.Setup.vdproj` must be updated.
-
-## Donate
-
-Branta is free open source software. If you can, consider donating on [Geyser](https://geyser.fund/project/branta) 🙏
-
-
 ## Feature Requests & Bug Reporting
 
 Open a [new issue](https://github.com/BrantaOps/branta-windows/issues/new) on Github and we'll reply as soon as we can.
-
 
 ## Licensing
 
