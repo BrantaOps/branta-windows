@@ -92,12 +92,6 @@
     <system:String x:Key="LastUpdatedTitle">Last Sync</system:String>
     <system:String x:Key="RefreshNow">Refresh Now</system:String>
 
-    <!-- Network Activity Window -->
-    <system:String x:Key="Connections">Connections</system:String>
-    <system:String x:Key="InsufficientPrivileges">Admin rights required for this feature.</system:String>
-    <system:String x:Key="ProcessId">Process ID</system:String>
-    <system:String x:Key="IpAddress">IP Address</system:String>
-
     <!--Installer Notifications -->
     <system:String x:Key="InstallerValid">Installer is valid.</system:String>
     <system:String x:Key="InstallerInvalid">Installer is not valid or unsupported.</system:String>
