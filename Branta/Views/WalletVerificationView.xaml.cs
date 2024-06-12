@@ -25,18 +25,4 @@ public partial class WalletVerificationView : UserControl
 
         walletDetailWindow.Show();
     }
-
-    private void OnClick_NetworkActivityDetails(object sender, RoutedEventArgs e)
-    {
-        var button = (Button)sender;
-        var wallet = (WalletViewModel)button.Tag;
-
-        var networkActivityWindow = new NetworkActivityWindow(wallet.Wallet, wallet.LanguageStore)
-        {
-            Owner = Window.GetWindow(this),
-            WindowStartupLocation = WindowStartupLocation.CenterOwner
-        };
-
-        networkActivityWindow.Show();
-    }
 }

@@ -35,9 +35,8 @@
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"
-                                          MinWidth="240" />
-                        <ColumnDefinition Width="145" />
-                        <ColumnDefinition Width="135" />
+                                          MinWidth="310" />
+                        <ColumnDefinition Width="215" />
                     </Grid.ColumnDefinitions>
 
                     <Border Grid.Column="0"
@@ -48,16 +47,8 @@
                                    VerticalAlignment="Center"
                                    HorizontalAlignment="Center" />
                     </Border>
-                    <Border Grid.Column="1"
-                            BorderBrush="#666"
-                            BorderThickness="0,0,1,0">
-                        <TextBlock Text="{DynamicResource LastScannedHeader}"
-                                   Foreground="white"
-                                   VerticalAlignment="Center"
-                                   HorizontalAlignment="Center" />
-                    </Border>
-                    <TextBlock Grid.Column="2"
-                               Text="{DynamicResource NetworkActivityHeader}"
+                    <TextBlock Grid.Column="1"
+                               Text="{DynamicResource LastScannedHeader}"
                                Foreground="white"
                                VerticalAlignment="Center"
                                HorizontalAlignment="Center" />
@@ -75,9 +66,8 @@
                                       x:Name="FooBar">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="*"
-                                                          MinWidth="240" />
-                                        <ColumnDefinition Width="145" />
-                                        <ColumnDefinition Width="135" />
+                                                          MinWidth="310" />
+                                        <ColumnDefinition Width="215" />
                                     </Grid.ColumnDefinitions>
                                     <StackPanel VerticalAlignment="Center"
                                                 HorizontalAlignment="Center">
@@ -102,17 +92,6 @@
                                                Foreground="White"
                                                VerticalAlignment="Center"
                                                HorizontalAlignment="Center" />
-                                    <StackPanel Grid.Column="2"
-                                                VerticalAlignment="Center"
-                                                HorizontalAlignment="Center">
-                                        <Button Content="{DynamicResource NetworkActivityText}"
-                                                Style="{DynamicResource SecondaryButton}"
-                                                FontSize="16"
-                                                Padding="10,2"
-                                                Tag="{Binding}"
-                                                IsEnabled="{Binding IsNetworkActivityEnabled}"
-                                                Click="OnClick_NetworkActivityDetails" />
-                                    </StackPanel>
                                 </Grid>
                                 <DataTemplate.Triggers>
                                     <Trigger Property="ItemsControl.AlternationIndex"

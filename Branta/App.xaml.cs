@@ -95,8 +95,6 @@ public partial class App
                 services.AddSingleton<UpdateAppCommand>();
                 services.AddSingleton<VerifyWalletsCommand>();
 
-                services.AddSingleton<NetworkActivityWindow>();
-
                 services.AddSingleton<MainViewModel>();
                 services.AddSingleton<InstallerVerificationViewModel>();
                 services.AddSingleton<WalletVerificationViewModel>();
