@@ -1,0 +1,9 @@
+﻿<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs">
+  <Package Name="Branta.Wix" Manufacturer="TODO Manufacturer" Version="1.0.0.0" UpgradeCode="4df52912-9d80-4a14-b98b-33a114a4f5ac">
+    <MajorUpgrade DowngradeErrorMessage="!(loc.DowngradeError)" />
+
+    <Feature Id="Main">
+      <ComponentGroupRef Id="ExampleComponents" />
+    </Feature>
+  </Package>
+</Wix>
