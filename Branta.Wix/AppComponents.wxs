@@ -1,7 +1,7 @@
 <Wix xmlns="http://wixtoolset.org/schemas/v4/wxs">
 	<Fragment>
 		<ComponentGroup Id="AppComponents" Directory="INSTALLFOLDER">
-			<Files Include="..\Branta\bin\Release\net8.0-windows\**\*" />
+			<Files Include="..\Branta\bin\$(Configuration)\net8.0-windows\publish\win-x64\**\*" />
 		</ComponentGroup>
 	</Fragment>
 </Wix>
