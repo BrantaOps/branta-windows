@@ -1,7 +1,28 @@
 <Wix xmlns="http://wixtoolset.org/schemas/v4/wxs">
 	<Fragment>
-		<ComponentGroup Id="AppComponents" Directory="INSTALLFOLDER">
+		<ComponentGroup Id="AppComponents"
+						Directory="INSTALLFOLDER">
 			<Files Include="..\Branta\bin\$(Configuration)\net8.0-windows\publish\win-x64\**\*" />
+
+			<Component Id="StartMenuFolder"
+					   Guid="15F98546-06A0-4D5C-8673-9B9B5DABEADB"
+					   Directory="AppProgramsFolder">
+				<RemoveFolder Id="RemoveStartMenuFolder"
+							  On="uninstall" />
+
+				<RegistryValue Root="HKCU"
+							   Key="Software\Branta LLC\Branta"
+							   Name="installed"
+							   Type="integer"
+							   Value="1"
+							   KeyPath="yes" />
+
+				<Shortcut Id="ApplicationStartMenuShortcut"
+						  Name="Branta"
+						  Description="Enhance your Bitcoin custody and verify payments."
+						  Target="[INSTALLFOLDER]Branta.exe"
+						  WorkingDirectory="INSTALLFOLDER" />
+			</Component>
 		</ComponentGroup>
 	</Fragment>
 </Wix>

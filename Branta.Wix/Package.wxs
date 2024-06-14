@@ -6,9 +6,12 @@
 		<MajorUpgrade DowngradeErrorMessage="!(loc.DowngradeError)" />
 
 		<MediaTemplate EmbedCab="yes" />
+		
+		<Icon Id="BrantaIcon" SourceFile="../Branta/Assets/black_circle.ico" />
 
 		<Feature Id="Main">
 			<ComponentGroupRef Id="AppComponents" />
+			<ComponentRef Id="StartMenuFolder" />
 		</Feature>
 	</Package>
 </Wix>
