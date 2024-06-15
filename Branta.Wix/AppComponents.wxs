@@ -21,7 +21,8 @@
                           Name="Branta"
                           Description="Enhance your Bitcoin custody and verify payments."
                           Target="[INSTALLFOLDER]Branta.exe"
-                          WorkingDirectory="INSTALLFOLDER" />
+                          WorkingDirectory="INSTALLFOLDER"
+                          Icon="BrantaIcon" />
             </Component>
         </ComponentGroup>
     </Fragment>
