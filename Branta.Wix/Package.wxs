@@ -1,17 +1,17 @@
 ﻿<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs">
-	<Package Name="Branta"
+    <Package Name="Branta"
 			 Manufacturer="Branta LLC"
 			 Version="0.0.4"
 			 UpgradeCode="4df52912-9d80-4a14-b98b-33a114a4f5ac">
-		<MajorUpgrade DowngradeErrorMessage="!(loc.DowngradeError)" />
+        <MajorUpgrade DowngradeErrorMessage="!(loc.DowngradeError)" />
 
-		<MediaTemplate EmbedCab="yes" />
-		
-		<Icon Id="BrantaIcon" SourceFile="../Branta/Assets/black_circle.ico" />
+        <MediaTemplate EmbedCab="yes" />
 
-		<Feature Id="Main">
-			<ComponentGroupRef Id="AppComponents" />
-			<ComponentRef Id="StartMenuFolder" />
-		</Feature>
-	</Package>
+        <Icon Id="BrantaIcon" SourceFile="../Branta/Assets/black_circle.ico" />
+
+        <Feature Id="Main">
+            <ComponentGroupRef Id="AppComponents" />
+            <ComponentRef Id="StartMenuFolder" />
+        </Feature>
+    </Package>
 </Wix>
