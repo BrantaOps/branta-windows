@@ -13,6 +13,7 @@
         <Feature Id="Main">
             <ComponentGroupRef Id="AppComponents" />
             <ComponentRef Id="StartMenuFolder" />
+            <ComponentRef Id="StartupFolder" />
         </Feature>
     </Package>
 </Wix>

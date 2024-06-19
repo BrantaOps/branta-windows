@@ -24,6 +24,25 @@
                           WorkingDirectory="INSTALLFOLDER"
                           Icon="BrantaIcon" />
             </Component>
+
+            <Component Id="StartupFolder"
+                       Guid="52EF4871-EFC2-4AE7-813A-1D9274912D1B"
+                       Directory="StartupFolder">
+                <RegistryValue Root="HKCU"
+                               Key="Software\Branta LLC\Branta"
+                               Name="startup"
+                               Type="integer"
+                               Value="1"
+                               KeyPath="yes" />
+
+                <Shortcut Id="ApplicationStartupShortcut"
+                          Name="Branta"
+                          Description="Enhance your Bitcoin custody and verify payments."
+                          Target="[INSTALLFOLDER]Branta.exe"
+                          WorkingDirectory="INSTALLFOLDER"
+                          Icon="BrantaIcon"
+                          Arguments="headless" />
+            </Component>
         </ComponentGroup>
     </Fragment>
 </Wix>
