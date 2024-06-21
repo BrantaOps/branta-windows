@@ -13,7 +13,7 @@ public partial class WalletDetailWindow
     {
         InitializeComponent();
 
-        SetLanguageDictionary(languageStore);
+        this.SetLanguageDictionary(languageStore);
 
         TbLink.Foreground = Color.Brush(Color.Gold);
 

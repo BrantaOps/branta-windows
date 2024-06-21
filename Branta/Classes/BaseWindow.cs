@@ -56,9 +56,4 @@ public class BaseWindow : Window
     {
         Close();
     }
-
-    protected void SetLanguageDictionary(LanguageStore languageStore)
-    {
-        Resources.MergedDictionaries.Add(languageStore.ResourceDictionary);
-    }
 }
