@@ -7,9 +7,10 @@
                 xmlns:views="clr-namespace:Branta.Views"
                 mc:Ignorable="d"
                 Title="Settings"
-                Height="640"
-                Width="600"
-                MinHeight="300"
+                Height="700"
+                Width="650"
+                MinHeight="700"
+                MinWidth="650"
                 Icon="pack://application:,,,/Assets/black_circle.png"
                 WindowStyle="None"
                 MouseLeftButtonDown="MainWindow_OnMouseLeftButtonDown">
@@ -45,9 +46,15 @@
                    Source="../Assets/goldwhitecropped.png"
                    Width="400" />
 
-            <views:SettingsView Grid.Row="2"
-                                x:Name="SettingsView" 
-                                Margin="40,0" />
+            <TabControl Grid.Row="2"
+                        Style="{DynamicResource TabControlStyle}"
+                        Margin="40,0"
+                        Padding="0,20">
+                <TabItem Header="Settings"
+                         Style="{DynamicResource TabItemStyle}">
+                    <views:SettingsView x:Name="SettingsView" />
+                </TabItem>
+            </TabControl>
 
             <Button Grid.Row="3"
                     Content="{DynamicResource Help}"

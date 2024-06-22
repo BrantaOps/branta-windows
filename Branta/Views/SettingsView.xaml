@@ -9,18 +9,10 @@
              MaxWidth="450">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        
-        <TextBlock Text="{DynamicResource SettingsTitle}"
-                   Margin="0, 0, 0, 20"
-                   Foreground="White"
-                   FontSize="20" />
-
-        <ScrollViewer Grid.Row="1"
-                      VerticalScrollBarVisibility="Auto"
+        <ScrollViewer VerticalScrollBarVisibility="Auto"
                       Padding="0,0,15,0"
                       Margin="0,0,0,30">
             <StackPanel>
@@ -113,7 +105,7 @@
             </StackPanel>
         </ScrollViewer>
 
-        <StackPanel Grid.Row="2">
+        <StackPanel Grid.Row="1">
             <Button Grid.Column="1"
                         Content="{DynamicResource Save}"
                         Command="{Binding SettingsSaveCommand}"
