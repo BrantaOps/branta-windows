@@ -4,6 +4,7 @@
                 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                 xmlns:src="clr-namespace:Branta.Classes"
+                xmlns:views="clr-namespace:Branta.Views"
                 mc:Ignorable="d"
                 Title="Settings"
                 Height="640"
@@ -26,7 +27,6 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="30" />
                 <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
@@ -45,112 +45,15 @@
                    Source="../Assets/goldwhitecropped.png"
                    Width="400" />
 
-            <TextBlock Grid.Row="2"
-                       Text="{DynamicResource SettingsTitle}"
-                       Margin="0, 0, 0, 20"
-                       Foreground="White"
-                       MaxWidth="450"
-                       FontSize="20" />
+            <views:SettingsView Grid.Row="2"
+                                x:Name="SettingsView" 
+                                Margin="40,0" />
 
-            <ScrollViewer Grid.Row="3"
-                          VerticalScrollBarVisibility="Auto"
-                          MaxWidth="450"
-                          Padding="0,0,15,0"
-                          Margin="0,0,0,30">
-                <StackPanel>
-                    <TextBlock Text="{DynamicResource ClipboardNotificationsTitle}"
-                               Margin="0,0,0,10"
-                               Foreground="White"
-                               FontSize="20" />
-
-                    <CheckBox Content="{DynamicResource BitcoinAddressesEnabledText}"
-                              IsChecked="{Binding BitcoinAddressesEnabled}"
-                              Style="{StaticResource CheckBox}" />
-
-                    <CheckBox Content="{DynamicResource SeedPhraseEnabledText}"
-                              IsChecked="{Binding SeedPhraseEnabled}"
-                              Style="{StaticResource CheckBox}" />
-
-                    <CheckBox Content="{DynamicResource ExtendedPublicKeyEnabledText}"
-                              IsChecked="{Binding ExtendedPublicKeyEnabled}"
-                              Style="{StaticResource CheckBox}" />
-
-                    <CheckBox Content="{DynamicResource PrivateKeyEnabledText}"
-                              IsChecked="{Binding PrivateKeyEnabled}"
-                              Style="{StaticResource CheckBox}" />
-
-                    <CheckBox Content="{DynamicResource NostrPublicKeyEnabledText}"
-                              IsChecked="{Binding NostrPublicKeyEnabled}"
-                              Style="{StaticResource CheckBox}" />
-
-                    <CheckBox Content="{DynamicResource NostrPrivateKeyEnabledText}"
-                              IsChecked="{Binding NostrPrivateKeyEnabled}"
-                              Style="{StaticResource CheckBox}" />
-
-                    <TextBlock Text="{DynamicResource WalletVerificationTitle}"
-                               Margin="0,0,0,10"
-                               Foreground="White"
-                               FontSize="20" />
-
-                    <Grid VerticalAlignment="Center">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="*" />
-                        </Grid.ColumnDefinitions>
-
-                        <TextBlock Text="{DynamicResource VerifyEveryText}"
-                                   Margin="0,0,0,10"
-                                   Foreground="#c2c2c2"
-                                   FontSize="15" />
-
-                        <ComboBox Grid.Column="1"
-                                  HorizontalAlignment="Right"
-                                  x:Name="ComboBoxVerifyEvery"
-                                  Margin="0,0,0,10"
-                                  SelectionChanged="ComboBoxVerifyEvery_OnSelectionChanged">
-                        </ComboBox>
-                    </Grid>
-                    <CheckBox Content="{DynamicResource LaunchingWalletEnabledText}"
-                              IsChecked="{Binding LaunchingWalletEnabled}"
-                              Style="{StaticResource CheckBox}" />
-
-                    <CheckBox Content="{DynamicResource WalletStatusChangeEnabledText}"
-                              IsChecked="{Binding WalletStatusChangeEnabled}"
-                              Style="{StaticResource CheckBox}" />
-
-
-                    <TextBlock Text="{DynamicResource LastUpdatedTitle}"
-                               Margin="0,0,0,10"
-                               Foreground="White"
-                               FontSize="20" />
-
-                    <Grid VerticalAlignment="Center">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="*" />
-                        </Grid.ColumnDefinitions>
-
-                        <TextBlock Text="{Binding LastUpdated}"
-                                   Margin="0,0,0,10"
-                                   Foreground="#c2c2c2"
-                                   FontSize="15" />
-
-                        <Button Grid.Column="1"
-                                Content="{DynamicResource RefreshNow}"
-                                Style="{DynamicResource PrimaryButton}"
-                                Click="OnClick_Refresh"
-                                HorizontalAlignment="Right"
-                                Padding="7,2,7,2"
-                                Margin="0,0,0,10" />
-                    </Grid>
-
-                </StackPanel>
-            </ScrollViewer>
-
-            <Button Grid.Row="4"
+            <Button Grid.Row="3"
                     Content="{DynamicResource Help}"
                     Style="{StaticResource SecondaryButton}"
                     Command="{Binding HelpCommand}"
+                    CommandParameter="{Binding DataContext}"
                     Foreground="#bbb"
                     HorizontalAlignment="Center"
                     Margin="10"

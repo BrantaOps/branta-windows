@@ -91,6 +91,7 @@
 
     <system:String x:Key="LastUpdatedTitle">Last Sync</system:String>
     <system:String x:Key="RefreshNow">Refresh Now</system:String>
+    <system:String x:Key="Save">Save</system:String>
 
     <!--Installer Notifications -->
     <system:String x:Key="InstallerValid">Installer is valid.</system:String>
