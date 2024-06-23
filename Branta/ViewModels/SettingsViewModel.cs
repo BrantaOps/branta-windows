@@ -1,151 +1,90 @@
 ﻿using Branta.Classes;
 using Branta.Commands;
 using Branta.Stores;
+using CommunityToolkit.Mvvm.ComponentModel;
 using System.Collections.ObjectModel;
 
 namespace Branta.ViewModels;
 
-public class SettingsViewModel : BaseViewModel
+public partial class SettingsViewModel : ObservableObject
 {
+	[ObservableProperty]
 	private bool _bitcoinAddressesEnabled;
 
-	public bool BitcoinAddressesEnabled
+	partial void OnBitcoinAddressesEnabledChanged(bool value)
 	{
-		get => _bitcoinAddressesEnabled;
-		set
-		{
-			_bitcoinAddressesEnabled = value;
-			OnPropertyChanged();
-			SaveSettings();
-		}
+		SaveSettings();
 	}
 
+	[ObservableProperty]
 	private bool _seedPhraseEnabled;
 
-	public bool SeedPhraseEnabled
+	partial void OnSeedPhraseEnabledChanged(bool value)
 	{
-		get => _seedPhraseEnabled;
-		set
-		{
-			_seedPhraseEnabled = value;
-			OnPropertyChanged();
-			SaveSettings();
-		}
+		SaveSettings();
 	}
 
+	[ObservableProperty]
 	private bool _extendedPublicKeyEnabled;
 
-	public bool ExtendedPublicKeyEnabled
+	partial void OnExtendedPublicKeyEnabledChanged(bool value)
 	{
-		get => _extendedPublicKeyEnabled;
-		set
-		{
-			_extendedPublicKeyEnabled = value;
-			OnPropertyChanged();
-			SaveSettings();
-		}
+		SaveSettings();
 	}
 
+	[ObservableProperty]
 	private bool _privateKeyEnabled;
 
-	public bool PrivateKeyEnabled
+	partial void OnPrivateKeyEnabledChanged(bool value)
 	{
-		get => _privateKeyEnabled;
-		set
-		{
-			_privateKeyEnabled = value;
-			OnPropertyChanged();
-			SaveSettings();
-		}
+		SaveSettings();
 	}
 
+	[ObservableProperty]
 	private bool _nostrPublicKeyEnabled;
 
-	public bool NostrPublicKeyEnabled
+	partial void OnNostrPublicKeyEnabledChanged(bool value)
 	{
-		get => _nostrPublicKeyEnabled;
-		set
-		{
-			_nostrPublicKeyEnabled = value;
-			OnPropertyChanged();
-			SaveSettings();
-		}
+		SaveSettings();
 	}
 
+	[ObservableProperty]
 	private bool _nostrPrivateKeyEnabled;
 
-	public bool NostrPrivateKeyEnabled
+	partial void OnPrivateKeyEnabledChanging(bool value)
 	{
-		get => _nostrPrivateKeyEnabled;
-		set
-		{
-			_nostrPrivateKeyEnabled = value;
-			OnPropertyChanged();
-			SaveSettings();
-		}
+		SaveSettings();
 	}
 
+	[ObservableProperty]
 	private bool _launchingWalletEnabled;
 
-	public bool LaunchingWalletEnabled
+	partial void OnLaunchingWalletEnabledChanging(bool value)
 	{
-		get => _launchingWalletEnabled;
-		set
-		{
-			_launchingWalletEnabled = value;
-			OnPropertyChanged();
-			SaveSettings();
-		}
+		SaveSettings();
 	}
 
+	[ObservableProperty]
 	private bool _walletStatusChangeEnabled;
 
-	public bool WalletStatusChangeEnabled
+	partial void OnWalletStatusChangeEnabledChanging(bool value)
 	{
-		get => _walletStatusChangeEnabled;
-		set
-		{
-			_walletStatusChangeEnabled = value;
-			OnPropertyChanged();
-			SaveSettings();
-		}
+		SaveSettings();
 	}
 
-	private DateTime? _lastUpdated;
-
-	public DateTime? LastUpdated
-	{
-		get => _lastUpdated;
-		set
-		{
-			_lastUpdated = value;
-			OnPropertyChanged();
-			SaveSettings();
-		}
-	}
-
+	[ObservableProperty]
 	private ObservableCollection<VerifyEveryComboBoxItem> _verifyEveryOptions = [];
-	public ObservableCollection<VerifyEveryComboBoxItem> VerifyEveryOptions
+
+	[ObservableProperty]
+	private VerifyEveryComboBoxItem _selectedVerifyEveryOption;
+
+	partial void OnSelectedVerifyEveryOptionChanged(VerifyEveryComboBoxItem value)
 	{
-		get { return _verifyEveryOptions; }
-		set
-		{
-			_verifyEveryOptions = value;
-			OnPropertyChanged(nameof(VerifyEveryOptions));
-		}
+		SaveSettings();
 	}
 
-	private VerifyEveryComboBoxItem _selectedVerifyEveryOption;
-	public VerifyEveryComboBoxItem SelectedVerifyEveryOption
-	{
-		get { return _selectedVerifyEveryOption; }
-		set
-		{
-			_selectedVerifyEveryOption = value;
-			OnPropertyChanged(nameof(SelectedVerifyEveryOption));
-			SaveSettings();
-		}
-	}
+	[ObservableProperty]
+	private DateTime? _lastUpdated;
 
 	public LoadCheckSumsCommand LoadCheckSumsCommand { get; }
 	public LoadInstallerHashesCommand LoadInstallerHashesCommand { get; }

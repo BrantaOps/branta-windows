@@ -85,7 +85,6 @@
                                         </Button>
                                     </StackPanel>
 
-
                                     <TextBlock Grid.Column="1"
                                                Text="{Binding LastScanned}"
                                                FontSize="16"

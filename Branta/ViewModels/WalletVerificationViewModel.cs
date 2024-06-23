@@ -3,12 +3,14 @@ using Branta.Classes.Wallets;
 using Branta.Commands;
 using Branta.Models;
 using Branta.Stores;
+using CommunityToolkit.Mvvm.ComponentModel;
 using System.Collections.ObjectModel;
+using System.Windows.Threading;
 using Timer = System.Timers.Timer;
 
 namespace Branta.ViewModels;
 
-public class WalletVerificationViewModel : BaseViewModel
+public partial class WalletVerificationViewModel : ObservableObject
 {
     private readonly ObservableCollection<WalletViewModel> _wallets = new();
     private readonly LanguageStore _languageStore;
@@ -23,19 +25,12 @@ public class WalletVerificationViewModel : BaseViewModel
     public VerifyWalletsCommand VerifyWalletsCommand { get; }
     public FocusCommand FocusCommand { get; }
 
+	private Dispatcher DispatchHelper => System.Windows.Application.Current.Dispatcher;
+
     public IEnumerable<WalletViewModel> Wallets => _wallets;
 
+    [ObservableProperty]
     private bool _isLoading = true;
-
-    public bool IsLoading
-    {
-        get => _isLoading;
-        set
-        {
-            _isLoading = value;
-            OnPropertyChanged();
-        }
-    }
 
     public WalletVerificationViewModel(Settings settings, LanguageStore languageStore,
         FocusCommand focusCommand, LoadCheckSumsCommand loadCheckSumsCommand, VerifyWalletsCommand verifyWalletsCommand)

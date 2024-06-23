@@ -50,7 +50,7 @@
                         Style="{DynamicResource TabControlStyle}"
                         Margin="40,0"
                         Padding="0,20">
-                <TabItem Header="Settings"
+                <TabItem Header="{DynamicResource SettingsTitle}"
                          Style="{DynamicResource TabItemStyle}">
                     <views:SettingsView x:Name="SettingsView" />
                 </TabItem>

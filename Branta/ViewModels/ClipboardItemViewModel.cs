@@ -1,9 +1,10 @@
 ﻿using Branta.Models;
 using Branta.Stores;
+using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace Branta.ViewModels;
 
-public class ClipboardItemViewModel : BaseViewModel
+public class ClipboardItemViewModel : ObservableObject
 {
     private readonly ClipboardItem _clipboardItem;
     private readonly LanguageStore _languageStore;

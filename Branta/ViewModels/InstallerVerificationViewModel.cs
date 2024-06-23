@@ -1,13 +1,14 @@
 ﻿using Branta.Classes;
 using Branta.Commands;
 using Branta.Stores;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using System.Windows.Forms;
-using System.Windows.Input;
 using Timer = System.Timers.Timer;
 
 namespace Branta.ViewModels;
 
-public class InstallerVerificationViewModel : BaseViewModel
+public partial class InstallerVerificationViewModel : ObservableObject
 {
     private readonly NotificationCenter _notificationCenter;
     private readonly LanguageStore _languageStore;
@@ -15,21 +16,45 @@ public class InstallerVerificationViewModel : BaseViewModel
 
     private Dictionary<string, string> _installerHashes;
 
+	[ObservableProperty]
     private bool _isLoading = true;
 
-    public bool IsLoading
+    public LoadInstallerHashesCommand LoadInstallerHashesCommand { get; }
+
+    [RelayCommand]
+    public void BrowseFiles()
     {
-        get => _isLoading;
-        set
+        var openFileDialog = new OpenFileDialog
         {
-            _isLoading = value;
-            OnPropertyChanged();
-        }
+            Multiselect = true
+        };
+
+        openFileDialog.ShowDialog();
+
+        var files = openFileDialog.FileNames.ToList();
+
+        ProcessFiles(files);
     }
 
-    public LoadInstallerHashesCommand LoadInstallerHashesCommand { get; }
-    public ICommand BrowseFilesCommand { get; }
-    public ICommand DropFilesCommand { get; }
+    [RelayCommand]
+    public void DropFiles(object parameter)
+    {
+        var dragEventArgs = (System.Windows.DragEventArgs) parameter;
+
+        if (!dragEventArgs.Data.GetDataPresent(DataFormats.FileDrop))
+        {
+            return;
+        }
+
+        var files = (string[])dragEventArgs.Data.GetData(DataFormats.FileDrop);
+
+        if (files == null)
+        {
+            return;
+        }
+
+        ProcessFiles(files.ToList());
+    }
 
     public InstallerVerificationViewModel(NotificationCenter notificationCenter, LanguageStore languageStore, LoadInstallerHashesCommand loadInstallerHashesCommand)
     {
@@ -42,14 +67,11 @@ public class InstallerVerificationViewModel : BaseViewModel
         _timer = new Timer(new TimeSpan(0, 30, 0));
         _timer.Elapsed += (_, _) => LoadInstallerHashesCommand.Execute(this);
         _timer.Start();
-
-        BrowseFilesCommand = new BrowseFilesCommand(ProcessFiles);
-        DropFilesCommand = new DropFilesCommand(ProcessFiles);
     }
 
     public void ProcessFiles(List<string> files)
     {
-        if (_isLoading)
+        if (IsLoading)
         {
             _notificationCenter.Notify(new Notification
             {

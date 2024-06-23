@@ -1,10 +1,11 @@
 ﻿using Branta.Commands;
+using CommunityToolkit.Mvvm.ComponentModel;
 using System.Windows.Input;
 using Timer = System.Timers.Timer;
 
 namespace Branta.ViewModels;
 
-public class MainViewModel
+public class MainViewModel : ObservableObject
 {
     private readonly Timer _updateAppTimer;
 
