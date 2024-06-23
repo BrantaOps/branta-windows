@@ -1,4 +1,4 @@
-﻿using Branta.Classes;
+using Branta.Classes;
 using Branta.Commands;
 using Branta.Stores;
 using Branta.ViewModels;
@@ -8,18 +8,18 @@ namespace Branta.Windows;
 
 public partial class SettingsWindow
 {
-	public readonly SettingsViewModel SettingsViewModel;
+    public readonly SettingsViewModel SettingsViewModel;
 
-	public ICommand HelpCommand { get; }
+    public ICommand HelpCommand { get; }
 
-	public SettingsWindow(LanguageStore languageStore, SettingsViewModel settingsViewModel)
-	{
-		InitializeComponent();
-		DataContext = this;
+    public SettingsWindow(LanguageStore languageStore, SettingsViewModel settingsViewModel)
+    {
+        InitializeComponent();
+        DataContext = this;
 
-		this.SetLanguageDictionary(languageStore);
+        this.SetLanguageDictionary(languageStore);
 
-		SettingsView.DataContext = settingsViewModel;
-		HelpCommand = new HelpCommand();
-	}
+        SettingsView.DataContext = settingsViewModel;
+        HelpCommand = new HelpCommand();
+    }
 }

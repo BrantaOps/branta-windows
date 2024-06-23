@@ -1,4 +1,4 @@
-﻿using Branta.ViewModels;
+using Branta.ViewModels;
 using System.Windows;
 using System.Windows.Controls;
 

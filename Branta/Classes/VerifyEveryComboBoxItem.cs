@@ -1,8 +1,8 @@
-﻿namespace Branta.Classes;
+namespace Branta.Classes;
 
 public class VerifyEveryComboBoxItem
 {
-	public string DisplayName { get; set; }
+    public string Name { get; set; }
 
-	public TimeSpan Value { get; set; }
+    public TimeSpan Value { get; set; }
 }

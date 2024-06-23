@@ -12,18 +12,18 @@ namespace Branta.Classes;
 
 public class NotificationCenter
 {
-	private readonly IServiceProvider _serviceProvider;
-	private readonly LanguageStore _languageStore;
-	private readonly NotifyIcon _notifyIcon;
+    private readonly IServiceProvider _serviceProvider;
+    private readonly LanguageStore _languageStore;
+    private readonly NotifyIcon _notifyIcon;
 
-	public NotifyIcon NotifyIcon => _notifyIcon;
+    public NotifyIcon NotifyIcon => _notifyIcon;
 
-	private MainWindow _mainWindow;
+    private MainWindow _mainWindow;
 
-	private HelpCommand HelpCommand { get; set; }
+    private HelpCommand HelpCommand { get; set; }
 
-	public NotificationCenter(IServiceProvider serviceProvider, LanguageStore languageStore)
-	{
+    public NotificationCenter(IServiceProvider serviceProvider, LanguageStore languageStore)
+    {
 		_serviceProvider = serviceProvider;
 		_languageStore = languageStore;
 
@@ -34,10 +34,10 @@ public class NotificationCenter
 			Text = "Branta",
 			Visible = true
 		};
-	}
+    }
 
-	public void Setup(MainWindow mainWindow)
-	{
+    public void Setup(MainWindow mainWindow)
+    {
 		_mainWindow = mainWindow;
 
 		HelpCommand = new HelpCommand();
@@ -47,15 +47,15 @@ public class NotificationCenter
 		_notifyIcon.ContextMenuStrip.Items.Add(_languageStore.Get("NotifyIcon_Settings"), null, OnClick_Settings);
 		_notifyIcon.ContextMenuStrip.Items.Add(_languageStore.Get("NotifyIcon_Quit"), null, OnClick_Quit);
 		_notifyIcon.ContextMenuStrip.Items.Add(_languageStore.Get("Help"), null, OnClick_Help);
-	}
+    }
 
-	public void Notify(Notification notification)
-	{
+    public void Notify(Notification notification)
+    {
 		_notifyIcon.ShowBalloonTip(notification.Timeout, notification.Title, notification.Message ?? " ", notification.Icon);
-	}
+    }
 
-	private void OnClick_NotifyIcon(object sender, MouseEventArgs e)
-	{
+    private void OnClick_NotifyIcon(object sender, MouseEventArgs e)
+    {
 		switch (e.Button)
 		{
 			case MouseButtons.Left:
@@ -67,22 +67,23 @@ public class NotificationCenter
 				NotifyIcon.ContextMenuStrip?.Show();
 				break;
 		}
-	}
+    }
 
-	private void OnClick_Settings(object sender, EventArgs e)
-	{
+    private void OnClick_Settings(object sender, EventArgs e)
+    {
 		var settingsWindow = _serviceProvider.GetRequiredService<SettingsWindow>();
 
 		settingsWindow.Show();
-	}
+    }
 
-	private void OnClick_Quit(object sender, EventArgs e)
-	{
+    private void OnClick_Quit(object sender, EventArgs e)
+    {
 		Application.Current.Shutdown();
-	}
+    }
 
-	private void OnClick_Help(object sender, EventArgs e)
-	{
+    private void OnClick_Help(object sender, EventArgs e)
+    {
 		HelpCommand.Execute(null);
-	}
+    }
 }
+  
