@@ -16,6 +16,7 @@ public class SettingsViewModel : BaseViewModel
 		{
 			_bitcoinAddressesEnabled = value;
 			OnPropertyChanged();
+			SaveSettings();
 		}
 	}
 
@@ -28,6 +29,7 @@ public class SettingsViewModel : BaseViewModel
 		{
 			_seedPhraseEnabled = value;
 			OnPropertyChanged();
+			SaveSettings();
 		}
 	}
 
@@ -40,6 +42,7 @@ public class SettingsViewModel : BaseViewModel
 		{
 			_extendedPublicKeyEnabled = value;
 			OnPropertyChanged();
+			SaveSettings();
 		}
 	}
 
@@ -52,6 +55,7 @@ public class SettingsViewModel : BaseViewModel
 		{
 			_privateKeyEnabled = value;
 			OnPropertyChanged();
+			SaveSettings();
 		}
 	}
 
@@ -64,6 +68,7 @@ public class SettingsViewModel : BaseViewModel
 		{
 			_nostrPublicKeyEnabled = value;
 			OnPropertyChanged();
+			SaveSettings();
 		}
 	}
 
@@ -76,6 +81,7 @@ public class SettingsViewModel : BaseViewModel
 		{
 			_nostrPrivateKeyEnabled = value;
 			OnPropertyChanged();
+			SaveSettings();
 		}
 	}
 
@@ -88,6 +94,7 @@ public class SettingsViewModel : BaseViewModel
 		{
 			_launchingWalletEnabled = value;
 			OnPropertyChanged();
+			SaveSettings();
 		}
 	}
 
@@ -100,6 +107,7 @@ public class SettingsViewModel : BaseViewModel
 		{
 			_walletStatusChangeEnabled = value;
 			OnPropertyChanged();
+			SaveSettings();
 		}
 	}
 
@@ -112,6 +120,7 @@ public class SettingsViewModel : BaseViewModel
 		{
 			_lastUpdated = value;
 			OnPropertyChanged();
+			SaveSettings();
 		}
 	}
 
@@ -134,19 +143,21 @@ public class SettingsViewModel : BaseViewModel
 		{
 			_selectedVerifyEveryOption = value;
 			OnPropertyChanged(nameof(SelectedVerifyEveryOption));
+			SaveSettings();
 		}
 	}
 
 	public LoadCheckSumsCommand LoadCheckSumsCommand { get; }
 	public LoadInstallerHashesCommand LoadInstallerHashesCommand { get; }
-	public SettingsSaveCommand SettingsSaveCommand { get; }
 
 	public WalletVerificationViewModel WalletVerificationViewModel { get; }
 	public InstallerVerificationViewModel InstallerVerificationViewModel { get; }
 
 	public readonly Settings Settings;
 
-	public SettingsViewModel(Settings settings, CheckSumStore checkSumStore, InstallerHashStore installerHashStore, WalletVerificationViewModel walletVerificationViewModel, InstallerVerificationViewModel installerVerificationViewModel, SettingsSaveCommand settingsSaveCommand)
+	private bool _settingsInitialized = false;
+
+	public SettingsViewModel(Settings settings, CheckSumStore checkSumStore, InstallerHashStore installerHashStore, WalletVerificationViewModel walletVerificationViewModel, InstallerVerificationViewModel installerVerificationViewModel)
 	{
 		Settings = settings;
 		LastUpdated = installerHashStore.LastUpdated > checkSumStore.LastUpdated ? checkSumStore.LastUpdated : installerHashStore.LastUpdated;
@@ -158,18 +169,8 @@ public class SettingsViewModel : BaseViewModel
 
 		LoadCheckSumsCommand = new LoadCheckSumsCommand(checkSumStore);
 		LoadInstallerHashesCommand = new LoadInstallerHashesCommand(installerHashStore);
-		SettingsSaveCommand = settingsSaveCommand;
 
-		BitcoinAddressesEnabled = settings.ClipboardGuardian.BitcoinAddressesEnabled;
-		SeedPhraseEnabled = settings.ClipboardGuardian.SeedPhraseEnabled;
-		ExtendedPublicKeyEnabled = settings.ClipboardGuardian.ExtendedPublicKeyEnabled;
-		PrivateKeyEnabled = settings.ClipboardGuardian.PrivateKeyEnabled;
-		NostrPublicKeyEnabled = settings.ClipboardGuardian.NostrPublicKeyEnabled;
-		NostrPrivateKeyEnabled = settings.ClipboardGuardian.NostrPrivateKeyEnabled;
-		NostrPrivateKeyEnabled = settings.ClipboardGuardian.NostrPrivateKeyEnabled;
-
-		LaunchingWalletEnabled = settings.WalletVerification.LaunchingWalletEnabled;
-		WalletStatusChangeEnabled = settings.WalletVerification.WalletStatusChangeEnabled;
+		SetSettings(settings);
 
 		var verifyEveryOptions = new List<TimeSpan>
 		{
@@ -198,7 +199,24 @@ public class SettingsViewModel : BaseViewModel
 		}
 	}
 
-	public Settings GetSettings()
+	public void SaveSettings()
+	{
+		if (!_settingsInitialized)
+		{
+			return;
+		}
+
+		var settings = GetSettings();
+
+		if (settings.WalletVerification.WalletVerifyEvery != Settings.WalletVerification.WalletVerifyEvery)
+		{
+			WalletVerificationViewModel.SetTimer(settings.WalletVerification.WalletVerifyEvery);
+		}
+
+		Settings.Update(settings);
+	}
+
+	private Settings GetSettings()
 	{
 		return new Settings
 		{
@@ -218,5 +236,21 @@ public class SettingsViewModel : BaseViewModel
 				WalletStatusChangeEnabled = WalletStatusChangeEnabled,
 			}
 		};
+	}
+
+	private void SetSettings(Settings settings)
+	{
+		BitcoinAddressesEnabled = settings.ClipboardGuardian.BitcoinAddressesEnabled;
+		SeedPhraseEnabled = settings.ClipboardGuardian.SeedPhraseEnabled;
+		ExtendedPublicKeyEnabled = settings.ClipboardGuardian.ExtendedPublicKeyEnabled;
+		PrivateKeyEnabled = settings.ClipboardGuardian.PrivateKeyEnabled;
+		NostrPublicKeyEnabled = settings.ClipboardGuardian.NostrPublicKeyEnabled;
+		NostrPrivateKeyEnabled = settings.ClipboardGuardian.NostrPrivateKeyEnabled;
+		NostrPrivateKeyEnabled = settings.ClipboardGuardian.NostrPrivateKeyEnabled;
+
+		LaunchingWalletEnabled = settings.WalletVerification.LaunchingWalletEnabled;
+		WalletStatusChangeEnabled = settings.WalletVerification.WalletStatusChangeEnabled;
+
+		_settingsInitialized = true;
 	}
 }

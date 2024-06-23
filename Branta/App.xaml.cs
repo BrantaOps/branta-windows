@@ -91,7 +91,6 @@ public partial class App
                 services.AddSingleton<FocusCommand>();
                 services.AddSingleton<LoadCheckSumsCommand>();
                 services.AddSingleton<LoadInstallerHashesCommand>();
-                services.AddSingleton<SettingsSaveCommand>();
                 services.AddSingleton<UpdateAppCommand>();
                 services.AddSingleton<VerifyWalletsCommand>();
 

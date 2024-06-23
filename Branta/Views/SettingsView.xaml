@@ -7,112 +7,96 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
              MaxWidth="450">
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*" />
-            <RowDefinition Height="Auto" />
-        </Grid.RowDefinitions>
-        <ScrollViewer VerticalScrollBarVisibility="Auto"
-                      Padding="0,0,15,0"
-                      Margin="0,0,0,30">
-            <StackPanel>
-                <TextBlock Text="{DynamicResource ClipboardNotificationsTitle}"
+    <ScrollViewer VerticalScrollBarVisibility="Auto"
+                  Padding="0,0,15,0"
+                  Margin="0,0,0,30">
+        <StackPanel>
+            <TextBlock Text="{DynamicResource ClipboardNotificationsTitle}"
+                           Margin="0,0,0,10"
+                           Foreground="White"
+                           FontSize="20" />
+
+            <CheckBox Content="{DynamicResource BitcoinAddressesEnabledText}"
+                          IsChecked="{Binding BitcoinAddressesEnabled}"
+                          Style="{StaticResource CheckBox}" />
+
+            <CheckBox Content="{DynamicResource SeedPhraseEnabledText}"
+                          IsChecked="{Binding SeedPhraseEnabled}"
+                          Style="{StaticResource CheckBox}" />
+
+            <CheckBox Content="{DynamicResource ExtendedPublicKeyEnabledText}"
+                          IsChecked="{Binding ExtendedPublicKeyEnabled}"
+                          Style="{StaticResource CheckBox}" />
+
+            <CheckBox Content="{DynamicResource PrivateKeyEnabledText}"
+                          IsChecked="{Binding PrivateKeyEnabled}"
+                          Style="{StaticResource CheckBox}" />
+
+            <CheckBox Content="{DynamicResource NostrPublicKeyEnabledText}"
+                          IsChecked="{Binding NostrPublicKeyEnabled}"
+                          Style="{StaticResource CheckBox}" />
+
+            <CheckBox Content="{DynamicResource NostrPrivateKeyEnabledText}"
+                          IsChecked="{Binding NostrPrivateKeyEnabled}"
+                          Style="{StaticResource CheckBox}" />
+
+            <TextBlock Text="{DynamicResource WalletVerificationTitle}"
+                           Margin="0,0,0,10"
+                           Foreground="White"
+                           FontSize="20" />
+
+            <Grid VerticalAlignment="Center">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Text="{DynamicResource VerifyEveryText}"
                                Margin="0,0,0,10"
-                               Foreground="White"
-                               FontSize="20" />
+                               Foreground="#c2c2c2"
+                               FontSize="15" />
 
-                <CheckBox Content="{DynamicResource BitcoinAddressesEnabledText}"
-                              IsChecked="{Binding BitcoinAddressesEnabled}"
-                              Style="{StaticResource CheckBox}" />
+                <ComboBox Grid.Column="1"
+                              ItemsSource="{Binding VerifyEveryOptions}"
+                              SelectedValue="{Binding SelectedVerifyEveryOption, Mode=TwoWay}"
+                              DisplayMemberPath="DisplayName"
+                              HorizontalAlignment="Right"
+                              Margin="0,0,0,10">
+                </ComboBox>
+            </Grid>
+            <CheckBox Content="{DynamicResource LaunchingWalletEnabledText}"
+                          IsChecked="{Binding LaunchingWalletEnabled}"
+                          Style="{StaticResource CheckBox}" />
 
-                <CheckBox Content="{DynamicResource SeedPhraseEnabledText}"
-                              IsChecked="{Binding SeedPhraseEnabled}"
-                              Style="{StaticResource CheckBox}" />
+            <CheckBox Content="{DynamicResource WalletStatusChangeEnabledText}"
+                          IsChecked="{Binding WalletStatusChangeEnabled}"
+                          Style="{StaticResource CheckBox}" />
 
-                <CheckBox Content="{DynamicResource ExtendedPublicKeyEnabledText}"
-                              IsChecked="{Binding ExtendedPublicKeyEnabled}"
-                              Style="{StaticResource CheckBox}" />
 
-                <CheckBox Content="{DynamicResource PrivateKeyEnabledText}"
-                              IsChecked="{Binding PrivateKeyEnabled}"
-                              Style="{StaticResource CheckBox}" />
+            <TextBlock Text="{DynamicResource LastUpdatedTitle}"
+                           Margin="0,0,0,10"
+                           Foreground="White"
+                           FontSize="20" />
 
-                <CheckBox Content="{DynamicResource NostrPublicKeyEnabledText}"
-                              IsChecked="{Binding NostrPublicKeyEnabled}"
-                              Style="{StaticResource CheckBox}" />
+            <Grid VerticalAlignment="Center">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
 
-                <CheckBox Content="{DynamicResource NostrPrivateKeyEnabledText}"
-                              IsChecked="{Binding NostrPrivateKeyEnabled}"
-                              Style="{StaticResource CheckBox}" />
-
-                <TextBlock Text="{DynamicResource WalletVerificationTitle}"
+                <TextBlock Text="{Binding LastUpdated}"
                                Margin="0,0,0,10"
-                               Foreground="White"
-                               FontSize="20" />
+                               Foreground="#c2c2c2"
+                               FontSize="15" />
 
-                <Grid VerticalAlignment="Center">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="*" />
-                    </Grid.ColumnDefinitions>
-
-                    <TextBlock Text="{DynamicResource VerifyEveryText}"
-                                   Margin="0,0,0,10"
-                                   Foreground="#c2c2c2"
-                                   FontSize="15" />
-
-                    <ComboBox Grid.Column="1"
-                                  ItemsSource="{Binding VerifyEveryOptions}"
-                                  SelectedValue="{Binding SelectedVerifyEveryOption, Mode=TwoWay}"
-                                  DisplayMemberPath="DisplayName"
-                                  HorizontalAlignment="Right"
-                                  Margin="0,0,0,10">
-                    </ComboBox>
-                </Grid>
-                <CheckBox Content="{DynamicResource LaunchingWalletEnabledText}"
-                              IsChecked="{Binding LaunchingWalletEnabled}"
-                              Style="{StaticResource CheckBox}" />
-
-                <CheckBox Content="{DynamicResource WalletStatusChangeEnabledText}"
-                              IsChecked="{Binding WalletStatusChangeEnabled}"
-                              Style="{StaticResource CheckBox}" />
-
-
-                <TextBlock Text="{DynamicResource LastUpdatedTitle}"
-                               Margin="0,0,0,10"
-                               Foreground="White"
-                               FontSize="20" />
-
-                <Grid VerticalAlignment="Center">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="*" />
-                    </Grid.ColumnDefinitions>
-
-                    <TextBlock Text="{Binding LastUpdated}"
-                                   Margin="0,0,0,10"
-                                   Foreground="#c2c2c2"
-                                   FontSize="15" />
-
-                    <Button Grid.Column="1"
-                                Content="{DynamicResource RefreshNow}"
-                                Style="{DynamicResource PrimaryButton}"
-                                Click="OnClick_Refresh"
-                                HorizontalAlignment="Right"
-                                Padding="7,2,7,2"
-                                Margin="0,0,0,10" />
-                </Grid>
-            </StackPanel>
-        </ScrollViewer>
-
-        <StackPanel Grid.Row="1">
-            <Button Grid.Column="1"
-                        Content="{DynamicResource Save}"
-                        Command="{Binding SettingsSaveCommand}"
-                        CommandParameter="{Binding DataContext, RelativeSource={RelativeSource Self}}"
-                        Style="{DynamicResource PrimaryButton}"
-                        HorizontalAlignment="Right"
-                        Margin="0,0,0,10" />
+                <Button Grid.Column="1"
+                            Content="{DynamicResource RefreshNow}"
+                            Style="{DynamicResource PrimaryButton}"
+                            Click="OnClick_Refresh"
+                            HorizontalAlignment="Right"
+                            Padding="7,2,7,2"
+                            Margin="0,0,0,10" />
+            </Grid>
         </StackPanel>
-    </Grid>
+    </ScrollViewer>
 </UserControl>
