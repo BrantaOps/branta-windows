@@ -1,5 +1,4 @@
 ﻿using Branta.Classes;
-using Branta.Commands;
 using Branta.Stores;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -12,6 +11,7 @@ public partial class InstallerVerificationViewModel : ObservableObject
 {
     private readonly NotificationCenter _notificationCenter;
     private readonly LanguageStore _languageStore;
+    private readonly InstallerHashStore _installerHashStore;
     private readonly Timer _timer;
 
     private Dictionary<string, string> _installerHashes;
@@ -19,7 +19,11 @@ public partial class InstallerVerificationViewModel : ObservableObject
 	[ObservableProperty]
     private bool _isLoading = true;
 
-    public LoadInstallerHashesCommand LoadInstallerHashesCommand { get; }
+    [RelayCommand]
+    public async Task LoadInstallerHashes()
+    {
+        await _installerHashStore.LoadAsync();
+    }
 
     [RelayCommand]
     public void BrowseFiles()
@@ -56,12 +60,14 @@ public partial class InstallerVerificationViewModel : ObservableObject
         ProcessFiles(files.ToList());
     }
 
-    public InstallerVerificationViewModel(NotificationCenter notificationCenter, LanguageStore languageStore, LoadInstallerHashesCommand loadInstallerHashesCommand)
+    public InstallerVerificationViewModel(NotificationCenter notificationCenter, LanguageStore languageStore, InstallerHashStore installerHashStore)
     {
         _notificationCenter = notificationCenter;
         _languageStore = languageStore;
+        _installerHashStore = installerHashStore;
 
-        LoadInstallerHashesCommand = loadInstallerHashesCommand;
+        _installerHashStore.InstallerHashesChanged += On_InstallerHashesChanged;
+
         LoadInstallerHashesCommand.Execute(this);
 
         _timer = new Timer(new TimeSpan(0, 30, 0));
@@ -101,8 +107,9 @@ public partial class InstallerVerificationViewModel : ObservableObject
         }
     }
 
-    public void SetInstallerHashes(Dictionary<string, string> installerHashes)
+    private void On_InstallerHashesChanged()
     {
-        _installerHashes = installerHashes;
+        _installerHashes = _installerHashStore.InstallerHashes;
+        IsLoading = false;
     }
 }

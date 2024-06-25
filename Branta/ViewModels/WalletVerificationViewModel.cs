@@ -4,6 +4,7 @@ using Branta.Commands;
 using Branta.Models;
 using Branta.Stores;
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using System.Collections.ObjectModel;
 using System.Windows.Threading;
 using Timer = System.Timers.Timer;
@@ -14,6 +15,7 @@ public partial class WalletVerificationViewModel : ObservableObject
 {
     private readonly ObservableCollection<WalletViewModel> _wallets = new();
     private readonly LanguageStore _languageStore;
+    private readonly CheckSumStore _checkSumStore;
     private readonly Timer _loadCheckSumsTimer;
     private readonly Timer _focusTimer;
 
@@ -21,7 +23,12 @@ public partial class WalletVerificationViewModel : ObservableObject
 
     private Timer _verifyWalletsTimer;
 
-    public LoadCheckSumsCommand LoadCheckSumsCommand { get; }
+    [RelayCommand]
+    public async Task LoadCheckSums()
+    {
+        await _checkSumStore.LoadAsync();
+    }
+
     public VerifyWalletsCommand VerifyWalletsCommand { get; }
     public FocusCommand FocusCommand { get; }
 
@@ -32,14 +39,15 @@ public partial class WalletVerificationViewModel : ObservableObject
     [ObservableProperty]
     private bool _isLoading = true;
 
-    public WalletVerificationViewModel(Settings settings, LanguageStore languageStore,
-    FocusCommand focusCommand, LoadCheckSumsCommand loadCheckSumsCommand, VerifyWalletsCommand verifyWalletsCommand)
+    public WalletVerificationViewModel(Settings settings, LanguageStore languageStore, FocusCommand focusCommand, CheckSumStore checkSumStore, VerifyWalletsCommand verifyWalletsCommand)
     {
         _languageStore = languageStore;
+        _checkSumStore = checkSumStore;
 
         FocusCommand = focusCommand;
-        LoadCheckSumsCommand = loadCheckSumsCommand;
         VerifyWalletsCommand = verifyWalletsCommand;
+
+        _checkSumStore.CheckSumsChanged += On_CheckSumsChanged;
 
         _loadCheckSumsTimer = new Timer(new TimeSpan(0, 30, 0));
         _loadCheckSumsTimer.Elapsed += (_, _) => LoadCheckSumsCommand.Execute(this);
@@ -85,5 +93,11 @@ public partial class WalletVerificationViewModel : ObservableObject
                 _wallets[index] = newWallet;
             }
         });
+    }
+
+    private void On_CheckSumsChanged()
+    {
+        WalletTypes = _checkSumStore.WalletTypes;
+        IsLoading = false;
     }
 }

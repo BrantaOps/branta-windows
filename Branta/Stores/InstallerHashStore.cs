@@ -4,12 +4,13 @@ namespace Branta.Stores;
 
 public class InstallerHashStore
 {
+    private readonly BrantaClient _brantaClient;
+
     public Dictionary<string, string> InstallerHashes { get; private set; }
     public DateTime? LastUpdated { get; private set; }
 
-    public Action<DateTime?> LastUpdatedEvent;
 
-    private readonly BrantaClient _brantaClient;
+    public event Action InstallerHashesChanged;
 
     private const string InstallerHashPath = "InstallerHash.yaml";
 
@@ -23,7 +24,7 @@ public class InstallerHashStore
         InstallerHashes = await LoadHelperAsync();
 
         LastUpdated = DateTime.Now;
-        LastUpdatedEvent?.Invoke(LastUpdated);
+        InstallerHashesChanged?.Invoke();
     }
 
     public async Task<Dictionary<string, string>> LoadHelperAsync()

@@ -1,13 +1,20 @@
 using Branta.Classes;
-using Branta.Commands;
 using Branta.Stores;
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using System.Collections.ObjectModel;
 
 namespace Branta.ViewModels;
 
 public partial class SettingsViewModel : ObservableObject
 {
+    private readonly CheckSumStore _checkSumStore;
+    private readonly InstallerHashStore _installerHashStore;
+    
+    public readonly Settings Settings;
+
+    private bool _settingsInitialized = false;
+
     [ObservableProperty]
     private bool _bitcoinAddressesEnabled;
 
@@ -86,28 +93,26 @@ public partial class SettingsViewModel : ObservableObject
     [ObservableProperty]
     private DateTime? _lastUpdated;
 
-    public LoadCheckSumsCommand LoadCheckSumsCommand { get; }
-    public LoadInstallerHashesCommand LoadInstallerHashesCommand { get; }
+    [RelayCommand]
+    public async Task Refresh()
+    {
+        await _checkSumStore.LoadAsync();
+        await _installerHashStore.LoadAsync();
+    }
 
     public WalletVerificationViewModel WalletVerificationViewModel { get; }
-    public InstallerVerificationViewModel InstallerVerificationViewModel { get; }
 
-    public readonly Settings Settings;
-
-    private bool _settingsInitialized = false;
-
-    public SettingsViewModel(Settings settings, CheckSumStore checkSumStore, InstallerHashStore installerHashStore, WalletVerificationViewModel walletVerificationViewModel, InstallerVerificationViewModel installerVerificationViewModel)
+    public SettingsViewModel(Settings settings, CheckSumStore checkSumStore, InstallerHashStore installerHashStore, WalletVerificationViewModel walletVerificationViewModel)
     {
+        _checkSumStore = checkSumStore;
+        _installerHashStore = installerHashStore;
         Settings = settings;
+
         LastUpdated = installerHashStore.LastUpdated > checkSumStore.LastUpdated ? checkSumStore.LastUpdated : installerHashStore.LastUpdated;
-        checkSumStore.LastUpdatedEvent += date => LastUpdated = date;
-        installerHashStore.LastUpdatedEvent += date => LastUpdated = date;
+        _checkSumStore.CheckSumsChanged += () => LastUpdated = _checkSumStore.LastUpdated;
+        _installerHashStore.InstallerHashesChanged += () => LastUpdated = _installerHashStore.LastUpdated;
 
         WalletVerificationViewModel = walletVerificationViewModel;
-        InstallerVerificationViewModel = installerVerificationViewModel;
-
-        LoadCheckSumsCommand = new LoadCheckSumsCommand(checkSumStore);
-        LoadInstallerHashesCommand = new LoadInstallerHashesCommand(installerHashStore);
 
         SetSettings(settings);
 
