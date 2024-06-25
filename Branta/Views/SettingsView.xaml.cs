@@ -6,16 +6,16 @@ namespace Branta.Views;
 
 public partial class SettingsView : UserControl
 {
-	public SettingsView()
-	{
-		InitializeComponent();
-	}
+    public SettingsView()
+    {
+        InitializeComponent();
+    }
 
-	private void OnClick_Refresh(object sender, RoutedEventArgs e)
-	{
-		var viewModel = (SettingsViewModel)DataContext;
+    private void OnClick_Refresh(object sender, RoutedEventArgs e)
+    {
+        var viewModel = (SettingsViewModel)DataContext;
 
-		viewModel.LoadCheckSumsCommand.Execute(viewModel.WalletVerificationViewModel);
-		viewModel.LoadInstallerHashesCommand.Execute(viewModel.InstallerVerificationViewModel);
-	}
+        viewModel.LoadCheckSumsCommand.Execute(viewModel.WalletVerificationViewModel);
+        viewModel.LoadInstallerHashesCommand.Execute(viewModel.InstallerVerificationViewModel);
+    }
 }
