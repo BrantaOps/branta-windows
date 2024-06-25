@@ -82,21 +82,23 @@ public partial class App
 
                 services.AddSingleton<NotificationCenter>();
                 services.AddSingleton(Settings.Load());
-                services.AddSingleton(LanguageStore.Load());
 
                 services.AddSingleton<CheckSumStore>();
+                services.AddSingleton<ExtendedKeyStore>();
                 services.AddSingleton<InstallerHashStore>();
+                services.AddSingleton(LanguageStore.Load());
 
                 services.AddSingleton<ClipboardGuardianCommand>();
                 services.AddSingleton<FocusCommand>();
                 services.AddSingleton<UpdateAppCommand>();
                 services.AddSingleton<VerifyWalletsCommand>();
 
-                services.AddSingleton<MainViewModel>();
-                services.AddSingleton<InstallerVerificationViewModel>();
-                services.AddSingleton<WalletVerificationViewModel>();
                 services.AddSingleton<ClipboardGuardianViewModel>();
+                services.AddSingleton<ExtendedKeyManagerViewModel>();
+                services.AddSingleton<InstallerVerificationViewModel>();
+                services.AddSingleton<MainViewModel>();
                 services.AddSingleton<SettingsViewModel>();
+                services.AddSingleton<WalletVerificationViewModel>();
 
                 services.AddTransient<SettingsWindow>();
 

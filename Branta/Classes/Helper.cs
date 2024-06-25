@@ -1,4 +1,6 @@
-﻿using System.Diagnostics;
+﻿using Branta.Models;
+using NBitcoin;
+using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using System.Security.Cryptography;
@@ -37,5 +39,25 @@ public static class Helper
         return base64Encoding
             ? Convert.ToBase64String(hashBytes)
             : BitConverter.ToString(hashBytes).Replace("-", "").ToLower();
+    }
+
+    public static ExtendedKey GetExtendedKeyByAddress(IEnumerable<ExtendedKey> extendedKeys, string address)
+    {
+        foreach (var key in extendedKeys)
+        {
+            var extPubKey = ExtPubKey.Parse(key.Value, Network.Main);
+
+            for (uint i = 0; i < 20; i++)
+            {
+                var childAddress = extPubKey.Derive(0).Derive(i).PubKey.GetAddress(ScriptPubKeyType.Segwit, Network.Main);
+
+                if (address == childAddress.ToString())
+                {
+                    return key;
+                }
+            }
+        }
+
+        return null;
     }
 }

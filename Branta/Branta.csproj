@@ -17,12 +17,15 @@
     <None Remove="Assets\CheckSums.yaml" />
     <None Remove="Assets\close.png" />
     <None Remove="Assets\close.svg" />
+    <None Remove="Assets\copy-white.png" />
+    <None Remove="Assets\edit-white.png" />
     <None Remove="Assets\favicon.png" />
     <None Remove="Assets\fullscreen.png" />
     <None Remove="Assets\fullscreen_exit.png" />
     <None Remove="Assets\goldwhitecropped.png" />
     <None Remove="Assets\InstallerHashes.yaml" />
     <None Remove="Assets\minimize.png" />
+    <None Remove="Assets\trash-red.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -48,6 +51,12 @@
     <Resource Include="Assets\close.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Assets\copy-white.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\edit-white.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Assets\favicon.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
@@ -71,6 +80,7 @@
     <PackageReference Include="Hardcodet.NotifyIcon.Wpf" Version="1.1.0" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.0" />
     <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="8.0.0" />
+    <PackageReference Include="NBitcoin" Version="7.0.37" />
     <PackageReference Include="Serilog" Version="3.1.1" />
     <PackageReference Include="Serilog.AspNetCore" Version="8.0.1" />
     <PackageReference Include="YamlDotNet" Version="15.1.2" />
@@ -98,6 +108,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Assets\trash-red.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Resources\StringResources.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Resource>
