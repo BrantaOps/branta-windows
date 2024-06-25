@@ -100,9 +100,7 @@ public partial class SettingsViewModel : ObservableObject
         await _installerHashStore.LoadAsync();
     }
 
-    public WalletVerificationViewModel WalletVerificationViewModel { get; }
-
-    public SettingsViewModel(Settings settings, CheckSumStore checkSumStore, InstallerHashStore installerHashStore, WalletVerificationViewModel walletVerificationViewModel)
+    public SettingsViewModel(Settings settings, CheckSumStore checkSumStore, InstallerHashStore installerHashStore)
     {
         _checkSumStore = checkSumStore;
         _installerHashStore = installerHashStore;
@@ -110,9 +108,6 @@ public partial class SettingsViewModel : ObservableObject
 
         LastUpdated = installerHashStore.LastUpdated > checkSumStore.LastUpdated ? checkSumStore.LastUpdated : installerHashStore.LastUpdated;
         _checkSumStore.CheckSumsChanged += () => LastUpdated = _checkSumStore.LastUpdated;
-        _installerHashStore.InstallerHashesChanged += () => LastUpdated = _installerHashStore.LastUpdated;
-
-        WalletVerificationViewModel = walletVerificationViewModel;
 
         SetSettings(settings);
 
@@ -151,12 +146,6 @@ public partial class SettingsViewModel : ObservableObject
         }
 
         var settings = GetSettings();
-
-        if (settings.WalletVerification.WalletVerifyEvery != Settings.WalletVerification.WalletVerifyEvery)
-        {
-            WalletVerificationViewModel.SetTimer(settings.WalletVerification.WalletVerifyEvery);
-        }
-
         Settings.Update(settings);
     }
 

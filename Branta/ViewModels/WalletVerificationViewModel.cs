@@ -13,11 +13,13 @@ namespace Branta.ViewModels;
 
 public partial class WalletVerificationViewModel : ObservableObject
 {
-    private readonly ObservableCollection<WalletViewModel> _wallets = new();
+    private readonly Settings _settings;
     private readonly LanguageStore _languageStore;
     private readonly CheckSumStore _checkSumStore;
     private readonly Timer _loadCheckSumsTimer;
     private readonly Timer _focusTimer;
+
+    private readonly ObservableCollection<WalletViewModel> _wallets = new();
 
     public List<BaseWalletType> WalletTypes = new();
 
@@ -41,6 +43,7 @@ public partial class WalletVerificationViewModel : ObservableObject
 
     public WalletVerificationViewModel(Settings settings, LanguageStore languageStore, FocusCommand focusCommand, CheckSumStore checkSumStore, VerifyWalletsCommand verifyWalletsCommand)
     {
+        _settings = settings;
         _languageStore = languageStore;
         _checkSumStore = checkSumStore;
 
@@ -53,7 +56,8 @@ public partial class WalletVerificationViewModel : ObservableObject
         _loadCheckSumsTimer.Elapsed += (_, _) => LoadCheckSumsCommand.Execute(this);
         _loadCheckSumsTimer.Start();
 
-        SetTimer(settings.WalletVerification.WalletVerifyEvery);
+        SetTimer();
+        settings.WalletVerifyEveryChanged += SetTimer;
 
         _focusTimer = new Timer(new TimeSpan(0, 0, 2));
         _focusTimer.Elapsed += (_, _) => FocusCommand.Execute(null);
@@ -67,11 +71,11 @@ public partial class WalletVerificationViewModel : ObservableObject
         });
     }
 
-    public void SetTimer(TimeSpan interval)
+    public void SetTimer()
     {
         _verifyWalletsTimer?.Dispose();
 
-        _verifyWalletsTimer = new Timer(interval);
+        _verifyWalletsTimer = new Timer(_settings.WalletVerification.WalletVerifyEvery);
         _verifyWalletsTimer.Elapsed += (_, _) => VerifyWalletsCommand.Execute(this);
         _verifyWalletsTimer.Start();
     }
