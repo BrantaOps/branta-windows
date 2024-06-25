@@ -162,18 +162,18 @@ public partial class SettingsViewModel : ObservableObject
             ClipboardGuardian = new ClipboardGuardianSettings
             {
                 BitcoinAddressesEnabled = BitcoinAddressesEnabled,
-                                        SeedPhraseEnabled = SeedPhraseEnabled,
-                                        ExtendedPublicKeyEnabled = ExtendedPublicKeyEnabled,
-                                        PrivateKeyEnabled = PrivateKeyEnabled,
-                                        NostrPublicKeyEnabled = NostrPublicKeyEnabled,
-                                        NostrPrivateKeyEnabled = NostrPrivateKeyEnabled
+                SeedPhraseEnabled = SeedPhraseEnabled,
+                ExtendedPublicKeyEnabled = ExtendedPublicKeyEnabled,
+                PrivateKeyEnabled = PrivateKeyEnabled,
+                NostrPublicKeyEnabled = NostrPublicKeyEnabled,
+                NostrPrivateKeyEnabled = NostrPrivateKeyEnabled
             },
-                WalletVerification = new WalletVerificationSettings
-                {
-                    WalletVerifyEvery = SelectedVerifyEveryOption.Value,
-                    LaunchingWalletEnabled = LaunchingWalletEnabled,
-                    WalletStatusChangeEnabled = WalletStatusChangeEnabled,
-                }
+            WalletVerification = new WalletVerificationSettings
+            {
+                WalletVerifyEvery = SelectedVerifyEveryOption.Value,
+                LaunchingWalletEnabled = LaunchingWalletEnabled,
+                WalletStatusChangeEnabled = WalletStatusChangeEnabled,
+            }
         };
     }
 

@@ -25,7 +25,7 @@ public partial class WalletVerificationViewModel : ObservableObject
     public VerifyWalletsCommand VerifyWalletsCommand { get; }
     public FocusCommand FocusCommand { get; }
 
-	private Dispatcher DispatchHelper => System.Windows.Application.Current.Dispatcher;
+    private Dispatcher DispatchHelper => System.Windows.Application.Current.Dispatcher;
 
     public IEnumerable<WalletViewModel> Wallets => _wallets;
 
@@ -33,7 +33,7 @@ public partial class WalletVerificationViewModel : ObservableObject
     private bool _isLoading = true;
 
     public WalletVerificationViewModel(Settings settings, LanguageStore languageStore,
-        FocusCommand focusCommand, LoadCheckSumsCommand loadCheckSumsCommand, VerifyWalletsCommand verifyWalletsCommand)
+    FocusCommand focusCommand, LoadCheckSumsCommand loadCheckSumsCommand, VerifyWalletsCommand verifyWalletsCommand)
     {
         _languageStore = languageStore;
 
