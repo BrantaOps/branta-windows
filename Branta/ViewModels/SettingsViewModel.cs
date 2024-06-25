@@ -1,155 +1,155 @@
-﻿using System.Windows.Input;
 using Branta.Classes;
-using Branta.Commands;
 using Branta.Stores;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
+using System.Collections.ObjectModel;
 
 namespace Branta.ViewModels;
 
-public class SettingsViewModel : BaseViewModel
+public partial class SettingsViewModel : ObservableObject
 {
+    private readonly CheckSumStore _checkSumStore;
+    private readonly InstallerHashStore _installerHashStore;
+    
+    public readonly Settings Settings;
+
+    private bool _settingsInitialized = false;
+
+    [ObservableProperty]
     private bool _bitcoinAddressesEnabled;
 
-    public bool BitcoinAddressesEnabled
+    partial void OnBitcoinAddressesEnabledChanged(bool value)
     {
-        get => _bitcoinAddressesEnabled;
-        set
-        {
-            _bitcoinAddressesEnabled = value;
-            OnPropertyChanged();
-        }
+        SaveSettings();
     }
 
+    [ObservableProperty]
     private bool _seedPhraseEnabled;
 
-    public bool SeedPhraseEnabled
+    partial void OnSeedPhraseEnabledChanged(bool value)
     {
-        get => _seedPhraseEnabled;
-        set
-        {
-            _seedPhraseEnabled = value;
-            OnPropertyChanged();
-        }
+        SaveSettings();
     }
 
+    [ObservableProperty]
     private bool _extendedPublicKeyEnabled;
 
-    public bool ExtendedPublicKeyEnabled
+    partial void OnExtendedPublicKeyEnabledChanged(bool value)
     {
-        get => _extendedPublicKeyEnabled;
-        set
-        {
-            _extendedPublicKeyEnabled = value;
-            OnPropertyChanged();
-        }
+        SaveSettings();
     }
 
+    [ObservableProperty]
     private bool _privateKeyEnabled;
 
-    public bool PrivateKeyEnabled
+    partial void OnPrivateKeyEnabledChanged(bool value)
     {
-        get => _privateKeyEnabled;
-        set
-        {
-            _privateKeyEnabled = value;
-            OnPropertyChanged();
-        }
+        SaveSettings();
     }
 
+    [ObservableProperty]
     private bool _nostrPublicKeyEnabled;
 
-    public bool NostrPublicKeyEnabled
+    partial void OnNostrPublicKeyEnabledChanged(bool value)
     {
-        get => _nostrPublicKeyEnabled;
-        set
-        {
-            _nostrPublicKeyEnabled = value;
-            OnPropertyChanged();
-        }
+        SaveSettings();
     }
 
+    [ObservableProperty]
     private bool _nostrPrivateKeyEnabled;
 
-    public bool NostrPrivateKeyEnabled
+    partial void OnPrivateKeyEnabledChanging(bool value)
     {
-        get => _nostrPrivateKeyEnabled;
-        set
-        {
-            _nostrPrivateKeyEnabled = value;
-            OnPropertyChanged();
-        }
+        SaveSettings();
     }
 
-    public TimeSpan VerifyEvery { get; set; }
-
+    [ObservableProperty]
     private bool _launchingWalletEnabled;
 
-    public bool LaunchingWalletEnabled
+    partial void OnLaunchingWalletEnabledChanging(bool value)
     {
-        get => _launchingWalletEnabled;
-        set
-        {
-            _launchingWalletEnabled = value;
-            OnPropertyChanged();
-        }
+        SaveSettings();
     }
 
+    [ObservableProperty]
     private bool _walletStatusChangeEnabled;
 
-    public bool WalletStatusChangeEnabled
+    partial void OnWalletStatusChangeEnabledChanging(bool value)
     {
-        get => _walletStatusChangeEnabled;
-        set
-        {
-            _walletStatusChangeEnabled = value;
-            OnPropertyChanged();
-        }
+        SaveSettings();
     }
 
+    [ObservableProperty]
+    private ObservableCollection<VerifyEveryComboBoxItem> _verifyEveryOptions = [];
+
+    [ObservableProperty]
+    private VerifyEveryComboBoxItem _selectedVerifyEveryOption;
+
+    partial void OnSelectedVerifyEveryOptionChanged(VerifyEveryComboBoxItem value)
+    {
+        SaveSettings();
+    }
+
+    [ObservableProperty]
     private DateTime? _lastUpdated;
 
-    public DateTime? LastUpdated
+    [RelayCommand]
+    public async Task Refresh()
     {
-        get => _lastUpdated;
-        set
+        await _checkSumStore.LoadAsync();
+        await _installerHashStore.LoadAsync();
+    }
+
+    public SettingsViewModel(Settings settings, CheckSumStore checkSumStore, InstallerHashStore installerHashStore)
+    {
+        _checkSumStore = checkSumStore;
+        _installerHashStore = installerHashStore;
+        Settings = settings;
+
+        LastUpdated = installerHashStore.LastUpdated > checkSumStore.LastUpdated ? checkSumStore.LastUpdated : installerHashStore.LastUpdated;
+        _checkSumStore.CheckSumsChanged += () => LastUpdated = _checkSumStore.LastUpdated;
+
+        SetSettings(settings);
+
+        var verifyEveryOptions = new List<TimeSpan>
         {
-            _lastUpdated = value;
-            OnPropertyChanged();
+            new(0, 0, 1),
+                new(0, 0, 5),
+                new(0, 0, 10),
+                new(0, 0, 30),
+                new(0, 1, 0),
+                new(0, 5, 0),
+                new(0, 10, 0),
+                new(0, 30, 0)
+        }.Select(ts => new VerifyEveryComboBoxItem()
+                {
+                DisplayName = ts.Format(),
+                Value = ts
+                });
+
+        foreach (var option in verifyEveryOptions)
+        {
+            if (option.Value == settings.WalletVerification.WalletVerifyEvery)
+            {
+                _selectedVerifyEveryOption = option;
+            }
+
+            _verifyEveryOptions.Add(option);
         }
     }
 
-    public LoadCheckSumsCommand LoadCheckSumsCommand { get; }
-    public LoadInstallerHashesCommand LoadInstallerHashesCommand { get; }
-    public ICommand HelpCommand { get; }
-
-    public WalletVerificationViewModel WalletVerificationViewModel { get; }
-    public InstallerVerificationViewModel InstallerVerificationViewModel { get; }
-
-    public SettingsViewModel(Settings settings, CheckSumStore checkSumStore, InstallerHashStore installerHashStore, WalletVerificationViewModel walletVerificationViewModel, InstallerVerificationViewModel installerVerificationViewModel)
+    public void SaveSettings()
     {
-        LastUpdated = installerHashStore.LastUpdated > checkSumStore.LastUpdated ? checkSumStore.LastUpdated : installerHashStore.LastUpdated;
-        checkSumStore.LastUpdatedEvent += date => LastUpdated = date;
-        installerHashStore.LastUpdatedEvent += date => LastUpdated = date;
+        if (!_settingsInitialized)
+        {
+            return;
+        }
 
-        WalletVerificationViewModel = walletVerificationViewModel;
-        InstallerVerificationViewModel = installerVerificationViewModel;
-
-        LoadCheckSumsCommand = new LoadCheckSumsCommand(checkSumStore);
-        LoadInstallerHashesCommand = new LoadInstallerHashesCommand(installerHashStore);
-        HelpCommand = new HelpCommand();
-
-        BitcoinAddressesEnabled = settings.ClipboardGuardian.BitcoinAddressesEnabled;
-        SeedPhraseEnabled = settings.ClipboardGuardian.SeedPhraseEnabled;
-        ExtendedPublicKeyEnabled = settings.ClipboardGuardian.ExtendedPublicKeyEnabled;
-        PrivateKeyEnabled = settings.ClipboardGuardian.PrivateKeyEnabled;
-        NostrPublicKeyEnabled = settings.ClipboardGuardian.NostrPublicKeyEnabled;
-        NostrPrivateKeyEnabled = settings.ClipboardGuardian.NostrPrivateKeyEnabled;
-        NostrPrivateKeyEnabled = settings.ClipboardGuardian.NostrPrivateKeyEnabled;
-
-        LaunchingWalletEnabled = settings.WalletVerification.LaunchingWalletEnabled;
-        WalletStatusChangeEnabled = settings.WalletVerification.WalletStatusChangeEnabled;
+        var settings = GetSettings();
+        Settings.Update(settings);
     }
 
-    public Settings GetSettings()
+    private Settings GetSettings()
     {
         return new Settings
         {
@@ -164,10 +164,26 @@ public class SettingsViewModel : BaseViewModel
             },
             WalletVerification = new WalletVerificationSettings
             {
-                WalletVerifyEvery = VerifyEvery,
+                WalletVerifyEvery = SelectedVerifyEveryOption.Value,
                 LaunchingWalletEnabled = LaunchingWalletEnabled,
                 WalletStatusChangeEnabled = WalletStatusChangeEnabled,
             }
         };
+    }
+
+    private void SetSettings(Settings settings)
+    {
+        BitcoinAddressesEnabled = settings.ClipboardGuardian.BitcoinAddressesEnabled;
+        SeedPhraseEnabled = settings.ClipboardGuardian.SeedPhraseEnabled;
+        ExtendedPublicKeyEnabled = settings.ClipboardGuardian.ExtendedPublicKeyEnabled;
+        PrivateKeyEnabled = settings.ClipboardGuardian.PrivateKeyEnabled;
+        NostrPublicKeyEnabled = settings.ClipboardGuardian.NostrPublicKeyEnabled;
+        NostrPrivateKeyEnabled = settings.ClipboardGuardian.NostrPrivateKeyEnabled;
+        NostrPrivateKeyEnabled = settings.ClipboardGuardian.NostrPrivateKeyEnabled;
+
+        LaunchingWalletEnabled = settings.WalletVerification.LaunchingWalletEnabled;
+        WalletStatusChangeEnabled = settings.WalletVerification.WalletStatusChangeEnabled;
+
+        _settingsInitialized = true;
     }
 }

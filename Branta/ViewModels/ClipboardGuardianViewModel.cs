@@ -1,23 +1,16 @@
 ﻿using Branta.Commands;
+using CommunityToolkit.Mvvm.ComponentModel;
 using System.Windows.Input;
 using Timer = System.Timers.Timer;
 
 namespace Branta.ViewModels;
 
-public class ClipboardGuardianViewModel : BaseViewModel
+public partial class ClipboardGuardianViewModel : ObservableObject
 {
     private readonly Timer _clipboardGuardianTimer;
 
+    [ObservableProperty]
     private ClipboardItemViewModel _clipboardItem;
-    public ClipboardItemViewModel ClipboardItem
-    {
-        get => _clipboardItem;
-        set
-        {
-            _clipboardItem = value;
-            OnPropertyChanged();
-        }
-    }
 
     public ICommand ClipboardGuardianCommand { get; }
 

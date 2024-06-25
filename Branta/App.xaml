@@ -54,7 +54,7 @@
         <Style TargetType="CheckBox"
                x:Key="CheckBox">
             <Setter Property="Foreground"
-                    Value="#c2c2c2" />
+                    Value="{DynamicResource BrantaGrayText}" />
             <Setter Property="Margin"
                     Value="0,0,0,10" />
             <Setter Property="FontSize"
@@ -76,6 +76,12 @@
                 </Setter.Value>
             </Setter>
         </Style>
+
+        <SolidColorBrush x:Key="BrantaGold"
+                         Color="#B1914A" />
+        <SolidColorBrush x:Key="BrantaGrayText"
+                         Color="#c2c2c2" />
+        
 
         <SolidColorBrush x:Key="Button.Static.Background"
                          Color="#4A6AB0" />
@@ -289,6 +295,52 @@
                     Value="True" />
             <Setter Property="BorderThickness"
                     Value="0" />
+        </Style>
+
+        <Style x:Key="TabControlStyle"
+               TargetType="TabControl">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="BorderBrush" Value="Transparent" />
+        </Style>
+
+        <Style x:Key="TabItemStyle"
+               TargetType="TabItem">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Foreground" Value="{DynamicResource BrantaGrayText}" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="BorderBrush" Value="Transparent" />
+            <Setter Property="Padding" Value="12,5" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TabItem">
+                        <Grid>
+                            <Border x:Name="Border"
+                                    Background="{TemplateBinding Background}"
+                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                    BorderThickness="{TemplateBinding BorderThickness}"
+                                    Padding="{TemplateBinding Padding}"
+                                    SnapsToDevicePixels="True">
+                                <ContentPresenter x:Name="ContentSite"
+                                          VerticalAlignment="Center"
+                                          HorizontalAlignment="Center"
+                                          ContentSource="Header"
+                                          RecognizesAccessKey="True"/>
+                            </Border>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter TargetName="Border" Property="Background" Value="{DynamicResource BrantaGold}" />
+                                <Setter Property="Foreground" Value="White" />
+                            </Trigger>
+                            <Trigger Property="IsSelected" Value="False">
+                                <Setter TargetName="Border" Property="Background" Value="Transparent" />
+                                <Setter Property="Foreground" Value="{DynamicResource BrantaGrayText}" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
         </Style>
 
     </Application.Resources>

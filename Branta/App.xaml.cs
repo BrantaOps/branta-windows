@@ -89,9 +89,6 @@ public partial class App
 
                 services.AddSingleton<ClipboardGuardianCommand>();
                 services.AddSingleton<FocusCommand>();
-                services.AddSingleton<LoadCheckSumsCommand>();
-                services.AddSingleton<LoadInstallerHashesCommand>();
-                services.AddSingleton<OpenSettingsWindowCommand>();
                 services.AddSingleton<UpdateAppCommand>();
                 services.AddSingleton<VerifyWalletsCommand>();
 
@@ -99,6 +96,7 @@ public partial class App
                 services.AddSingleton<InstallerVerificationViewModel>();
                 services.AddSingleton<WalletVerificationViewModel>();
                 services.AddSingleton<ClipboardGuardianViewModel>();
+                services.AddSingleton<SettingsViewModel>();
 
                 services.AddTransient<SettingsWindow>();
 
@@ -148,7 +146,7 @@ public partial class App
 
         var notificationCenter = _host.Services.GetRequiredService<NotificationCenter>();
 
-        notificationCenter.Setup(mainWindow, _host.Services.GetRequiredService<OpenSettingsWindowCommand>());
+        notificationCenter.Setup(mainWindow);
 
         if (!Environment.GetCommandLineArgs().Contains("headless"))
         {

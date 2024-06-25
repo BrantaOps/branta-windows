@@ -1,4 +1,6 @@
-﻿using System.Windows.Media.Imaging;
+using Branta.Stores;
+using System.Windows;
+using System.Windows.Media.Imaging;
 
 namespace Branta.Classes;
 
@@ -27,5 +29,10 @@ public static class BrantaExtensions
         }
 
         return $"{timeSpan.Seconds}s";
+    }
+
+    public static void SetLanguageDictionary(this FrameworkElement frameworkElement, LanguageStore languageStore)
+    {
+        frameworkElement.Resources.MergedDictionaries.Add(languageStore.ResourceDictionary);
     }
 }

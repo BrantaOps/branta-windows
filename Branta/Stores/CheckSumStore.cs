@@ -5,12 +5,12 @@ namespace Branta.Stores;
 
 public class CheckSumStore
 {
+    private readonly BrantaClient _brantaClient;
+
     public List<BaseWalletType> WalletTypes { get; private set; }
     public DateTime? LastUpdated { get; private set; }
 
-    public Action<DateTime?> LastUpdatedEvent;
-
-    private readonly BrantaClient _brantaClient;
+    public event Action CheckSumsChanged;
 
     private const string CheckSumsPath = "CheckSums.yaml";
 
@@ -22,10 +22,10 @@ public class CheckSumStore
     public async Task LoadAsync()
     {
         var checkSums = await LoadHelperAsync();
-        LastUpdated = DateTime.Now;
-        LastUpdatedEvent?.Invoke(LastUpdated);
 
+        LastUpdated = DateTime.Now;
         WalletTypes = BaseWalletType.GetWalletTypes(checkSums);
+        CheckSumsChanged?.Invoke();
     }
     
     private async Task<CheckSums> LoadHelperAsync()

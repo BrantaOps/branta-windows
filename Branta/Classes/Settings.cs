@@ -5,6 +5,8 @@ public class Settings
     public ClipboardGuardianSettings ClipboardGuardian { get; set; } = new();
     public WalletVerificationSettings WalletVerification { get; set; } = new();
 
+    public event Action WalletVerifyEveryChanged;
+
     public static Settings Load()
     {
         return new Settings
@@ -45,10 +47,17 @@ public class Settings
 
     public void Update(Settings settings)
     {
+        var isWalletVerifyEveryChanged = WalletVerification.WalletVerifyEvery != settings.WalletVerification.WalletVerifyEvery;
+
         Save(settings);
 
         ClipboardGuardian = settings.ClipboardGuardian;
         WalletVerification = settings.WalletVerification;
+
+        if (isWalletVerifyEveryChanged)
+        {
+            WalletVerifyEveryChanged?.Invoke();
+        }
     }
 }
 

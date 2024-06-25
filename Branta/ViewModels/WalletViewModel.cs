@@ -1,10 +1,11 @@
 ﻿using Branta.Enums;
 using Branta.Models;
 using Branta.Stores;
+using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace Branta.ViewModels;
 
-public class WalletViewModel : BaseViewModel
+public class WalletViewModel : ObservableObject
 {
     private readonly Wallet _wallet;
     public LanguageStore LanguageStore;
