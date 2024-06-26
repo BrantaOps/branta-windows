@@ -59,12 +59,11 @@
                             VerticalAlignment="Center">
                     <Label Content="Name"
                            Foreground="White" />
-                    <TextBox Text="{Binding Name}"
-                             Margin="0,0,0,20" />
+                    <TextBox Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" />
 
                     <Label Content="Extended Public Key (xpub)"
                            Foreground="White" />
-                    <TextBox Text="{Binding Value}"
+                    <TextBox Text="{Binding Value, UpdateSourceTrigger=PropertyChanged}"
                              TextWrapping="Wrap"
                              AcceptsReturn="True"
                              VerticalScrollBarVisibility="Auto"
@@ -81,7 +80,8 @@
                             Margin="0,0,5,0" />
                     <Button Content="Save"
                             Command="{Binding SubmitCommand}"
-                            Style="{DynamicResource PrimaryButton}" />
+                            Style="{DynamicResource PrimaryButton}"
+                            IsEnabled="{Binding SubmitCommand.CanExecute}" />
                 </StackPanel>
             </Grid>
         </Grid>
