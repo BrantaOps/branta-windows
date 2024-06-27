@@ -11,6 +11,7 @@ public partial class ExtendedKeyViewModel : ObservableObject
 {
     private readonly ExtendedKeyStore _extendedKeyStore;
     private readonly ExtendedKey _extendedKey;
+    private readonly LanguageStore _languageStore;
 
     public string Name => _extendedKey.Name;
 
@@ -25,7 +26,7 @@ public partial class ExtendedKeyViewModel : ObservableObject
     [RelayCommand]
     public void Edit()
     {
-        var editExtendedKeyWindow = new EditExtendedKeyWindow(_extendedKeyStore, _extendedKey);
+        var editExtendedKeyWindow = new EditExtendedKeyWindow(_extendedKeyStore, _extendedKey, _languageStore);
 
         editExtendedKeyWindow.Show();
     }
@@ -34,7 +35,10 @@ public partial class ExtendedKeyViewModel : ObservableObject
     [RelayCommand]
     public void Remove()
     {
-        var result = MessageBox.Show($"Are you sure you want to delete '{Name}' xpub?", "Confirm Delete", MessageBoxButton.YesNo);
+        var title = _languageStore.Format("MessageBox_ExtendedKey_ConfirmDeleteMessage", Name);
+        var message = _languageStore.Get("MessageBox_ExtendedKey_ConfirmDeleteTitle");
+
+        var result = MessageBox.Show(title, message, MessageBoxButton.YesNo);
 
         if (result == MessageBoxResult.Yes)
         {
@@ -42,9 +46,10 @@ public partial class ExtendedKeyViewModel : ObservableObject
         }
     }
 
-    public ExtendedKeyViewModel(ExtendedKeyStore extendedKeyStore, ExtendedKey extendedKey)
+    public ExtendedKeyViewModel(ExtendedKeyStore extendedKeyStore, ExtendedKey extendedKey, LanguageStore languageStore)
     {
         _extendedKeyStore = extendedKeyStore;
         _extendedKey = extendedKey;
+        _languageStore = languageStore;
     }
 }

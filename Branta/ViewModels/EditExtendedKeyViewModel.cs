@@ -1,4 +1,6 @@
-﻿using Branta.Commands;
+﻿using Branta.Classes;
+using Branta.Commands;
+using Branta.Interfaces;
 using Branta.Models;
 using Branta.Stores;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -7,24 +9,26 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Branta.ViewModels;
 
-public partial class EditExtendedKeyViewModel : ObservableValidator
+public partial class EditExtendedKeyViewModel : ObservableValidator, IValidateViewModel
 {
     private readonly ExtendedKeyStore _extendedKeyStore;
 
     public readonly ExtendedKey ExtendedKey;
 
+    public LanguageStore LanguageStore { get; }
+
     [ObservableProperty]
     [NotifyDataErrorInfo]
     [NotifyCanExecuteChangedFor(nameof(SubmitCommand))]
-    [Required(ErrorMessage = "Name is required.")]
-    [CustomValidation(typeof(EditExtendedKeyViewModel), nameof(ValidateIsNameUnique))]
+    [CustomValidation(typeof(EditExtendedKeyViewModel), nameof(ValidateNameRequired))]
+    [CustomValidation(typeof(EditExtendedKeyViewModel), nameof(ValidateNameUnique))]
     private string _name;
 
     [ObservableProperty]
     [NotifyDataErrorInfo]
     [NotifyCanExecuteChangedFor(nameof(SubmitCommand))]
-    [Required(ErrorMessage = "Extended Key is required.")]
-    [CustomValidation(typeof(EditExtendedKeyViewModel), nameof(ValidateIsValueUnique))]
+    [CustomValidation(typeof(EditExtendedKeyViewModel), nameof(ValidateExtendedKeyRequired))]
+    [CustomValidation(typeof(EditExtendedKeyViewModel), nameof(ValidateExtendedKeyUnique))]
     [CustomValidation(typeof(EditExtendedKeyViewModel), nameof(ValidateExtendedKey))]
     private string _value;
 
@@ -52,10 +56,11 @@ public partial class EditExtendedKeyViewModel : ObservableValidator
         return Name != null && Value != null && !HasErrors;
     }
 
-    public EditExtendedKeyViewModel(ExtendedKeyStore extendedKeyStore, ExtendedKey extendedKey)
+    public EditExtendedKeyViewModel(ExtendedKeyStore extendedKeyStore, ExtendedKey extendedKey, LanguageStore languageStore)
     {
         _extendedKeyStore = extendedKeyStore;
         ExtendedKey = extendedKey;
+        LanguageStore = languageStore;
 
         if (ExtendedKey != null)
         {
@@ -63,40 +68,44 @@ public partial class EditExtendedKeyViewModel : ObservableValidator
             Value = ExtendedKey.Value;
         }
     }
-
-    public static ValidationResult ValidateIsNameUnique(string value, ValidationContext context)
+    
+    public static ValidationResult ValidateNameRequired(string value, ValidationContext context)
     {
-        var viewModel = (EditExtendedKeyViewModel)context.ObjectInstance;
-
-        if (viewModel.ExtendedKey == null && viewModel.ExtendedKeys.Any(k => k.Name == value.Trim()))
-        {
-            return new("Name must be unique.");
-        }
-        
-        return ValidationResult.Success;
+        return context.Validate<EditExtendedKeyViewModel>(
+            value,
+            (_, value) => string.IsNullOrEmpty(value),
+            "Validation_ExtendedKey_Name_Required");
     }
 
-    public static ValidationResult ValidateIsValueUnique(string value, ValidationContext context)
+    public static ValidationResult ValidateNameUnique(string value, ValidationContext context)
     {
-        var viewModel = (EditExtendedKeyViewModel)context.ObjectInstance;
+        return context.Validate<EditExtendedKeyViewModel>(
+            value,
+            (viewModel, value) => viewModel.ExtendedKeys.Any(k => k.Name == value && k.Id != viewModel.ExtendedKey?.Id),
+            "Validation_ExtendedKey_Name_Unique");
+    }
 
-        if (viewModel.ExtendedKey == null && viewModel.ExtendedKeys.Any(k => k.Value == value.Trim()))
-        {
-            return new("Extended Key must be unique.");
-        }
-        
-        return ValidationResult.Success;
+    public static ValidationResult ValidateExtendedKeyRequired(string value, ValidationContext context)
+    {
+        return context.Validate<EditExtendedKeyViewModel>(
+            value,
+            (_, value) => string.IsNullOrEmpty(value),
+            "Validation_ExtendedKey_Value_Required");
+    }
+
+    public static ValidationResult ValidateExtendedKeyUnique(string value, ValidationContext context)
+    {
+        return context.Validate<EditExtendedKeyViewModel>(
+            value,
+            (viewModel, value) => viewModel.ExtendedKeys.Any(k => k.Value == value && k.Id != viewModel.ExtendedKey?.Id),
+            "Validation_ExtendedKey_Value_Unique");
     }
 
     public static ValidationResult ValidateExtendedKey(string value, ValidationContext context)
     {
-        var viewModel = (EditExtendedKeyViewModel)context.ObjectInstance;
-
-        if (!ClipboardGuardianCommand.CheckForXPub(value.Trim()))
-        {
-            return new("xpub format is invalid.");
-        }
-        
-        return ValidationResult.Success;
+        return context.Validate<EditExtendedKeyViewModel>(
+            value,
+            (_, value) => !ClipboardGuardianCommand.CheckForXPub(value),
+            "Validation_ExtendedKey_Value_Valid");
     }
 }

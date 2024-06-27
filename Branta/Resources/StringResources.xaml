@@ -106,6 +106,17 @@
     <!-- Other Notifications -->
     <system:String x:Key="UpdateApp">Branta version {0} is available.</system:String>
     <system:String x:Key="FocusMessage">{0} {1} is Running. Status: {2}.</system:String>
+    
+    <!-- Message Box -->
+    <system:String x:Key="MessageBox_ExtendedKey_ConfirmDeleteTitle">Confirm Delete</system:String>
+    <system:String x:Key="MessageBox_ExtendedKey_ConfirmDeleteMessage">Are you sure you want to delete '{0}' xpub?</system:String>
+    
+    <!-- Validation -->
+    <system:String x:Key="Validation_ExtendedKey_Name_Required">Name is required.</system:String>
+    <system:String x:Key="Validation_ExtendedKey_Name_Unique">Name must be unique.</system:String>
 
+    <system:String x:Key="Validation_ExtendedKey_Value_Required">Name is required.</system:String>
+    <system:String x:Key="Validation_ExtendedKey_Value_Unique">Extended Key must be unique.</system:String>
+    <system:String x:Key="Validation_ExtendedKey_Value_Valid">xpub format is invalid.</system:String>
 
 </ResourceDictionary> 

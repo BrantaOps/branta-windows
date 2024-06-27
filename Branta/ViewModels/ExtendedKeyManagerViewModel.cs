@@ -9,6 +9,7 @@ namespace Branta.ViewModels;
 public partial class ExtendedKeyManagerViewModel : ObservableObject
 {
     private readonly ExtendedKeyStore _extendedKeyStore;
+    private readonly LanguageStore _languageStore;
 
     [ObservableProperty]
     private ObservableCollection<ExtendedKeyViewModel> _extendedKeys = [];
@@ -16,14 +17,15 @@ public partial class ExtendedKeyManagerViewModel : ObservableObject
     [RelayCommand]
     public void OpenAdd()
     {
-        var editExtendedKeyWindow = new EditExtendedKeyWindow(_extendedKeyStore, null);
+        var editExtendedKeyWindow = new EditExtendedKeyWindow(_extendedKeyStore, null, _languageStore);
 
         editExtendedKeyWindow.Show();
     }
 
-    public ExtendedKeyManagerViewModel(ExtendedKeyStore extendedKeyStore)
+    public ExtendedKeyManagerViewModel(ExtendedKeyStore extendedKeyStore, LanguageStore languageStore)
     {
         _extendedKeyStore = extendedKeyStore;
+        _languageStore = languageStore;
 
         _extendedKeyStore.OnExtendedKeyUpdate += RefreshKeys;
         RefreshKeys();
@@ -35,7 +37,7 @@ public partial class ExtendedKeyManagerViewModel : ObservableObject
 
         foreach (var key in _extendedKeyStore.ExtendedKeys)
         {
-            ExtendedKeys.Add(new ExtendedKeyViewModel(_extendedKeyStore, key));
+            ExtendedKeys.Add(new ExtendedKeyViewModel(_extendedKeyStore, key, _languageStore));
         }
     }
 }
