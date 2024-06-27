@@ -1,4 +1,4 @@
-﻿using Branta.Models;
+﻿using Branta.Core.Data.Domain;
 using Branta.Stores;
 using Branta.Windows;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -31,9 +31,8 @@ public partial class ExtendedKeyViewModel : ObservableObject
         editExtendedKeyWindow.Show();
     }
 
-
     [RelayCommand]
-    public void Remove()
+    public async Task Remove()
     {
         var title = _languageStore.Format("MessageBox_ExtendedKey_ConfirmDeleteMessage", Name);
         var message = _languageStore.Get("MessageBox_ExtendedKey_ConfirmDeleteTitle");
@@ -42,7 +41,7 @@ public partial class ExtendedKeyViewModel : ObservableObject
 
         if (result == MessageBoxResult.Yes)
         {
-            _extendedKeyStore.Remove(_extendedKey.Id);
+            await _extendedKeyStore.RemoveAsync(_extendedKey.Id);
         }
     }
 

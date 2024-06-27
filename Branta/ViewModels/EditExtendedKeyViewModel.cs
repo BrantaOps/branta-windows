@@ -1,7 +1,7 @@
 ﻿using Branta.Classes;
 using Branta.Commands;
+using Branta.Core.Data.Domain;
 using Branta.Interfaces;
-using Branta.Models;
 using Branta.Stores;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -32,20 +32,20 @@ public partial class EditExtendedKeyViewModel : ObservableValidator, IValidateVi
     [CustomValidation(typeof(EditExtendedKeyViewModel), nameof(ValidateExtendedKey))]
     private string _value;
 
-	public Action CloseAction { get; set; }
+    public Action CloseAction { get; set; }
 
     public IEnumerable<ExtendedKey> ExtendedKeys => _extendedKeyStore.ExtendedKeys;
 
     [RelayCommand(CanExecute = nameof(CanSubmit))]
-    public void Submit()
+    public async Task Submit()
     {
         if (ExtendedKey == null)
         {
-            _extendedKeyStore.Add(Name, Value);
+            await _extendedKeyStore.AddAsync(Name, Value);
         }
         else
         {
-            _extendedKeyStore.Update(ExtendedKey.Id, Name, Value);
+            await _extendedKeyStore.UpdateAsync(ExtendedKey.Id, Name, Value);
         }
 
         CloseAction?.Invoke();
@@ -68,7 +68,7 @@ public partial class EditExtendedKeyViewModel : ObservableValidator, IValidateVi
             Value = ExtendedKey.Value;
         }
     }
-    
+
     public static ValidationResult ValidateNameRequired(string value, ValidationContext context)
     {
         return context.Validate<EditExtendedKeyViewModel>(

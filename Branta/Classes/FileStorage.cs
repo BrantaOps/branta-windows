@@ -10,8 +10,6 @@ public static class FileStorage
         {
             var fullPath = GetBrantaDataPath(path);
 
-            var file = new FileInfo(fullPath);
-            file.Directory?.Create();
             await File.WriteAllTextAsync(fullPath, content);
         }
         catch
@@ -34,6 +32,11 @@ public static class FileStorage
 
     public static string GetBrantaDataPath(params string[] path)
     {
-        return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Branta", Path.Combine(path));
+        var folder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Branta", Path.Combine(path));
+
+        var file = new FileInfo(folder);
+        file.Directory?.Create();
+
+        return folder;
     }
 }

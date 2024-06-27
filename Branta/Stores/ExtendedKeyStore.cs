@@ -1,28 +1,55 @@
-﻿using Branta.Models;
+﻿using Branta.Core.Data;
+using Branta.Core.Data.Domain;
+using Microsoft.EntityFrameworkCore;
 
 namespace Branta.Stores;
 
 public class ExtendedKeyStore
 {
-    private readonly List<ExtendedKey> _extendedKeys = [];
+    private readonly BrantaContext _brantaContext;
+
+    private List<ExtendedKey> _extendedKeys = [];
 
     public IEnumerable<ExtendedKey> ExtendedKeys => _extendedKeys;
 
     public event Action OnExtendedKeyUpdate;
 
-    public void Add(string name, string value)
+    public bool IsLoading = true;
+
+    public ExtendedKeyStore(BrantaContext brantaContext)
     {
-        _extendedKeys.Add(new ExtendedKey()
-        {
-            Id  = _extendedKeys.Count == 0 ? 1 : _extendedKeys.Max(k => k.Id) + 1,
-            Name = name,
-            Value = value
-        });
+        _brantaContext = brantaContext;
+    }
+
+    public async Task LoadAsync()
+    {
+        _extendedKeys = await _brantaContext.ExtendedKey
+            .ToListAsync();
+
+        IsLoading = false;
 
         OnExtendedKeyUpdate?.Invoke();
     }
 
-    public void Update(int id, string name, string value)
+    public async Task AddAsync(string name, string value)
+    {
+        var extendedKey = new ExtendedKey()
+        {
+            Name = name,
+            Value = value,
+            DateCreated = DateTime.Now,
+            DateUpdated = DateTime.Now
+        };
+
+        await _brantaContext.ExtendedKey.AddAsync(extendedKey);
+        await _brantaContext.SaveChangesAsync();
+
+        _extendedKeys.Add(extendedKey);
+
+        OnExtendedKeyUpdate?.Invoke();
+    }
+
+    public async Task UpdateAsync(int id, string name, string value)
     {
         var extendedKey = _extendedKeys.FirstOrDefault(k => k.Id == id);
 
@@ -33,13 +60,22 @@ public class ExtendedKeyStore
 
         extendedKey.Name = name;
         extendedKey.Value = value;
+        extendedKey.DateUpdated = DateTime.Now;
+
+        _brantaContext.ExtendedKey.Update(extendedKey);
+        await _brantaContext.SaveChangesAsync();
 
         OnExtendedKeyUpdate?.Invoke();
     }
 
-    public void Remove(int id)
+    public async Task RemoveAsync(int id)
     {
-        _extendedKeys.RemoveAll(k => k.Id == id);
+        var extendedKey = _extendedKeys.FirstOrDefault(k => k.Id == id);
+
+        _brantaContext.ExtendedKey.Remove(extendedKey);
+        await _brantaContext.SaveChangesAsync();
+
+        _extendedKeys.Remove(extendedKey);
 
         OnExtendedKeyUpdate?.Invoke();
     }

@@ -1,4 +1,4 @@
-﻿using Branta.Models;
+﻿using Branta.Core.Data.Domain;
 using NBitcoin;
 using System.Diagnostics;
 using System.IO;

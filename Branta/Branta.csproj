@@ -116,4 +116,8 @@
     </Resource>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Branta.Core\Branta.Core.csproj" />
+  </ItemGroup>
+
 </Project>

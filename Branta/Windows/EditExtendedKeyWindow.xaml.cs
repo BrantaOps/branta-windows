@@ -1,4 +1,4 @@
-﻿using Branta.Models;
+﻿using Branta.Core.Data.Domain;
 using Branta.Stores;
 using Branta.ViewModels;
 

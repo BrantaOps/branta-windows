@@ -14,6 +14,9 @@ public partial class ExtendedKeyManagerViewModel : ObservableObject
     [ObservableProperty]
     private ObservableCollection<ExtendedKeyViewModel> _extendedKeys = [];
 
+    [ObservableProperty]
+    private bool _isLoading;
+
     [RelayCommand]
     public void OpenAdd()
     {
@@ -33,11 +36,16 @@ public partial class ExtendedKeyManagerViewModel : ObservableObject
 
     public void RefreshKeys()
     {
-        ExtendedKeys.Clear();
-
-        foreach (var key in _extendedKeyStore.ExtendedKeys)
+        System.Windows.Application.Current.Dispatcher.Invoke(() =>
         {
-            ExtendedKeys.Add(new ExtendedKeyViewModel(_extendedKeyStore, key, _languageStore));
-        }
+            ExtendedKeys.Clear();
+
+            foreach (var key in _extendedKeyStore.ExtendedKeys)
+            {
+                ExtendedKeys.Add(new ExtendedKeyViewModel(_extendedKeyStore, key, _languageStore));
+            }
+
+            IsLoading = _extendedKeyStore.IsLoading;
+        });
     }
 }

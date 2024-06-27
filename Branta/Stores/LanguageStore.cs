@@ -30,15 +30,22 @@ public class LanguageStore
 
     private static ResourceDictionary GetResourceDictionary()
     {
-        var resourceDictionary = new ResourceDictionary
+        try
         {
-            Source = Thread.CurrentThread.CurrentCulture.ToString() switch
+            var resourceDictionary = new ResourceDictionary
             {
-                "en-US" => new Uri("Resources\\StringResources.xaml", UriKind.Relative),
-                _ => new Uri("Resources\\StringResources.xaml", UriKind.Relative),
-            }
-        };
+                Source = Thread.CurrentThread.CurrentCulture.ToString() switch
+                {
+                    "en-US" => new Uri("Resources\\StringResources.xaml", UriKind.Relative),
+                    _ => new Uri("Resources\\StringResources.xaml", UriKind.Relative),
+                }
+            };
 
-        return resourceDictionary;
+            return resourceDictionary;
+        }
+        catch
+        {
+            return null;
+        }
     }
 }
