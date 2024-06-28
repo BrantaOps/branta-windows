@@ -1,8 +1,10 @@
 ﻿using Branta.Classes;
 using Branta.Commands;
+using Branta.Core.Data;
 using Branta.Stores;
 using Branta.ViewModels;
 using Branta.Windows;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -11,6 +13,7 @@ using Serilog;
 using Serilog.Core;
 using Serilog.Events;
 using System.Diagnostics;
+using System.IO;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows;
@@ -82,21 +85,28 @@ public partial class App
 
                 services.AddSingleton<NotificationCenter>();
                 services.AddSingleton(Settings.Load());
-                services.AddSingleton(LanguageStore.Load());
 
                 services.AddSingleton<CheckSumStore>();
+                services.AddSingleton<ExtendedKeyStore>();
                 services.AddSingleton<InstallerHashStore>();
+                services.AddSingleton(LanguageStore.Load());
 
                 services.AddSingleton<ClipboardGuardianCommand>();
                 services.AddSingleton<FocusCommand>();
                 services.AddSingleton<UpdateAppCommand>();
                 services.AddSingleton<VerifyWalletsCommand>();
 
-                services.AddSingleton<MainViewModel>();
-                services.AddSingleton<InstallerVerificationViewModel>();
-                services.AddSingleton<WalletVerificationViewModel>();
                 services.AddSingleton<ClipboardGuardianViewModel>();
+                services.AddSingleton<ExtendedKeyManagerViewModel>();
+                services.AddSingleton<InstallerVerificationViewModel>();
+                services.AddSingleton<MainViewModel>();
                 services.AddSingleton<SettingsViewModel>();
+                services.AddSingleton<WalletVerificationViewModel>();
+
+                services.AddDbContext<BrantaContext>(options =>
+                {
+                    options.UseSqlite($"Data Source={Path.Join(FileStorage.GetBrantaDataPath("BrantaCore.db"))}");
+                });
 
                 services.AddTransient<SettingsWindow>();
 
@@ -142,9 +152,16 @@ public partial class App
 
         _host.Start();
 
+        using var scope = _host.Services.GetRequiredService<IServiceScopeFactory>().CreateScope();
+        var brantaContext = scope.ServiceProvider.GetRequiredService<BrantaContext>();
+        brantaContext.Database.Migrate();
+
         var mainWindow = _host.Services.GetRequiredService<MainWindow>();
 
         var notificationCenter = _host.Services.GetRequiredService<NotificationCenter>();
+
+        var extendedKeyStore = _host.Services.GetRequiredService<ExtendedKeyStore>();
+        Task.Run(extendedKeyStore.LoadAsync);
 
         notificationCenter.Setup(mainWindow);
 
@@ -179,7 +196,7 @@ public partial class App
 
         var process = Process.GetProcessById((int)processId);
 
-        EnumWindows(delegate(IntPtr hWnd, IntPtr lParam)
+        EnumWindows(delegate (IntPtr hWnd, IntPtr lParam)
         {
             GetWindowThreadProcessId(hWnd, out var windowProcessId);
 

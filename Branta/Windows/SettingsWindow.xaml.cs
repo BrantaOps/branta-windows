@@ -12,7 +12,7 @@ public partial class SettingsWindow
 
     public ICommand HelpCommand { get; }
 
-    public SettingsWindow(LanguageStore languageStore, SettingsViewModel settingsViewModel)
+    public SettingsWindow(LanguageStore languageStore, SettingsViewModel settingsViewModel, ExtendedKeyManagerViewModel extendedKeyManagerViewModel)
     {
         InitializeComponent();
         DataContext = this;
@@ -20,6 +20,7 @@ public partial class SettingsWindow
         this.SetLanguageDictionary(languageStore);
 
         SettingsView.DataContext = settingsViewModel;
+        ExtendedKeyManagerView.DataContext = extendedKeyManagerViewModel;
         HelpCommand = new HelpCommand();
     }
 }

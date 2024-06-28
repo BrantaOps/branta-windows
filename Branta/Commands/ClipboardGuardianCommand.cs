@@ -15,6 +15,7 @@ public partial class ClipboardGuardianCommand : BaseCommand
     private readonly NotificationCenter _notificationCenter;
     private readonly LanguageStore _languageStore;
     private readonly Settings _settings;
+    private readonly ExtendedKeyStore _extendedKeyStore;
     private readonly ILogger<ClipboardGuardianCommand> _logger;
 
     private const int SeedWordMin = 12;
@@ -23,12 +24,13 @@ public partial class ClipboardGuardianCommand : BaseCommand
     private string LastClipboardContent { get; set; }
     private HashSet<string> Bip39Words { get; set; }
 
-    public ClipboardGuardianCommand(NotificationCenter notificationCenter, Settings settings,
-        LanguageStore languageStore, ILogger<ClipboardGuardianCommand> logger)
+    public ClipboardGuardianCommand(NotificationCenter notificationCenter, LanguageStore languageStore, Settings settings,
+        ExtendedKeyStore extendedKeyStore, ILogger<ClipboardGuardianCommand> logger)
     {
         _notificationCenter = notificationCenter;
-        _settings = settings;
         _languageStore = languageStore;
+        _settings = settings;
+        _extendedKeyStore = extendedKeyStore;
         _logger = logger;
     }
 
@@ -63,6 +65,24 @@ public partial class ClipboardGuardianCommand : BaseCommand
     {
         if (CheckForBitcoinAddress(clipBoardContent))
         {
+            var extendedKey = Helper.GetExtendedKeyByAddress(_extendedKeyStore.ExtendedKeys, clipBoardContent);
+            
+            if (extendedKey != null)
+            {
+                var text = _languageStore.Format("ClipboardGuardian_AddressDetectedFrom", extendedKey.Name);
+
+                return new ClipboardItem
+                {
+                    Name = _languageStore.Get("ClipboardGuardian_BitcoinAddressName"),
+                    Value = text,
+                    Notification = new Notification
+                    {
+                        Title = _languageStore.Get("ClipboardGuardian_BitcoinAddressTitle"),
+                        Message = text,
+                    }
+                };
+            }
+
             return new ClipboardItem(_settings.ClipboardGuardian.BitcoinAddressesEnabled,
                 _languageStore,
                 "BitcoinAddress",
@@ -155,9 +175,7 @@ public partial class ClipboardGuardianCommand : BaseCommand
 
     public static bool CheckForXPub(string value)
     {
-        var isXPub = value.StartsWith("xpub") || value.StartsWith("ypub") || value.StartsWith("zpub");
-
-        return isXPub && value.Length > 10;
+        return ExtendedKeyRegex().IsMatch(value);
     }
 
     public static bool CheckForXPrv(string value)
@@ -205,4 +223,7 @@ public partial class ClipboardGuardianCommand : BaseCommand
 
     [GeneratedRegex("^nsec[0-9a-z]{58,65}$")]
     private static partial Regex NPrvAddressRegex();
+
+    [GeneratedRegex("^([xyYzZtuUvV]pub[1-9A-HJ-NP-Za-km-z]{79,108})$")]
+    private static partial Regex ExtendedKeyRegex();
 }

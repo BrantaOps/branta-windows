@@ -54,6 +54,10 @@
                          Style="{DynamicResource TabItemStyle}">
                     <views:SettingsView x:Name="SettingsView" />
                 </TabItem>
+                <TabItem Header="{DynamicResource ExtendedKeysTitle}"
+                         Style="{DynamicResource TabItemStyle}">
+                    <views:ExtendedKeyManagerView x:Name="ExtendedKeyManagerView" />
+                </TabItem>
             </TabControl>
 
             <Button Grid.Row="3"

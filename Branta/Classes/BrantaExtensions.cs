@@ -1,4 +1,6 @@
+using Branta.Interfaces;
 using Branta.Stores;
+using System.ComponentModel.DataAnnotations;
 using System.Windows;
 using System.Windows.Media.Imaging;
 
@@ -34,5 +36,17 @@ public static class BrantaExtensions
     public static void SetLanguageDictionary(this FrameworkElement frameworkElement, LanguageStore languageStore)
     {
         frameworkElement.Resources.MergedDictionaries.Add(languageStore.ResourceDictionary);
+    }
+
+    public static ValidationResult Validate<T>(this ValidationContext context, string value, Func<T, string, bool> check, string stringResourceKey) where T : IValidateViewModel
+    {
+        var viewModel = (T)context.ObjectInstance;
+
+        if (check.Invoke(viewModel, value.Trim()))
+        {
+            return new(viewModel.LanguageStore.Get(stringResourceKey));
+        }
+
+        return ValidationResult.Success;
     }
 }
