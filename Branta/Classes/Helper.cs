@@ -49,7 +49,7 @@ public static class Helper
 
             for (uint i = 0; i < 20; i++)
             {
-                var childAddress = extPubKey.Derive(0).Derive(i).PubKey.GetAddress(ScriptPubKeyType.Segwit, Network.Main);
+                var childAddress = extPubKey.Derive(new KeyPath($"0/{i}")).PubKey.GetAddress(ScriptPubKeyType.Segwit, Network.Main);
 
                 if (address == childAddress.ToString())
                 {
