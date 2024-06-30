@@ -2,6 +2,7 @@
 using Branta.Features.Main;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using System.IO;
 using System.Windows.Forms;
 using Timer = System.Timers.Timer;
 
@@ -93,15 +94,17 @@ public partial class InstallerVerificationViewModel : ObservableObject
                            _installerHashes.GetValueOrDefault(Helper.CalculateSha512(file)) ??
                            _installerHashes.GetValueOrDefault(Helper.CalculateSha512(file, base64Encoding: true));
 
+            var installerFileName = new FileInfo(file).Name;
+
             _notificationCenter.Notify(filename != null
                 ? new Notification
                 {
-                    Message = _languageStore.Get("InstallerValid"),
+                    Message = _languageStore.Format("InstallerValid", installerFileName),
                     Icon = ToolTipIcon.None
                 }
                 : new Notification
                 {
-                    Message = _languageStore.Get("InstallerInvalid"),
+                    Message = _languageStore.Format("InstallerInvalid", installerFileName),
                     Icon = ToolTipIcon.Error
                 });
         }
