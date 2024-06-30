@@ -1,0 +1,89 @@
+﻿<src:BaseWindow x:Class="Branta.Features.WalletVerification.WalletDetailWindow"
+                xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                xmlns:src="clr-namespace:Branta.Classes"
+                mc:Ignorable="d"
+                Title="Wallet Detail"
+                Height="270"
+                Width="320"
+                ResizeMode="NoResize"
+                Icon="pack://application:,,,/Assets/black_circle.png"
+                WindowStyle="None"
+                MouseLeftButtonDown="MainWindow_OnMouseLeftButtonDown">
+    <WindowChrome.WindowChrome>
+        <WindowChrome GlassFrameThickness="0"
+                      CornerRadius="15"
+                      CaptionHeight="0">
+        </WindowChrome>
+    </WindowChrome.WindowChrome>
+
+    <Window.Resources>
+        <Style TargetType="TextBlock">
+            <Setter Property="VerticalAlignment"
+                    Value="Center" />
+            <Setter Property="HorizontalAlignment"
+                    Value="Center" />
+            <Setter Property="Foreground"
+                    Value="White" />
+        </Style>
+    </Window.Resources>
+
+    <Border BorderBrush="#303030"
+            BorderThickness="1"
+            CornerRadius="7">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <StackPanel Orientation="Horizontal"
+                        HorizontalAlignment="Right">
+                <Button x:Name="BtnClose"
+                        Style="{StaticResource TitleBarCloseButton}"
+                        Click="BtnClose_OnClick">
+                    <Image Source="pack://application:,,,/Assets/close.png"
+                           Style="{StaticResource TitleBarIcon}" />
+                </Button>
+            </StackPanel>
+
+            <Image Grid.Row="1"
+                   Source="pack://application:,,,/Assets/black_circle.png"
+                   Height="50"
+                   Margin="0,15" />
+            <TextBlock Grid.Row="2"
+                       Name="TbWallet"
+                       FontWeight="Bold" />
+            <ScrollViewer Grid.Row="3"
+                          VerticalScrollBarVisibility="Auto"
+                          VerticalAlignment="Center">
+                <ItemsControl x:Name="IcMessages"
+                              Margin="25">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding}"
+                                       Foreground="#cfcfcf"
+                                       Margin="0,0,0,10"
+                                       TextWrapping="Wrap"
+                                       TextAlignment="Center" />
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
+
+            <TextBlock Grid.Row="4"
+                       Name="TbLink"
+                       Margin="0,0,0,30"
+                       Cursor="Hand"
+                       MouseDown="Link_Click"
+                       TextDecorations="Underline">
+                https://docs.branta.pro/wallet-status
+            </TextBlock>
+        </Grid>
+    </Border>
+</src:BaseWindow>

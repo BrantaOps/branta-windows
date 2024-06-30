@@ -1,6 +1,5 @@
 ﻿using System.Windows;
 using System.Windows.Input;
-using Branta.Stores;
 using Color = Branta.Enums.Color;
 
 namespace Branta.Classes;

@@ -1,4 +1,4 @@
-﻿using Branta.Stores;
+﻿using Branta.Features.Main;
 
 namespace Branta.Interfaces;
 

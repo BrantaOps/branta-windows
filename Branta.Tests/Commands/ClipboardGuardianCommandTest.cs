@@ -1,4 +1,4 @@
-﻿using Branta.Commands;
+﻿using Branta.Features.ClipboardGuardian;
 
 namespace Branta.Tests.Commands;
 

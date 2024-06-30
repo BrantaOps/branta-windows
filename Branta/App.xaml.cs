@@ -1,9 +1,14 @@
 ﻿using Branta.Classes;
 using Branta.Commands;
 using Branta.Core.Data;
-using Branta.Stores;
+using Branta.Features.ClipboardGuardian;
+using Branta.Features.InstallerVerification;
+using Branta.Features.Main;
+using Branta.Features.Settings;
+using Branta.Features.Settings.ExtendedKey;
+using Branta.Features.WalletFocus;
+using Branta.Features.WalletVerification;
 using Branta.ViewModels;
-using Branta.Windows;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -84,11 +89,11 @@ public partial class App
                 services.AddSingleton(appSettings);
 
                 services.AddSingleton<NotificationCenter>();
-                services.AddSingleton(Settings.Load());
 
                 services.AddSingleton<CheckSumStore>();
                 services.AddSingleton<ExtendedKeyStore>();
                 services.AddSingleton<InstallerHashStore>();
+                services.AddSingleton(SettingsStore.Load());
                 services.AddSingleton(LanguageStore.Load());
 
                 services.AddSingleton<ClipboardGuardianCommand>();
