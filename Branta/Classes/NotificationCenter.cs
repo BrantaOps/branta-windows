@@ -1,6 +1,6 @@
 using Branta.Commands;
-using Branta.Stores;
-using Branta.Windows;
+using Branta.Features.Main;
+using Branta.Features.Settings;
 using Microsoft.Extensions.DependencyInjection;
 using System.Drawing;
 using System.Windows;

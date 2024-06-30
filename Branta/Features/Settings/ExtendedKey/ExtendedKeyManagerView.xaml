@@ -1,0 +1,133 @@
+﻿<UserControl x:Class="Branta.Features.Settings.ExtendedKey.ExtendedKeyManagerView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:Branta.Features.Settings.ExtendedKey"
+             mc:Ignorable="d"
+             d:DesignHeight="450"
+             d:DesignWidth="800">
+
+    <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+    </UserControl.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="35" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Row="1"
+                   Text="{DynamicResource Loading}"
+                   Visibility="{Binding IsLoading, Converter={StaticResource BooleanToVisibilityConverter}}"
+                   Foreground="#bbb"
+                   FontSize="18"
+                   VerticalAlignment="Center"
+                   HorizontalAlignment="Center"></TextBlock>
+
+        <Border Grid.Row="0"
+                BorderBrush="#666"
+                BorderThickness="0,0,0,1">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="150" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="100" />
+                </Grid.ColumnDefinitions>
+
+                <Border Grid.Column="0"
+                        BorderBrush="#666"
+                        BorderThickness="0,0,1,0">
+                    <TextBlock Text="Name"
+                               Foreground="white"
+                               VerticalAlignment="Center"
+                               HorizontalAlignment="Center" />
+                </Border>
+
+                <Border Grid.Column="1"
+                        BorderBrush="#666"
+                        BorderThickness="0,0,1,0">
+                    <TextBlock Grid.Column="1"
+                               Text="XPub"
+                               Foreground="white"
+                               VerticalAlignment="Center"
+                               HorizontalAlignment="Center" />
+                </Border>
+            </Grid>
+        </Border>
+        <ScrollViewer Grid.Row="1"
+                      VerticalScrollBarVisibility="Auto"
+                      Margin="0,0,0,15">
+            <StackPanel>
+                <ItemsControl ItemsSource="{Binding ExtendedKeys}"
+                              AlternationCount="2">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Grid Height="35"
+                                  x:Name="FooBar">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="150" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="100" />
+                                </Grid.ColumnDefinitions>
+                                <TextBox Text="{Binding Name, Mode=OneWay}"
+                                         Style="{DynamicResource ReadOnlyTextBox}"
+                                         Foreground="White"
+                                         FontSize="16"
+                                         VerticalAlignment="Center"
+                                         HorizontalAlignment="Center" />
+
+                                <TextBox Grid.Column="1"
+                                         Style="{DynamicResource ReadOnlyTextBox}"
+                                         Text="{Binding Value, Mode=OneWay}"
+                                         Foreground="White"
+                                         FontSize="16"
+                                         VerticalAlignment="Center"
+                                         FontFamily="Courier New"
+                                         Margin="0,0,5,0" />
+
+                                <StackPanel Grid.Column="2"
+                                            Orientation="Horizontal"
+                                            Margin="5">
+                                    <Button Style="{DynamicResource SecondaryButton}"
+                                            Command="{Binding CopyCommand}"
+                                            Padding="5,0">
+                                        <Image Source="pack://application:,,,/Assets/copy-white.png"
+                                               Height="18" />
+                                    </Button>
+                                    <Button Style="{DynamicResource SecondaryButton}"
+                                            Command="{Binding EditCommand}"
+                                            Padding="5,0">
+                                        <Image Source="pack://application:,,,/Assets/edit-white.png"
+                                               Height="18" />
+                                    </Button>
+                                    <Button Style="{DynamicResource SecondaryButton}"
+                                            Command="{Binding RemoveCommand}"
+                                            Padding="5,0">
+                                        <Image Source="pack://application:,,,/Assets/trash-red.png"
+                                               Height="18" />
+                                    </Button>
+                                </StackPanel>
+                            </Grid>
+                            <DataTemplate.Triggers>
+                                <Trigger Property="ItemsControl.AlternationIndex"
+                                         Value="1">
+                                    <Setter Property="Background"
+                                            Value="#262626"
+                                            TargetName="FooBar" />
+                                </Trigger>
+                            </DataTemplate.Triggers>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </StackPanel>
+        </ScrollViewer>
+
+        <Button Grid.Row="2"
+                Content="Add"
+                Style="{DynamicResource PrimaryButton}"
+                Command="{Binding OpenAddCommand}" />
+    </Grid>
+</UserControl>

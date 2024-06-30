@@ -1,5 +1,5 @@
+using Branta.Features.Main;
 using Branta.Interfaces;
-using Branta.Stores;
 using System.ComponentModel.DataAnnotations;
 using System.Windows;
 using System.Windows.Media.Imaging;
