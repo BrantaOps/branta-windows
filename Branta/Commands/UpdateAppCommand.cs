@@ -30,7 +30,7 @@ public class UpdateAppCommand : BaseAsyncCommand
 
         var installedVersion = Helper.GetBrantaVersionWithoutCommitHash();
 
-        if (latestVersion != installedVersion)
+        if (new Version(latestVersion) > new Version(installedVersion))
         {
             _notificationCenter.Notify(new Notification
             {
